@@ -52,6 +52,22 @@
                     </div>
 
                     <div class="mb-3">
+                        <label for="pembimbing_lapangan" class="form-label">Pembimbing Lapangan</label>
+                        <input type="text" class="form-control" id="pembimbing_lapangan" name="pembimbing_lapangan" value="Pak Joko (IT Manager)" placeholder="Masukkan nama dan jabatan pembimbing lapangan">
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="tgl_mulai" class="form-label">Tanggal Mulai</label>
+                            <input type="date" class="form-control" id="tgl_mulai" name="tgl_mulai" value="2025-01-01">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="tgl_selesai" class="form-label">Tanggal Selesai</label>
+                            <input type="date" class="form-control" id="tgl_selesai" name="tgl_selesai" value="2025-06-30">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
                         <label for="periode" class="form-label">Periode</label>
                         <select class="form-select" id="periode" name="periode">
                             <option value="1" selected>Jan 2025 - Jun 2025</option>
@@ -66,6 +82,15 @@
                             <option value="selesai">Selesai</option>
                             <option value="batal">Dibatalkan</option>
                         </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="deskripsi_tugas" class="form-label">Deskripsi Tugas</label>
+                        <textarea class="form-control" id="deskripsi_tugas" name="deskripsi_tugas" rows="4" placeholder="Jelaskan tugas-tugas yang harus dilakukan peserta magang di unit ini">Sebagai peserta magang di unit IT Support, tugas utama Anda meliputi:
+- Membantu maintenance perangkat keras dan lunak kantor.
+- Melakukan troubleshooting jaringan dasar.
+- Membantu instalasi dan konfigurasi software.
+- Mendokumentasikan kegiatan perbaikan dan maintenance.</textarea>
                     </div>
                     
                     <div class="d-flex justify-content-end mt-4">

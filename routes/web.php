@@ -129,8 +129,19 @@ Route::prefix('mahasiswa')->group(function () {
     Route::get('/absensi/create', function () { return view('mahasiswa.absensi.create'); });
     Route::post('/absensi', function () { return redirect('/mahasiswa/absensi')->with('success', 'Absensi berhasil dikirim'); });
 
-    // Placeholders
-    Route::get('/profil', function () { return view('placeholder'); });
-    Route::get('/magang', function () { return view('placeholder'); });
-    Route::get('/nilai', function () { return view('placeholder'); });
+    // Profil
+    Route::get('/profil', function () { return view('mahasiswa.profil.index'); });
+    Route::put('/profil', function () { return redirect('/mahasiswa/profil')->with('success', 'Profil berhasil diperbarui'); });
+
+    // Info Magang
+    Route::get('/magang', function () { 
+        $deskripsi_tugas = "Sebagai peserta magang di unit IT Support, tugas utama Anda meliputi:\n- Membantu maintenance perangkat keras dan lunak kantor.\n- Melakukan troubleshooting jaringan dasar.\n- Membantu instalasi dan konfigurasi software.\n- Mendokumentasikan kegiatan perbaikan dan maintenance.";
+        $pembimbing_lapangan = "Pak Joko (IT Manager)";
+        $tgl_mulai = "01 Jan 2025";
+        $tgl_selesai = "30 Jun 2025";
+        return view('mahasiswa.magang.index', compact('deskripsi_tugas', 'pembimbing_lapangan', 'tgl_mulai', 'tgl_selesai')); 
+    });
+
+    // Nilai
+    Route::get('/nilai', function () { return view('mahasiswa.nilai.index'); });
 });

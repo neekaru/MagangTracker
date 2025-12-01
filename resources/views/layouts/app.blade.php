@@ -95,11 +95,13 @@
         @if(Auth::check() || request()->is('admin*') || request()->is('pembimbing*') || request()->is('mahasiswa*'))
         <nav id="sidebar">
             <div class="sidebar-header">
+                {{-- Add logo  --}}
+                <img src="{{ asset('images/logo.png') }}" alt="MagangTracking Logo" class="img-fluid mb-2">
                 <h3>MagangTracking</h3>
             </div>
 
             <ul class="list-unstyled components">
-                <p>Role: {{ Auth::user()->role ?? (request()->is('admin*') ? 'Admin' : (request()->is('pembimbing*') ? 'Pembimbing' : 'Mahasiswa')) }}</p>
+                {{-- <p>Role: {{ Auth::user()->role ?? (request()->is('admin*') ? 'Admin' : (request()->is('pembimbing*') ? 'Pembimbing' : 'Mahasiswa')) }}</p> --}}
                 
                 @if(request()->is('admin*'))
                     <li class="{{ request()->is('admin') ? 'active' : '' }}">
