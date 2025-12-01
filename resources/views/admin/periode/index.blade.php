@@ -32,8 +32,8 @@
                         <td>31 Jan 2026</td>
                         <td><span class="badge bg-success">Aktif</span></td>
                         <td>
-                            <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
-                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                            <a href="{{ url('/admin/periode-magang/1/edit') }}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
+                            <button class="btn btn-sm btn-danger delete-btn"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                     <tr>
@@ -42,7 +42,8 @@
                         <td>31 Jul 2025</td>
                         <td><span class="badge bg-secondary">Nonaktif</span></td>
                         <td>
-                            <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
+                            <a href="{{ url('/admin/periode-magang/2/edit') }}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
+                            <button class="btn btn-sm btn-danger delete-btn"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                 </tbody>
@@ -56,6 +57,27 @@
 <script>
     $(document).ready(function() {
         $('#periodeTable').DataTable();
+
+        $('.delete-btn').click(function() {
+            Swal.fire({
+                title: 'Hapus Periode?',
+                text: "Data yang dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Terhapus!',
+                        'Periode berhasil dihapus.',
+                        'success'
+                    )
+                }
+            })
+        });
     });
 </script>
 @endpush

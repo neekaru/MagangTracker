@@ -5,8 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar Magang - MagangTracking</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
+    <style>
+        body {
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            filter: blur(4px);
+            z-index: -1;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+        }
+    </style>
 
 <div class="container py-5">
     <div class="row justify-content-center">
@@ -41,13 +62,18 @@
                         <h5 class="mb-3 mt-4">Rencana Magang</h5>
                         <div class="mb-3">
                             <label for="unit" class="form-label">Unit Tujuan</label>
-                            <select class="form-select" id="unit" name="unit" required>
+                            <select class="form-select" id="unit" name="unit" required onchange="toggleOtherUnit(this.value)">
                                 <option value="">Pilih Unit...</option>
                                 <option value="IT">IT Support</option>
                                 <option value="Keuangan">Keuangan</option>
                                 <option value="HRD">HRD</option>
                                 <option value="Umum">Bagian Umum</option>
+                                <option value="lainnya">Lainnya</option>
                             </select>
+                        </div>
+                        <div class="mb-3" id="otherUnitGroup" style="display: none;">
+                            <label for="unit_lainnya" class="form-label">Unit Lainnya</label>
+                            <input type="text" class="form-control" id="unit_lainnya" name="unit_lainnya" placeholder="Masukkan unit tujuan lainnya">
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-6">
@@ -71,5 +97,19 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function toggleOtherUnit(value) {
+        const otherGroup = document.getElementById('otherUnitGroup');
+        const otherInput = document.getElementById('unit_lainnya');
+        if (value === 'lainnya') {
+            otherGroup.style.display = 'block';
+            otherInput.required = true;
+        } else {
+            otherGroup.style.display = 'none';
+            otherInput.required = false;
+        }
+    }
+</script>
 </body>
 </html>

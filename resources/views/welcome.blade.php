@@ -5,17 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MagangTracking - Sistem Manajemen Magang</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .hero-section {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80');
-            background-size: cover;
-            background-position: center;
+            position: relative;
+            overflow: hidden;
             color: white;
             height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
+        }
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            filter: blur(1px);
+            z-index: -1;
         }
         .hero-content {
             max-width: 800px;
@@ -55,6 +68,9 @@
             <div class="col-md-4 mb-4">
                 <div class="card h-100 border-0 shadow-sm">
                     <div class="card-body">
+                        <div class="mb-3">
+                            <i class="fas fa-clipboard-list fa-3x text-primary"></i>
+                        </div>
                         <h3 class="h5">Pendaftaran Mudah</h3>
                         <p>Daftar magang secara online dan pantau status penerimaan anda secara real-time.</p>
                     </div>
@@ -63,6 +79,9 @@
             <div class="col-md-4 mb-4">
                 <div class="card h-100 border-0 shadow-sm">
                     <div class="card-body">
+                        <div class="mb-3">
+                            <i class="fas fa-book-open fa-3x text-success"></i>
+                        </div>
                         <h3 class="h5">Logbook Digital</h3>
                         <p>Isi kegiatan harian dan absensi langsung dari perangkat anda tanpa perlu kertas.</p>
                     </div>
@@ -71,6 +90,9 @@
             <div class="col-md-4 mb-4">
                 <div class="card h-100 border-0 shadow-sm">
                     <div class="card-body">
+                        <div class="mb-3">
+                            <i class="fas fa-star-half-alt fa-3x text-warning"></i>
+                        </div>
                         <h3 class="h5">Penilaian Transparan</h3>
                         <p>Dapatkan penilaian kinerja dari pembimbing secara objektif dan terukur.</p>
                     </div>

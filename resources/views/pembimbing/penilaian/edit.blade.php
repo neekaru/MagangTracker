@@ -57,6 +57,50 @@
 
                     <hr>
 
+                    <h5 class="mb-3">Nilai Dosen Pembimbing</h5>
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label">Laporan Akhir</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" name="nilai_laporan" min="0" max="100" value="90" readonly>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label">Presentasi</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" name="nilai_presentasi" min="0" max="100" value="90" readonly>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label fw-bold">Rata-rata</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control-plaintext fw-bold" value="90" readonly>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <h5 class="mb-3">Nilai Akhir</h5>
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label fw-bold">Nilai Pembimbing Lapangan</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control-plaintext fw-bold" id="nilai_pembimbing" readonly>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label fw-bold">Nilai Dosen Pembimbing</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control-plaintext fw-bold" value="90" readonly>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label fw-bold text-primary">Nilai Akhir (Bobot 60%:40%)</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control-plaintext fw-bold text-primary" id="nilai_akhir" readonly>
+                        </div>
+                    </div>
+
+                    <hr>
+
                     <div class="mb-3">
                         <label class="form-label">Catatan / Komentar Pembimbing</label>
                         <textarea class="form-control" name="catatan" rows="4"></textarea>
@@ -84,3 +128,35 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        function calculateFinalScore() {
+            let disiplin = parseFloat($('input[name=nilai_disiplin]').val()) || 0;
+            let tanggungJawab = parseFloat($('input[name=nilai_tanggung_jawab]').val()) || 0;
+            let teknis = parseFloat($('input[name=nilai_teknis]').val()) || 0;
+            let kerjasama = parseFloat($('input[name=nilai_kerjasama]').val()) || 0;
+            let etika = parseFloat($('input[name=nilai_etika]').val()) || 0;
+            
+            // Hitung rata-rata pembimbing dengan bobot
+            let nilaiPembimbing = (disiplin * 0.2) + (tanggungJawab * 0.2) + (teknis * 0.3) + (kerjasama * 0.15) + (etika * 0.15);
+            
+            // Nilai dosen (rata-rata laporan dan presentasi)
+            let nilaiDosen = 90; // dari input readonly
+            
+            // Nilai akhir dengan bobot 60%:40%
+            let nilaiAkhir = (nilaiPembimbing * 0.6) + (nilaiDosen * 0.4);
+            
+            $('#nilai_pembimbing').val(nilaiPembimbing.toFixed(1));
+            $('#nilai_akhir').val(nilaiAkhir.toFixed(1));
+        }
+        
+        // Hitung saat input berubah
+        $('input[type=number]').on('input', calculateFinalScore);
+        
+        // Hitung awal
+        calculateFinalScore();
+    });
+</script>
+@endpush

@@ -53,14 +53,10 @@
     <div class="col-md-8">
         <div class="card">
             <div class="card-header">
-                Statistik Pendaftaran
+                Statistik Pendaftaran per Periode
             </div>
             <div class="card-body">
-                <div class="alert alert-info">Grafik jumlah magang per periode akan muncul di sini.</div>
-                <!-- Placeholder for Chart -->
-                <div style="height: 200px; background: #eee; display: flex; align-items: center; justify-content: center;">
-                    Chart Placeholder
-                </div>
+                <canvas id="magangChart" width="400" height="200"></canvas>
             </div>
         </div>
     </div>
@@ -78,3 +74,42 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const ctx = document.getElementById('magangChart').getContext('2d');
+        const magangChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Ganjil 2024', 'Genap 2024', 'Ganjil 2025', 'Genap 2025'],
+                datasets: [{
+                    label: 'Jumlah Peserta Magang',
+                    data: [45, 52, 38, 65],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 205, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 205, 86, 1)',
+                        'rgba(75, 192, 192, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+</script>
+@endpush

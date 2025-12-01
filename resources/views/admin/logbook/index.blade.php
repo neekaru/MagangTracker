@@ -54,7 +54,8 @@
                         <td>Maintenance Server</td>
                         <td><span class="badge bg-warning text-dark">Menunggu</span></td>
                         <td>
-                            <button class="btn btn-sm btn-info text-white"><i class="fas fa-eye"></i></button>
+                            <a href="{{ url('/admin/logbook/1') }}" class="btn btn-sm btn-info text-white"><i class="fas fa-eye"></i></a>
+                            <button class="btn btn-sm btn-danger delete-btn"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                     <tr>
@@ -64,7 +65,8 @@
                         <td>Input Data Transaksi</td>
                         <td><span class="badge bg-success">Disetujui</span></td>
                         <td>
-                            <button class="btn btn-sm btn-info text-white"><i class="fas fa-eye"></i></button>
+                            <a href="{{ url('/admin/logbook/2') }}" class="btn btn-sm btn-info text-white"><i class="fas fa-eye"></i></a>
+                            <button class="btn btn-sm btn-danger delete-btn"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                 </tbody>
@@ -79,6 +81,27 @@
     $(document).ready(function() {
         $('#logbookTable').DataTable({
             "order": [[ 0, "desc" ]]
+        });
+
+        $('.delete-btn').click(function() {
+            Swal.fire({
+                title: 'Hapus Logbook?',
+                text: "Data yang dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Terhapus!',
+                        'Logbook berhasil dihapus.',
+                        'success'
+                    )
+                }
+            })
         });
     });
 </script>

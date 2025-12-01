@@ -64,19 +64,33 @@ Route::prefix('admin')->group(function () {
     Route::get('/users', function () { return view('admin.users.index'); });
     Route::get('/users/create', function () { return view('admin.users.create'); });
     Route::post('/users', function () { return redirect('/admin/users')->with('success', 'User berhasil ditambahkan'); });
+    Route::get('/users/{id}', function () { return view('admin.users.show'); });
+    Route::get('/users/{id}/edit', function () { return view('admin.users.edit'); });
+    Route::put('/users/{id}', function () { return redirect('/admin/users')->with('success', 'User berhasil diupdate'); });
     
     // Magang Management
     Route::get('/magang', function () { return view('admin.magang.index'); });
+    Route::get('/magang/{id}', function () { return view('admin.magang.show'); });
+    Route::get('/magang/{id}/edit', function () { return view('admin.magang.edit'); });
+    Route::put('/magang/{id}', function () { return redirect('/admin/magang')->with('success', 'Data magang berhasil diupdate'); });
     
     // Periode Magang
     Route::get('/periode-magang', function () { return view('admin.periode.index'); });
+    Route::get('/periode-magang/{id}/edit', function () { return view('admin.periode.edit'); });
+    Route::put('/periode-magang/{id}', function () { return redirect('/admin/periode-magang')->with('success', 'Periode berhasil diupdate'); });
 
     // Monitoring
     Route::get('/logbook', function () { return view('admin.logbook.index'); });
+    Route::get('/logbook/{id}', function () { return view('admin.logbook.show'); });
+    
     Route::get('/absensi', function () { return view('admin.absensi.index'); });
+    Route::get('/absensi/{id}', function () { return view('admin.absensi.show'); });
 
     // Penilaian & Laporan
     Route::get('/penilaian', function () { return view('admin.penilaian.index'); });
+    Route::get('/penilaian/{id}', function () { return view('admin.penilaian.show'); });
+    Route::get('/penilaian/{id}/edit', function () { return view('admin.penilaian.edit'); });
+    Route::put('/penilaian/{id}', function () { return redirect('/admin/penilaian')->with('success', 'Penilaian berhasil diupdate'); });
     Route::get('/laporan', function () { return view('admin.laporan.index'); });
 });
 

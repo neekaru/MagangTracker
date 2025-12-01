@@ -7,11 +7,26 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f8f9fa;
+            position: relative;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
             height: 100vh;
+            color: white;
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            filter: blur(4px);
+            z-index: -1;
         }
         .login-card {
             width: 100%;
@@ -19,7 +34,8 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
         }
     </style>
 </head>
@@ -50,9 +66,8 @@
         </div>
     </form>
     
-    <div class="mt-3 text-center">
+    <div class="mt-3 d-flex justify-content-between">
         <a href="{{ url('/forgot-password') }}" class="text-decoration-none">Lupa password?</a>
-        <br>
         <a href="{{ url('/register-magang') }}" class="text-decoration-none">Daftar Magang Baru</a>
     </div>
 </div>

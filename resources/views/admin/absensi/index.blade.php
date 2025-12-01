@@ -24,6 +24,7 @@
                         <th>Status</th>
                         <th>Keterangan</th>
                         <th>Lokasi</th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,6 +35,9 @@
                         <td><span class="badge bg-success">Hadir</span></td>
                         <td>-</td>
                         <td>Kantor Pusat</td>
+                        <td>
+                            <a href="{{ url('/admin/absensi/1') }}" class="btn btn-sm btn-info text-white"><i class="fas fa-eye"></i></a>
+                        </td>
                     </tr>
                     <tr>
                         <td>01 Des 2025</td>
@@ -42,6 +46,9 @@
                         <td><span class="badge bg-success">Hadir</span></td>
                         <td>Terlambat</td>
                         <td>Gedung Keuangan</td>
+                        <td>
+                            <a href="{{ url('/admin/absensi/2') }}" class="btn btn-sm btn-info text-white"><i class="fas fa-eye"></i></a>
+                        </td>
                     </tr>
                     <tr>
                         <td>01 Des 2025</td>
@@ -50,6 +57,9 @@
                         <td><span class="badge bg-danger">Sakit</span></td>
                         <td>Demam tinggi</td>
                         <td>-</td>
+                        <td>
+                            <a href="{{ url('/admin/absensi/3') }}" class="btn btn-sm btn-info text-white"><i class="fas fa-eye"></i></a>
+                        </td>
                     </tr>
                 </tbody>
             </table>

@@ -35,8 +35,9 @@
                         <td><span class="badge bg-danger">Admin</span></td>
                         <td><span class="badge bg-success">Aktif</span></td>
                         <td>
-                            <a href="#" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
-                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                            <a href="{{ url('/admin/users/1') }}" class="btn btn-sm btn-info text-white"><i class="fas fa-eye"></i></a>
+                            <a href="{{ url('/admin/users/1/edit') }}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
+                            <button class="btn btn-sm btn-danger delete-btn"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                     <tr>
@@ -46,8 +47,9 @@
                         <td><span class="badge bg-info text-dark">Pembimbing</span></td>
                         <td><span class="badge bg-success">Aktif</span></td>
                         <td>
-                            <a href="#" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
-                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                            <a href="{{ url('/admin/users/2') }}" class="btn btn-sm btn-info text-white"><i class="fas fa-eye"></i></a>
+                            <a href="{{ url('/admin/users/2/edit') }}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
+                            <button class="btn btn-sm btn-danger delete-btn"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                     <tr>
@@ -57,8 +59,9 @@
                         <td><span class="badge bg-secondary">Mahasiswa</span></td>
                         <td><span class="badge bg-success">Aktif</span></td>
                         <td>
-                            <a href="#" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
-                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                            <a href="{{ url('/admin/users/3') }}" class="btn btn-sm btn-info text-white"><i class="fas fa-eye"></i></a>
+                            <a href="{{ url('/admin/users/3/edit') }}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
+                            <button class="btn btn-sm btn-danger delete-btn"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                 </tbody>
@@ -72,6 +75,27 @@
 <script>
     $(document).ready(function() {
         $('#usersTable').DataTable();
+
+        $('.delete-btn').click(function() {
+            Swal.fire({
+                title: 'Apakah anda yakin?',
+                text: "Data yang dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Terhapus!',
+                        'Data berhasil dihapus.',
+                        'success'
+                    )
+                }
+            })
+        });
     });
 </script>
 @endpush

@@ -33,7 +33,8 @@
                         <td><strong>87.5</strong></td>
                         <td><span class="badge bg-success">Selesai</span></td>
                         <td>
-                            <a href="#" class="btn btn-sm btn-info text-white"><i class="fas fa-eye"></i> Detail</a>
+                            <a href="{{ url('/admin/penilaian/1') }}" class="btn btn-sm btn-info text-white"><i class="fas fa-eye"></i></a>
+                            <a href="{{ url('/admin/penilaian/1/edit') }}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
                         </td>
                     </tr>
                     <tr>
@@ -45,7 +46,8 @@
                         <td>-</td>
                         <td><span class="badge bg-warning text-dark">Proses</span></td>
                         <td>
-                            <a href="#" class="btn btn-sm btn-info text-white"><i class="fas fa-eye"></i> Detail</a>
+                            <a href="{{ url('/admin/penilaian/2') }}" class="btn btn-sm btn-info text-white"><i class="fas fa-eye"></i></a>
+                            <a href="{{ url('/admin/penilaian/2/edit') }}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
                         </td>
                     </tr>
                 </tbody>

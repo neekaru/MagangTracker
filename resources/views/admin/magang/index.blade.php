@@ -43,7 +43,9 @@
                             <td>Jan 2025 - Jun 2025</td>
                             <td>Pak Budi</td>
                             <td>
-                                <a href="#" class="btn btn-sm btn-info text-white"><i class="fas fa-eye"></i> Detail</a>
+                                <a href="{{ url('/admin/magang/1') }}" class="btn btn-sm btn-info text-white"><i class="fas fa-eye"></i> Detail</a>
+                                <a href="{{ url('/admin/magang/1/edit') }}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
+                                <button class="btn btn-sm btn-danger delete-btn"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                         <tr>
@@ -53,7 +55,9 @@
                             <td>Jan 2025 - Jun 2025</td>
                             <td>Bu Ani</td>
                             <td>
-                                <a href="#" class="btn btn-sm btn-info text-white"><i class="fas fa-eye"></i> Detail</a>
+                                <a href="{{ url('/admin/magang/2') }}" class="btn btn-sm btn-info text-white"><i class="fas fa-eye"></i> Detail</a>
+                                <a href="{{ url('/admin/magang/2/edit') }}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
+                                <button class="btn btn-sm btn-danger delete-btn"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                     </tbody>
@@ -119,6 +123,27 @@
     $(document).ready(function() {
         $('#tableActive').DataTable();
         $('#tablePending').DataTable();
+
+        $('.delete-btn').click(function() {
+            Swal.fire({
+                title: 'Hapus Data Magang?',
+                text: "Data yang dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Terhapus!',
+                        'Data magang berhasil dihapus.',
+                        'success'
+                    )
+                }
+            })
+        });
     });
 </script>
 @endpush
