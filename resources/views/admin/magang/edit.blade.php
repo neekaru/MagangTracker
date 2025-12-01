@@ -31,11 +31,16 @@
                     <h5 class="mb-3 mt-4">Detail Penempatan</h5>
                     <div class="mb-3">
                         <label for="unit" class="form-label">Unit Penempatan</label>
-                        <select class="form-select" id="unit" name="unit">
+                        <select class="form-select" id="unit" name="unit" onchange="toggleOtherUnit(this.value)">
                             <option value="IT" selected>IT Support</option>
                             <option value="Keuangan">Keuangan</option>
                             <option value="HRD">HRD</option>
+                            <option value="lainnya">Lainnya</option>
                         </select>
+                    </div>
+                    <div class="mb-3" id="otherUnitGroup" style="display: none;">
+                        <label for="unit_lainnya" class="form-label">Unit Lainnya</label>
+                        <input type="text" class="form-control" id="unit_lainnya" name="unit_lainnya" placeholder="Masukkan unit penempatan lainnya">
                     </div>
                     
                     <div class="mb-3">
@@ -72,3 +77,19 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    function toggleOtherUnit(value) {
+        const otherGroup = document.getElementById('otherUnitGroup');
+        const otherInput = document.getElementById('unit_lainnya');
+        if (value === 'lainnya') {
+            otherGroup.style.display = 'block';
+            otherInput.required = true;
+        } else {
+            otherGroup.style.display = 'none';
+            otherInput.required = false;
+        }
+    }
+</script>
+@endpush

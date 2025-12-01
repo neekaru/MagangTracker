@@ -170,7 +170,6 @@
                     @if(Auth::check() || request()->is('admin*') || request()->is('pembimbing*') || request()->is('mahasiswa*'))
                     <button type="button" id="sidebarCollapse" class="btn btn-info text-white">
                         <i class="fas fa-align-left"></i>
-                        <span>Toggle Sidebar</span>
                     </button>
                     @endif
                     

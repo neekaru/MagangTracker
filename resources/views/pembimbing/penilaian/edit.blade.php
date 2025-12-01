@@ -9,6 +9,9 @@
         <a href="{{ url('/pembimbing/penilaian') }}" class="btn btn-sm btn-secondary">
             <i class="fas fa-arrow-left"></i> Kembali
         </a>
+        <button class="btn btn-sm btn-info ms-2" onclick="window.print()">
+            <i class="fas fa-print"></i> Print
+        </button>
     </div>
 </div>
 
@@ -61,19 +64,19 @@
                     <div class="mb-3 row">
                         <label class="col-sm-4 col-form-label">Laporan Akhir</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" name="nilai_laporan" min="0" max="100" value="90" readonly>
+                            <input type="number" class="form-control" name="nilai_laporan" min="0" max="100" value="90">
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-sm-4 col-form-label">Presentasi</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" name="nilai_presentasi" min="0" max="100" value="90" readonly>
+                            <input type="number" class="form-control" name="nilai_presentasi" min="0" max="100" value="90">
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-sm-4 col-form-label fw-bold">Rata-rata</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control-plaintext fw-bold" value="90" readonly>
+                            <input type="number" class="form-control-plaintext fw-bold" name="nilai_dosen_display" value="90" readonly>
                         </div>
                     </div>
 
@@ -89,7 +92,7 @@
                     <div class="mb-3 row">
                         <label class="col-sm-4 col-form-label fw-bold">Nilai Dosen Pembimbing</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control-plaintext fw-bold" value="90" readonly>
+                            <input type="number" class="form-control-plaintext fw-bold" name="nilai_dosen_final" value="90" readonly>
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -142,13 +145,17 @@
             // Hitung rata-rata pembimbing dengan bobot
             let nilaiPembimbing = (disiplin * 0.2) + (tanggungJawab * 0.2) + (teknis * 0.3) + (kerjasama * 0.15) + (etika * 0.15);
             
-            // Nilai dosen (rata-rata laporan dan presentasi)
-            let nilaiDosen = 90; // dari input readonly
+            // Hitung rata-rata dosen
+            let laporan = parseFloat($('input[name=nilai_laporan]').val()) || 0;
+            let presentasi = parseFloat($('input[name=nilai_presentasi]').val()) || 0;
+            let nilaiDosen = (laporan + presentasi) / 2;
             
             // Nilai akhir dengan bobot 60%:40%
             let nilaiAkhir = (nilaiPembimbing * 0.6) + (nilaiDosen * 0.4);
             
             $('#nilai_pembimbing').val(nilaiPembimbing.toFixed(1));
+            $('input[name=nilai_dosen_display]').val(nilaiDosen.toFixed(1)); // Update rata-rata dosen
+            $('input[name=nilai_dosen_final]').val(nilaiDosen.toFixed(1)); // Update nilai dosen final
             $('#nilai_akhir').val(nilaiAkhir.toFixed(1));
         }
         

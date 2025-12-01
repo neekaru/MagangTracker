@@ -63,14 +63,14 @@
                             <td>C030320001</td>
                             <td>IT Support</td>
                             <td><span class="badge bg-success">Lengkap</span></td>
-                            <td><a href="#" class="btn btn-sm btn-primary">Detail</a></td>
+                            <td><a href="{{ url('/pembimbing/peserta/2') }}" class="btn btn-sm btn-primary">Detail</a></td>
                         </tr>
                         <tr>
                             <td>Rina Wati</td>
                             <td>C030320002</td>
                             <td>Keuangan</td>
                             <td><span class="badge bg-warning">Kurang 1</span></td>
-                            <td><a href="#" class="btn btn-sm btn-primary">Detail</a></td>
+                            <td><a href="{{ url('/pembimbing/peserta/1') }}" class="btn btn-sm btn-primary">Detail</a></td>
                         </tr>
                     </tbody>
                 </table>
