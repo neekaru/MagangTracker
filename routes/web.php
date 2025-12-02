@@ -57,7 +57,19 @@ Route::get('/forgot-password', function () {
 // Admin Routes
 Route::prefix('admin')->group(function () {
     Route::get('/', function () {
-        return view('admin.dashboard');
+        $announcements = [
+            [
+                'title' => 'Jadwal Libur Idul Fitri',
+                'date' => '01 Des 2025',
+                'content' => 'Diberitahukan kepada seluruh peserta magang dan pembimbing bahwa kegiatan magang diliburkan mulai tanggal 25 Desember 2025 sampai 1 Januari 2026.'
+            ],
+            [
+                'title' => 'Batas Akhir Pengumpulan Laporan',
+                'date' => '28 Nov 2025',
+                'content' => 'Laporan akhir magang wajib dikumpulkan paling lambat tanggal 10 Januari 2026.'
+            ]
+        ];
+        return view('admin.dashboard', compact('announcements'));
     });
     
     // Users Management
@@ -93,7 +105,7 @@ Route::prefix('admin')->group(function () {
     Route::put('/penilaian/{id}', function () { return redirect('/admin/penilaian')->with('success', 'Penilaian berhasil diupdate'); });
     Route::get('/laporan', function () { return view('admin.laporan.index'); });
 
-    // Announcements
+    // Pengumuman
     Route::get('/announcements', function () { return view('admin.announcements.index'); });
     Route::get('/announcements/create', function () { return view('admin.announcements.create'); });
     Route::post('/announcements', function () { return redirect('/admin/announcements')->with('success', 'Pengumuman berhasil dibuat'); });
@@ -104,7 +116,18 @@ Route::prefix('admin')->group(function () {
 // Pembimbing Routes
 Route::prefix('pembimbing')->group(function () {
     Route::get('/', function () {
-        return view('pembimbing.dashboard');
+        $peserta_count = 8;
+        $logbook_pending = 12;
+        $absensi_hadir = 8;
+        $absensi_total = 8;
+        $announcements = [
+            [
+                'title' => 'Jadwal Libur Idul Fitri',
+                'date' => '01 Des 2025',
+                'content' => 'Diberitahukan kepada seluruh peserta magang dan pembimbing bahwa kegiatan magang diliburkan mulai tanggal 25 Desember 2025 sampai 1 Januari 2026.'
+            ]
+        ];
+        return view('pembimbing.dashboard', compact('peserta_count', 'logbook_pending', 'absensi_hadir', 'absensi_total', 'announcements'));
     });
 
     // Peserta Bimbingan
@@ -123,7 +146,36 @@ Route::prefix('pembimbing')->group(function () {
 // Mahasiswa Routes
 Route::prefix('mahasiswa')->group(function () {
     Route::get('/', function () {
-        return view('mahasiswa.dashboard');
+        $status_magang = 'Aktif';
+        $unit_penempatan = 'IT Support';
+        $kehadiran_persen = 95;
+        $kehadiran_total = 19;
+        $kehadiran_max = 20;
+        $logbook_minggu_ini = 4;
+        $logbook_target = 5;
+        $announcements = [
+            [
+                'title' => 'Jadwal Libur Idul Fitri',
+                'date' => '01 Des 2025',
+                'content' => 'Diberitahukan kepada seluruh peserta magang dan pembimbing bahwa kegiatan magang diliburkan mulai tanggal 25 Desember 2025 sampai 1 Januari 2026.'
+            ],
+            [
+                'title' => 'Batas Akhir Pengumpulan Laporan',
+                'date' => '28 Nov 2025',
+                'content' => 'Laporan akhir magang wajib dikumpulkan paling lambat tanggal 10 Januari 2026.'
+            ]
+        ];
+
+        return view('mahasiswa.dashboard', compact(
+            'status_magang', 
+            'unit_penempatan', 
+            'kehadiran_persen', 
+            'kehadiran_total', 
+            'kehadiran_max', 
+            'logbook_minggu_ini', 
+            'logbook_target',
+            'announcements'
+        ));
     });
 
     // Logbook
@@ -148,7 +200,8 @@ Route::prefix('mahasiswa')->group(function () {
         $pembimbing_lapangan = "Pak Joko (IT Manager)";
         $tgl_mulai = "01 Jan 2025";
         $tgl_selesai = "30 Jun 2025";
-        return view('mahasiswa.magang.index', compact('deskripsi_tugas', 'pembimbing_lapangan', 'tgl_mulai', 'tgl_selesai')); 
+        $target_logbook = 5; // Data dari database
+        return view('mahasiswa.magang.index', compact('deskripsi_tugas', 'pembimbing_lapangan', 'tgl_mulai', 'tgl_selesai', 'target_logbook')); 
     });
 
     // Nilai

@@ -79,9 +79,17 @@
                         <label for="status" class="form-label">Status Magang</label>
                         <select class="form-select" id="status" name="status">
                             <option value="aktif" selected>Aktif</option>
+                            <option value="nonaktif">Nonaktif</option>
                             <option value="selesai">Selesai</option>
                             <option value="batal">Dibatalkan</option>
                         </select>
+                        <div class="form-text">Status ini menentukan akses mahasiswa ke sistem.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="target_logbook" class="form-label">Target Logbook Mingguan</label>
+                        <input type="number" class="form-control" id="target_logbook" name="target_logbook" value="5" min="1" max="7">
+                        <div class="form-text">Jumlah logbook yang wajib diisi mahasiswa per minggu (Default: 5 hari kerja).</div>
                     </div>
 
                     <div class="mb-3">

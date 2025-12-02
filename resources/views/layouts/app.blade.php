@@ -125,9 +125,6 @@
                     <li class="{{ request()->is('admin/penilaian*') ? 'active' : '' }}">
                         <a href="{{ url('/admin/penilaian') }}"><i class="fas fa-star me-2"></i> Penilaian</a>
                     </li>
-                    <li class="{{ request()->is('admin/announcements*') ? 'active' : '' }}">
-                        <a href="{{ url('/admin/announcements') }}"><i class="fas fa-bullhorn me-2"></i> Pengumuman</a>
-                    </li>
                     <li class="{{ request()->is('admin/laporan*') ? 'active' : '' }}">
                         <a href="{{ url('/admin/laporan') }}"><i class="fas fa-file-alt me-2"></i> Laporan</a>
                     </li>
@@ -240,6 +237,12 @@
                     document.getElementById('sidebar').classList.toggle('active');
                 });
             }
+            
+            // Initialize Tooltips
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            })
         });
     </script>
     @stack('scripts')

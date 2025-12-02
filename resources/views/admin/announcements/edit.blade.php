@@ -21,25 +21,24 @@
                     @method('PUT')
                     <div class="mb-3">
                         <label for="judul" class="form-label">Judul Pengumuman</label>
-                        <input type="text" class="form-control" id="judul" name="judul" value="Pengumuman Libur Semester" required>
+                        <input type="text" class="form-control" id="judul" name="judul" value="Jadwal Libur Idul Fitri" required>
                     </div>
                     <div class="mb-3">
-                        <label for="isi" class="form-label">Isi Pengumuman</label>
-                        <textarea class="form-control" id="isi" name="isi" rows="6" required>Pengumuman penting: Semester ini akan ada libur panjang mulai tanggal 20 Desember 2025 hingga 5 Januari 2026. Selama libur, sistem magang akan tetap aktif untuk pencatatan logbook dan absensi.</textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="scope" class="form-label">Scope Pengumuman</label>
-                        <select class="form-select" id="scope" name="scope">
-                            <option value="global" selected>Global (Semua Pengguna)</option>
+                        <label for="target" class="form-label">Target Audience</label>
+                        <select class="form-select" id="target" name="target">
+                            <option value="semua" selected>Semua Pengguna</option>
                             <option value="mahasiswa">Mahasiswa</option>
                             <option value="pembimbing">Pembimbing</option>
                         </select>
                     </div>
+                    <div class="mb-3">
+                        <label for="isi" class="form-label">Isi Pengumuman</label>
+                        <textarea class="form-control" id="isi" name="isi" rows="5" required>Diberitahukan kepada seluruh peserta magang dan pembimbing bahwa kegiatan magang diliburkan mulai tanggal 25 Desember 2025 sampai 1 Januari 2026.</textarea>
+                    </div>
                     <div class="mb-3 form-check">
                         <input type="checkbox" class="form-check-input" id="aktif" name="aktif" checked>
-                        <label class="form-check-label" for="aktif">Aktifkan Pengumuman</label>
+                        <label class="form-check-label" for="aktif">Publikasikan Segera</label>
                     </div>
-                    
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                     </div>

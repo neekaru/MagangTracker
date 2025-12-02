@@ -61,7 +61,7 @@
         </div>
     </div>
     <div class="col-md-4">
-        <div class="card">
+        <div class="card mb-4">
             <div class="card-header">
                 Aktivitas Terbaru
             </div>
@@ -70,6 +70,24 @@
                 <li class="list-group-item">Siti mendaftar magang <span class="badge bg-secondary float-end">1h ago</span></li>
                 <li class="list-group-item">Pak Dosen menilai Andi <span class="badge bg-secondary float-end">2h ago</span></li>
             </ul>
+        </div>
+
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Pengumuman Aktif</span>
+                <a href="{{ url('/admin/announcements') }}" class="btn btn-sm btn-primary">Kelola</a>
+            </div>
+            <div class="card-body">
+                @forelse($announcements as $announcement)
+                    <div class="mb-3">
+                        <h6 class="fw-bold">{{ $announcement['title'] }} <small class="text-muted float-end">{{ $announcement['date'] }}</small></h6>
+                        <p class="mb-0">{{ $announcement['content'] }}</p>
+                    </div>
+                    @if(!$loop->last) <hr> @endif
+                @empty
+                    <p class="text-muted">Tidak ada pengumuman aktif.</p>
+                @endforelse
+            </div>
         </div>
     </div>
 </div>

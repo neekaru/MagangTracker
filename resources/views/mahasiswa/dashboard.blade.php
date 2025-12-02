@@ -14,26 +14,26 @@
     <div class="col-md-4">
         <div class="card mb-3">
             <div class="card-body text-center">
-                <h5 class="card-title">Status Magang</h5>
-                <p class="display-6 text-success"><i class="fas fa-check-circle"></i> Aktif</p>
-                <p class="text-muted">Unit: IT Support</p>
+                <h5 class="card-title">Status Magang <i class="fas fa-info-circle text-muted" data-bs-toggle="tooltip" title="Status resmi kepesertaan magang Anda."></i></h5>
+                <p class="display-6 {{ $status_magang == 'Aktif' ? 'text-success' : 'text-secondary' }}"><i class="fas fa-check-circle"></i> {{ $status_magang }}</p>
+                <p class="text-muted">Unit: {{ $unit_penempatan }}</p>
             </div>
         </div>
     </div>
     <div class="col-md-4">
         <div class="card mb-3">
             <div class="card-body text-center">
-                <h5 class="card-title">Kehadiran</h5>
-                <p class="display-6 text-primary">95%</p>
-                <p class="text-muted">Total 19/20 Hari</p>
+                <h5 class="card-title">Kehadiran <i class="fas fa-info-circle text-muted" data-bs-toggle="tooltip" title="Persentase kehadiran berdasarkan hari kerja yang telah berjalan."></i></h5>
+                <p class="display-6 text-primary">{{ $kehadiran_persen }}%</p>
+                <p class="text-muted">Total {{ $kehadiran_total }}/{{ $kehadiran_max }} Hari</p>
             </div>
         </div>
     </div>
     <div class="col-md-4">
         <div class="card mb-3">
             <div class="card-body text-center">
-                <h5 class="card-title">Logbook Minggu Ini</h5>
-                <p class="display-6 text-warning">4/5</p>
+                <h5 class="card-title">Logbook Minggu Ini <i class="fas fa-info-circle text-muted" data-bs-toggle="tooltip" title="Jumlah logbook yang telah diisi pada minggu ini."></i></h5>
+                <p class="display-6 text-warning">{{ $logbook_minggu_ini }}/{{ $logbook_target }}</p>
                 <a href="{{ url('/mahasiswa/logbook/create') }}" class="btn btn-sm btn-primary">Isi Logbook</a>
             </div>
         </div>
@@ -72,9 +72,15 @@
                 Pengumuman
             </div>
             <div class="card-body">
-                <p>Jangan lupa untuk mengumpulkan laporan bulanan paling lambat tanggal 5 bulan depan.</p>
-                <hr>
-                <p class="mb-0">Jadwal monitoring dosen pembimbing akan dilaksanakan minggu depan.</p>
+                @forelse($announcements as $announcement)
+                    <div class="mb-3">
+                        <h6 class="fw-bold">{{ $announcement['title'] }} <small class="text-muted float-end">{{ $announcement['date'] }}</small></h6>
+                        <p class="mb-0">{{ $announcement['content'] }}</p>
+                    </div>
+                    @if(!$loop->last) <hr> @endif
+                @empty
+                    <p class="text-muted">Tidak ada pengumuman terbaru.</p>
+                @endforelse
             </div>
         </div>
     </div>
