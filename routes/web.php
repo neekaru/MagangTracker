@@ -123,6 +123,8 @@ Route::prefix('mahasiswa')->group(function () {
     Route::get('/logbook', function () { return view('mahasiswa.logbook.index'); });
     Route::get('/logbook/create', function () { return view('mahasiswa.logbook.create'); });
     Route::post('/logbook', function () { return redirect('/mahasiswa/logbook')->with('success', 'Logbook berhasil disimpan'); });
+    Route::get('/logbook/{id}/edit', function () { return view('mahasiswa.logbook.edit'); });
+    Route::put('/logbook/{id}', function () { return redirect('/mahasiswa/logbook')->with('success', 'Logbook berhasil diperbarui'); });
 
     // Absensi
     Route::get('/absensi', function () { return view('mahasiswa.absensi.index'); });

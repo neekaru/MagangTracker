@@ -34,7 +34,7 @@
                         <td>Koneksi stabil</td>
                         <td><span class="badge bg-warning text-dark">Menunggu</span></td>
                         <td>
-                            <a href="#" class="btn btn-sm btn-secondary"><i class="fas fa-edit"></i></a>
+                            <a href="{{ url('/mahasiswa/logbook/1/edit') }}" class="btn btn-sm btn-secondary"><i class="fas fa-edit"></i></a>
                         </td>
                     </tr>
                     <tr>
