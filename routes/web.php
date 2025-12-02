@@ -92,6 +92,13 @@ Route::prefix('admin')->group(function () {
     Route::get('/penilaian/{id}/edit', function () { return view('admin.penilaian.edit'); });
     Route::put('/penilaian/{id}', function () { return redirect('/admin/penilaian')->with('success', 'Penilaian berhasil diupdate'); });
     Route::get('/laporan', function () { return view('admin.laporan.index'); });
+
+    // Announcements
+    Route::get('/announcements', function () { return view('admin.announcements.index'); });
+    Route::get('/announcements/create', function () { return view('admin.announcements.create'); });
+    Route::post('/announcements', function () { return redirect('/admin/announcements')->with('success', 'Pengumuman berhasil dibuat'); });
+    Route::get('/announcements/{id}/edit', function () { return view('admin.announcements.edit'); });
+    Route::put('/announcements/{id}', function () { return redirect('/admin/announcements')->with('success', 'Pengumuman berhasil diupdate'); });
 });
 
 // Pembimbing Routes
