@@ -13,7 +13,7 @@
 <div class="row mb-4">
     <div class="col-md-4">
         <div class="card text-white bg-info mb-3">
-            <div class="card-header">Peserta Bimbingan</div>
+            <div class="card-header"><i class="fas fa-users me-2"></i>Peserta Bimbingan</div>
             <div class="card-body">
                 <h5 class="card-title">{{ $peserta_count }}</h5>
                 <p class="card-text">Mahasiswa aktif dibimbing.</p>
@@ -22,7 +22,7 @@
     </div>
     <div class="col-md-4">
         <div class="card text-white bg-warning mb-3">
-            <div class="card-header">Logbook Pending</div>
+            <div class="card-header"><i class="fas fa-book me-2"></i>Logbook Pending</div>
             <div class="card-body">
                 <h5 class="card-title">{{ $logbook_pending }}</h5>
                 <p class="card-text">Menunggu verifikasi anda.</p>
@@ -31,7 +31,7 @@
     </div>
     <div class="col-md-4">
         <div class="card text-white bg-success mb-3">
-            <div class="card-header">Absensi Hari Ini</div>
+            <div class="card-header"><i class="fas fa-clock me-2"></i>Absensi Hari Ini</div>
             <div class="card-body">
                 <h5 class="card-title">{{ $absensi_hadir }}/{{ $absensi_total }}</h5>
                 <p class="card-text">Semua peserta hadir.</p>

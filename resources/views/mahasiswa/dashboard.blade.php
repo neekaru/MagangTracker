@@ -13,6 +13,7 @@
 <div class="row mb-4">
     <div class="col-md-4">
         <div class="card mb-3">
+            <div class="card-header"><i class="fas fa-check-circle me-2"></i>Status Magang</div>
             <div class="card-body text-center">
                 <h5 class="card-title">Status Magang <i class="fas fa-info-circle text-muted" data-bs-toggle="tooltip" title="Status resmi kepesertaan magang Anda."></i></h5>
                 <p class="display-6 {{ $status_magang == 'Aktif' ? 'text-success' : 'text-secondary' }}"><i class="fas fa-check-circle"></i> {{ $status_magang }}</p>
@@ -22,6 +23,7 @@
     </div>
     <div class="col-md-4">
         <div class="card mb-3">
+            <div class="card-header"><i class="fas fa-clock me-2"></i>Kehadiran</div>
             <div class="card-body text-center">
                 <h5 class="card-title">Kehadiran <i class="fas fa-info-circle text-muted" data-bs-toggle="tooltip" title="Persentase kehadiran berdasarkan hari kerja yang telah berjalan."></i></h5>
                 <p class="display-6 text-primary">{{ $kehadiran_persen }}%</p>
@@ -31,6 +33,7 @@
     </div>
     <div class="col-md-4">
         <div class="card mb-3">
+            <div class="card-header"><i class="fas fa-book me-2"></i>Logbook Minggu Ini</div>
             <div class="card-body text-center">
                 <h5 class="card-title">Logbook Minggu Ini <i class="fas fa-info-circle text-muted" data-bs-toggle="tooltip" title="Jumlah logbook yang telah diisi pada minggu ini."></i></h5>
                 <p class="display-6 text-warning">{{ $logbook_minggu_ini }}/{{ $logbook_target }}</p>
@@ -43,9 +46,7 @@
 <div class="row">
     <div class="col-md-6">
         <div class="card">
-            <div class="card-header">
-                Logbook Terakhir
-            </div>
+            <div class="card-header"><i class="fas fa-book me-2"></i>Logbook Terakhir</div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     <div class="d-flex w-100 justify-content-between">
@@ -68,9 +69,7 @@
     </div>
     <div class="col-md-6">
         <div class="card">
-            <div class="card-header">
-                Pengumuman
-            </div>
+            <div class="card-header"><i class="fas fa-bullhorn me-2"></i>Pengumuman</div>
             <div class="card-body">
                 @forelse($announcements as $announcement)
                     <div class="mb-3">

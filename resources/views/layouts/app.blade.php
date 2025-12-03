@@ -30,6 +30,13 @@
             color: #fff;
             transition: all 0.3s;
         }
+        @media (max-width: 768px) {
+            #sidebar {
+                position: fixed;
+                height: 100vh;
+                z-index: 1050;
+            }
+        }
         #sidebar.active {
             margin-left: -250px;
         }
@@ -196,12 +203,12 @@
                                         {{ Auth::user()->name ?? 'User Demo' }}
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                                        <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profile</a></li>
                                         <li><hr class="dropdown-divider"></li>
                                         <li>
                                             <form action="{{ url('/logout') }}" method="POST">
                                                 @csrf
-                                                <button type="submit" class="dropdown-item">Logout</button>
+                                                <button type="submit" class="dropdown-item"><i class="fas fa-sign-out-alt me-2"></i>Logout</button>
                                             </form>
                                         </li>
                                     </ul>
@@ -231,12 +238,22 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function(){
+            const sidebar = document.getElementById('sidebar');
             const sidebarCollapse = document.getElementById('sidebarCollapse');
             if(sidebarCollapse){
                 sidebarCollapse.addEventListener('click', function () {
-                    document.getElementById('sidebar').classList.toggle('active');
+                    sidebar.classList.toggle('active');
                 });
             }
+            
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', function(event) {
+                if (window.innerWidth <= 768) {
+                    if (!sidebar.contains(event.target) && !sidebarCollapse.contains(event.target) && sidebar.classList.contains('active')) {
+                        sidebar.classList.remove('active');
+                    }
+                }
+            });
             
             // Initialize Tooltips
             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
