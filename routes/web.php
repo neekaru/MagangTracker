@@ -19,28 +19,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
-
-Route::post('/login', function (Request $request) {
-    // Dummy login logic for prototype
-    $email = $request->input('email');
-    if (str_contains($email, 'admin')) {
-        // Simulate Admin Login
-        // In real app: Auth::login($user);
-        return redirect('/admin');
-    } elseif (str_contains($email, 'dosen') || str_contains($email, 'pembimbing')) {
-        return redirect('/pembimbing');
-    } else {
-        return redirect('/mahasiswa');
-    }
-});
-
-Route::post('/logout', function () {
-    // Auth::logout();
-    return redirect('/');
-})->name('logout');
+// Authentication Routes
+Route::get('/login', [App\Http\Controllers\AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [App\Http\Controllers\AuthController::class, 'login']);
+Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 
 Route::get('/register-magang', function () {
     return view('auth.register-magang');
@@ -55,7 +37,7 @@ Route::get('/forgot-password', function () {
 });
 
 // Admin Routes
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware('role:Admin')->group(function () {
     Route::get('/', function () {
         return view('admin.dashboard');
     });
@@ -145,7 +127,7 @@ Route::prefix('admin')->group(function () {
 });
 
 // Pembimbing Routes
-Route::prefix('pembimbing')->group(function () {
+Route::prefix('pembimbing')->middleware('role:Pembimbing')->group(function () {
     Route::get('/', function () {
         $peserta_count = 8;
         $logbook_pending = 12;
@@ -180,7 +162,7 @@ Route::prefix('pembimbing')->group(function () {
 });
 
 // Mahasiswa Routes
-Route::prefix('mahasiswa')->group(function () {
+Route::prefix('mahasiswa')->middleware('role:Mahasiswa')->group(function () {
     Route::get('/', function () {
         $status_magang = 'Aktif';
         $unit_penempatan = 'IT Support';
