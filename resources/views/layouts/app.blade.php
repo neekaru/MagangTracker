@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,12 +18,14 @@
             flex-direction: column;
             background-color: #f8f9fa;
         }
+
         .wrapper {
             display: flex;
             width: 100%;
             align-items: stretch;
             flex: 1;
         }
+
         #sidebar {
             min-width: 250px;
             max-width: 250px;
@@ -30,6 +33,7 @@
             color: #fff;
             transition: all 0.3s;
         }
+
         @media (max-width: 768px) {
             #sidebar {
                 position: fixed;
@@ -37,21 +41,26 @@
                 z-index: 1050;
             }
         }
+
         #sidebar.active {
             margin-left: -250px;
         }
+
         #sidebar .sidebar-header {
             padding: 20px;
             background: #343a40;
         }
+
         #sidebar ul.components {
             padding: 20px 0;
             border-bottom: 1px solid #4b545c;
         }
+
         #sidebar ul p {
             color: #fff;
             padding: 10px;
         }
+
         #sidebar ul li a {
             padding: 10px;
             font-size: 1.1em;
@@ -59,20 +68,24 @@
             color: #fff;
             text-decoration: none;
         }
+
         #sidebar ul li a:hover {
             color: #343a40;
             background: #fff;
         }
-        #sidebar ul li.active > a {
+
+        #sidebar ul li.active>a {
             color: #fff;
             background: #0d6efd;
         }
+
         #content {
             width: 100%;
             padding: 20px;
             min-height: 100vh;
             transition: all 0.3s;
         }
+
         .navbar {
             padding: 15px 10px;
             background: #fff;
@@ -81,13 +94,16 @@
             margin-bottom: 40px;
             box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
         }
+
         @media (max-width: 768px) {
             #sidebar {
                 margin-left: -250px;
             }
+
             #sidebar.active {
                 margin-left: 0;
             }
+
             #sidebarCollapse span {
                 display: none;
             }
@@ -95,102 +111,113 @@
     </style>
     @stack('styles')
 </head>
+
 <body>
 
     <div class="wrapper">
         <!-- Sidebar -->
-        @if(Auth::check() || request()->is('admin*') || request()->is('pembimbing*') || request()->is('mahasiswa*'))
-        <nav id="sidebar">
-            <div class="sidebar-header">
-                {{-- Add logo  --}}
-                <img src="{{ asset('images/logo.png') }}" alt="MagangTracking Logo" class="img-fluid mb-2">
-                <h3>MagangTracking</h3>
-            </div>
+        @if (Auth::check() || request()->is('admin*') || request()->is('pembimbing*') || request()->is('mahasiswa*'))
+            <nav id="sidebar">
+                <div class="sidebar-header">
+                    {{-- Add logo  --}}
+                    <img src="{{ asset('images/logo.png') }}" alt="MagangTracking Logo" class="img-fluid mb-2">
+                    <h3>MagangTracking</h3>
+                </div>
 
-            <ul class="list-unstyled components">
-                {{-- <p>Role: {{ Auth::user()->role ?? (request()->is('admin*') ? 'Admin' : (request()->is('pembimbing*') ? 'Pembimbing' : 'Mahasiswa')) }}</p> --}}
-                
-                @if(request()->is('admin*'))
-                    <li class="{{ request()->is('admin') ? 'active' : '' }}">
-                        <a href="{{ url('/admin') }}"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a>
-                    </li>
-                    <li class="{{ request()->is('admin/users*') ? 'active' : '' }}">
-                        <a href="{{ url('/admin/users') }}"><i class="fas fa-users me-2"></i> Users</a>
-                    </li>
-                    <li class="{{ request()->is('admin/magang*') ? 'active' : '' }}">
-                        <a href="{{ url('/admin/magang') }}"><i class="fas fa-user-graduate me-2"></i> Data Magang</a>
-                    </li>
-                    <li class="{{ request()->is('admin/periode-magang*') ? 'active' : '' }}">
-                        <a href="{{ url('/admin/periode-magang') }}"><i class="fas fa-calendar-alt me-2"></i> Periode</a>
-                    </li>
-                    <li class="{{ request()->is('admin/logbook*') ? 'active' : '' }}">
-                        <a href="{{ url('/admin/logbook') }}"><i class="fas fa-book me-2"></i> Logbook</a>
-                    </li>
-                    <li class="{{ request()->is('admin/absensi*') ? 'active' : '' }}">
-                        <a href="{{ url('/admin/absensi') }}"><i class="fas fa-clock me-2"></i> Absensi</a>
-                    </li>
-                    <li class="{{ request()->is('admin/penilaian*') ? 'active' : '' }}">
-                        <a href="{{ url('/admin/penilaian') }}"><i class="fas fa-star me-2"></i> Penilaian</a>
-                    </li>
-                    <li class="{{ request()->is('admin/laporan*') ? 'active' : '' }}">
-                        <a href="{{ url('/admin/laporan') }}"><i class="fas fa-file-alt me-2"></i> Laporan</a>
-                    </li>
-                @elseif(request()->is('pembimbing*'))
-                    <li class="{{ request()->is('pembimbing') ? 'active' : '' }}">
-                        <a href="{{ url('/pembimbing') }}"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a>
-                    </li>
-                    <li class="{{ request()->is('pembimbing/peserta*') ? 'active' : '' }}">
-                        <a href="{{ url('/pembimbing/peserta') }}"><i class="fas fa-users me-2"></i> Peserta Bimbingan</a>
-                    </li>
-                    <li class="{{ request()->is('pembimbing/penilaian*') ? 'active' : '' }}">
-                        <a href="{{ url('/pembimbing/penilaian') }}"><i class="fas fa-star me-2"></i> Penilaian</a>
-                    </li>
-                    <li class="{{ request()->is('pembimbing/laporan*') ? 'active' : '' }}">
-                        <a href="{{ url('/pembimbing/laporan') }}"><i class="fas fa-file-alt me-2"></i> Laporan</a>
-                    </li>
-                @elseif(request()->is('mahasiswa*'))
-                    <li class="{{ request()->is('mahasiswa') ? 'active' : '' }}">
-                        <a href="{{ url('/mahasiswa') }}"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a>
-                    </li>
-                    <li class="{{ request()->is('mahasiswa/profil*') ? 'active' : '' }}">
-                        <a href="{{ url('/mahasiswa/profil') }}"><i class="fas fa-user me-2"></i> Profil</a>
-                    </li>
-                    <li class="{{ request()->is('mahasiswa/magang*') ? 'active' : '' }}">
-                        <a href="{{ url('/mahasiswa/magang') }}"><i class="fas fa-info-circle me-2"></i> Info Magang</a>
-                    </li>
-                    <li class="{{ request()->is('mahasiswa/logbook*') ? 'active' : '' }}">
-                        <a href="{{ url('/mahasiswa/logbook') }}"><i class="fas fa-book me-2"></i> Logbook</a>
-                    </li>
-                    <li class="{{ request()->is('mahasiswa/absensi*') ? 'active' : '' }}">
-                        <a href="{{ url('/mahasiswa/absensi') }}"><i class="fas fa-clock me-2"></i> Absensi</a>
-                    </li>
-                    <li class="{{ request()->is('mahasiswa/nilai*') ? 'active' : '' }}">
-                        <a href="{{ url('/mahasiswa/nilai') }}"><i class="fas fa-star me-2"></i> Nilai</a>
-                    </li>
-                @endif
-            </ul>
-        </nav>
+                <ul class="list-unstyled components">
+                    {{-- <p>Role: {{ Auth::user()->role ?? (request()->is('admin*') ? 'Admin' : (request()->is('pembimbing*') ? 'Pembimbing' : 'Mahasiswa')) }}</p> --}}
+
+                    @if (request()->is('admin*'))
+                        <li class="{{ request()->is('admin') ? 'active' : '' }}">
+                            <a href="{{ url('/admin') }}"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a>
+                        </li>
+                        <li class="{{ request()->is('admin/users*') ? 'active' : '' }}">
+                            <a href="{{ url('/admin/users') }}"><i class="fas fa-users me-2"></i> Users</a>
+                        </li>
+                        <li class="{{ request()->is('admin/magang*') ? 'active' : '' }}">
+                            <a href="{{ url('/admin/magang') }}"><i class="fas fa-user-graduate me-2"></i> Data
+                                Magang</a>
+                        </li>
+                        <li class="{{ request()->is('admin/periode-magang*') ? 'active' : '' }}">
+                            <a href="{{ url('/admin/periode-magang') }}"><i class="fas fa-calendar-alt me-2"></i>
+                                Periode</a>
+                        </li>
+                        <li class="{{ request()->is('admin/unit-bisnis*') ? 'active' : '' }}">
+                            <a href="{{ url('/admin/unit-bisnis') }}"><i class="fas fa-building me-2"></i> Unit
+                                Bisnis</a>
+                        </li>
+                        <li class="{{ request()->is('admin/logbook*') ? 'active' : '' }}">
+                            <a href="{{ url('/admin/logbook') }}"><i class="fas fa-book me-2"></i> Logbook</a>
+                        </li>
+                        <li class="{{ request()->is('admin/absensi*') ? 'active' : '' }}">
+                            <a href="{{ url('/admin/absensi') }}"><i class="fas fa-clock me-2"></i> Absensi</a>
+                        </li>
+                        <li class="{{ request()->is('admin/penilaian*') ? 'active' : '' }}">
+                            <a href="{{ url('/admin/penilaian') }}"><i class="fas fa-star me-2"></i> Penilaian</a>
+                        </li>
+                        <li class="{{ request()->is('admin/laporan*') ? 'active' : '' }}">
+                            <a href="{{ url('/admin/laporan') }}"><i class="fas fa-file-alt me-2"></i> Laporan</a>
+                        </li>
+                    @elseif(request()->is('pembimbing*'))
+                        <li class="{{ request()->is('pembimbing') ? 'active' : '' }}">
+                            <a href="{{ url('/pembimbing') }}"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a>
+                        </li>
+                        <li class="{{ request()->is('pembimbing/peserta*') ? 'active' : '' }}">
+                            <a href="{{ url('/pembimbing/peserta') }}"><i class="fas fa-users me-2"></i> Peserta
+                                Bimbingan</a>
+                        </li>
+                        <li class="{{ request()->is('pembimbing/penilaian*') ? 'active' : '' }}">
+                            <a href="{{ url('/pembimbing/penilaian') }}"><i class="fas fa-star me-2"></i> Penilaian</a>
+                        </li>
+                        <li class="{{ request()->is('pembimbing/laporan*') ? 'active' : '' }}">
+                            <a href="{{ url('/pembimbing/laporan') }}"><i class="fas fa-file-alt me-2"></i> Laporan</a>
+                        </li>
+                    @elseif(request()->is('mahasiswa*'))
+                        <li class="{{ request()->is('mahasiswa') ? 'active' : '' }}">
+                            <a href="{{ url('/mahasiswa') }}"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a>
+                        </li>
+                        <li class="{{ request()->is('mahasiswa/profil*') ? 'active' : '' }}">
+                            <a href="{{ url('/mahasiswa/profil') }}"><i class="fas fa-user me-2"></i> Profil</a>
+                        </li>
+                        <li class="{{ request()->is('mahasiswa/magang*') ? 'active' : '' }}">
+                            <a href="{{ url('/mahasiswa/magang') }}"><i class="fas fa-info-circle me-2"></i> Info
+                                Magang</a>
+                        </li>
+                        <li class="{{ request()->is('mahasiswa/logbook*') ? 'active' : '' }}">
+                            <a href="{{ url('/mahasiswa/logbook') }}"><i class="fas fa-book me-2"></i> Logbook</a>
+                        </li>
+                        <li class="{{ request()->is('mahasiswa/absensi*') ? 'active' : '' }}">
+                            <a href="{{ url('/mahasiswa/absensi') }}"><i class="fas fa-clock me-2"></i> Absensi</a>
+                        </li>
+                        <li class="{{ request()->is('mahasiswa/nilai*') ? 'active' : '' }}">
+                            <a href="{{ url('/mahasiswa/nilai') }}"><i class="fas fa-star me-2"></i> Nilai</a>
+                        </li>
+                    @endif
+                </ul>
+            </nav>
         @endif
 
         <!-- Page Content -->
         <div id="content">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
-                    @if(Auth::check() || request()->is('admin*') || request()->is('pembimbing*') || request()->is('mahasiswa*'))
-                    <button type="button" id="sidebarCollapse" class="btn btn-info text-white">
-                        <i class="fas fa-align-left"></i>
-                    </button>
+                    @if (Auth::check() || request()->is('admin*') || request()->is('pembimbing*') || request()->is('mahasiswa*'))
+                        <button type="button" id="sidebarCollapse" class="btn btn-info text-white">
+                            <i class="fas fa-align-left"></i>
+                        </button>
                     @endif
-                    
+
                     <a class="navbar-brand ms-3" href="{{ url('/') }}">MagangTracking</a>
 
-                    <button class="btn btn-dark d-inline-block d-lg-none ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="btn btn-dark d-inline-block d-lg-none ms-auto" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <i class="fas fa-align-justify"></i>
                     </button>
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ms-auto">
-                            @if(!Auth::check() && !request()->is('admin*') && !request()->is('pembimbing*') && !request()->is('mahasiswa*'))
+                            @if (!Auth::check() && !request()->is('admin*') && !request()->is('pembimbing*') && !request()->is('mahasiswa*'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ url('/login') }}">Login</a>
                                 </li>
@@ -199,16 +226,21 @@
                                 </li>
                             @else
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+                                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         {{ Auth::user()->name ?? 'User Demo' }}
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profile</a></li>
-                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" href="#"><i
+                                                    class="fas fa-user me-2"></i>Profile</a></li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
                                         <li>
                                             <form action="{{ url('/logout') }}" method="POST">
                                                 @csrf
-                                                <button type="submit" class="dropdown-item"><i class="fas fa-sign-out-alt me-2"></i>Logout</button>
+                                                <button type="submit" class="dropdown-item"><i
+                                                        class="fas fa-sign-out-alt me-2"></i>Logout</button>
                                             </form>
                                         </li>
                                     </ul>
@@ -237,31 +269,33 @@
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function(){
+        document.addEventListener("DOMContentLoaded", function() {
             const sidebar = document.getElementById('sidebar');
             const sidebarCollapse = document.getElementById('sidebarCollapse');
-            if(sidebarCollapse){
-                sidebarCollapse.addEventListener('click', function () {
+            if (sidebarCollapse) {
+                sidebarCollapse.addEventListener('click', function() {
                     sidebar.classList.toggle('active');
                 });
             }
-            
+
             // Close sidebar when clicking outside on mobile
             document.addEventListener('click', function(event) {
                 if (window.innerWidth <= 768) {
-                    if (!sidebar.contains(event.target) && !sidebarCollapse.contains(event.target) && sidebar.classList.contains('active')) {
+                    if (!sidebar.contains(event.target) && !sidebarCollapse.contains(event.target) &&
+                        sidebar.classList.contains('active')) {
                         sidebar.classList.remove('active');
                     }
                 }
             });
-            
+
             // Initialize Tooltips
             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
                 return new bootstrap.Tooltip(tooltipTriggerEl)
             })
         });
     </script>
     @stack('scripts')
 </body>
+
 </html>

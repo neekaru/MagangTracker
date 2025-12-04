@@ -62,6 +62,9 @@ Route::prefix('admin')->middleware('role:Admin')->group(function () {
     // Periode Magang
     Route::resource('periode-magang', App\Http\Controllers\Admin\PeriodeMagangController::class);
 
+    // Unit Bisnis
+    Route::resource('unit-bisnis', App\Http\Controllers\Admin\UnitBisnisController::class);
+
     // Monitoring
     Route::get('/logbook', function () {
         return view('admin.logbook.index');
