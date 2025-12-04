@@ -18,9 +18,11 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
         'email',
         'password',
+        'id_mahasiswa',
+        'id_dosen',
+        'role',
     ];
 
     /**
@@ -41,8 +43,23 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get the mahasiswa associated with the user.
+     */
+    public function mahasiswa()
+    {
+        return $this->belongsTo(Mahasiswa::class, 'id_mahasiswa');
+    }
+
+    /**
+     * Get the dosen associated with the user.
+     */
+    public function dosen()
+    {
+        return $this->belongsTo(Dosen::class, 'id_dosen');
     }
 }
