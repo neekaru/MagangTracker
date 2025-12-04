@@ -3,50 +3,89 @@
 @section('title', 'Edit Periode Magang')
 
 @section('content')
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Edit Periode Magang</h1>
-    <div class="btn-toolbar mb-2 mb-md-0">
-        <a href="{{ url('/admin/periode-magang') }}" class="btn btn-sm btn-secondary">
-            <i class="fas fa-arrow-left"></i> Kembali
-        </a>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Edit Periode Magang</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <a href="{{ route('periode-magang.index') }}" class="btn btn-sm btn-secondary">
+                <i class="fas fa-arrow-left"></i> Kembali
+            </a>
+        </div>
     </div>
-</div>
 
-<div class="row">
-    <div class="col-md-8">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <form action="{{ url('/admin/periode-magang/1') }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <div class="mb-3">
-                        <label for="nama" class="form-label">Nama Periode</label>
-                        <input type="text" class="form-control" id="nama" name="nama" value="Semester Ganjil 2025/2026" required>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="tgl_mulai" class="form-label">Tanggal Mulai</label>
-                            <input type="date" class="form-control" id="tgl_mulai" name="tgl_mulai" value="2025-09-01" required>
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form action="{{ route('periode-magang.update', $periode->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="mb-3">
+                            <label for="nama_periode" class="form-label">Nama Periode <span
+                                    class="text-danger">*</span></label>
+                            <input type="text" class="form-control @error('nama_periode') is-invalid @enderror"
+                                id="nama_periode" name="nama_periode"
+                                value="{{ old('nama_periode', $periode->nama_periode) }}"
+                                placeholder="Contoh: Semester Ganjil 2025/2026" required>
+                            @error('nama_periode')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
-                        <div class="col-md-6">
-                            <label for="tgl_selesai" class="form-label">Tanggal Selesai</label>
-                            <input type="date" class="form-control" id="tgl_selesai" name="tgl_selesai" value="2026-01-31" required>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="tanggal_mulai" class="form-label">Tanggal Mulai <span
+                                        class="text-danger">*</span></label>
+                                <input type="date" class="form-control @error('tanggal_mulai') is-invalid @enderror"
+                                    id="tanggal_mulai" name="tanggal_mulai"
+                                    value="{{ old('tanggal_mulai', $periode->tanggal_mulai->format('Y-m-d')) }}" required>
+                                @error('tanggal_mulai')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label for="tanggal_selesai" class="form-label">Tanggal Selesai <span
+                                        class="text-danger">*</span></label>
+                                <input type="date" class="form-control @error('tanggal_selesai') is-invalid @enderror"
+                                    id="tanggal_selesai" name="tanggal_selesai"
+                                    value="{{ old('tanggal_selesai', $periode->tanggal_selesai->format('Y-m-d')) }}"
+                                    required>
+                                @error('tanggal_selesai')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="status" class="form-label">Status</label>
-                        <select class="form-select" id="status" name="status">
-                            <option value="aktif" selected>Aktif</option>
-                            <option value="nonaktif">Nonaktif</option>
-                        </select>
-                    </div>
-                    
-                    <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                    </div>
-                </form>
+                        <div class="mb-3">
+                            <label for="status_magang" class="form-label">Status <span class="text-danger">*</span></label>
+                            <select class="form-select @error('status_magang') is-invalid @enderror" id="status_magang"
+                                name="status_magang" required>
+                                <option value="Aktif"
+                                    {{ old('status_magang', $periode->status_magang) == 'Aktif' ? 'selected' : '' }}>Aktif
+                                </option>
+                                <option value="Nonaktif"
+                                    {{ old('status_magang', $periode->status_magang) == 'Nonaktif' ? 'selected' : '' }}>
+                                    Nonaktif</option>
+                            </select>
+                            @error('status_magang')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <a href="{{ route('periode-magang.index') }}" class="btn btn-secondary">Batal</a>
+                            <button type="submit" class="btn btn-primary">Update Periode</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 @endsection

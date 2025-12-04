@@ -60,21 +60,7 @@ Route::prefix('admin')->middleware('role:Admin')->group(function () {
     });
 
     // Periode Magang
-    Route::get('/periode-magang', function () {
-        return view('admin.periode.index');
-    });
-    Route::get('/periode-magang/create', function () {
-        return view('admin.periode.create');
-    });
-    Route::post('/periode-magang', function () {
-        return redirect('/admin/periode-magang')->with('success', 'Periode berhasil ditambahkan');
-    });
-    Route::get('/periode-magang/{id}/edit', function () {
-        return view('admin.periode.edit');
-    });
-    Route::put('/periode-magang/{id}', function () {
-        return redirect('/admin/periode-magang')->with('success', 'Periode berhasil diupdate');
-    });
+    Route::resource('periode-magang', App\Http\Controllers\Admin\PeriodeMagangController::class);
 
     // Monitoring
     Route::get('/logbook', function () {
