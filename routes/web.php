@@ -57,62 +57,91 @@ Route::get('/forgot-password', function () {
 // Admin Routes
 Route::prefix('admin')->group(function () {
     Route::get('/', function () {
-        $announcements = [
-            [
-                'title' => 'Jadwal Libur Idul Fitri',
-                'date' => '01 Des 2025',
-                'content' => 'Diberitahukan kepada seluruh peserta magang dan pembimbing bahwa kegiatan magang diliburkan mulai tanggal 25 Desember 2025 sampai 1 Januari 2026.'
-            ],
-            [
-                'title' => 'Batas Akhir Pengumpulan Laporan',
-                'date' => '28 Nov 2025',
-                'content' => 'Laporan akhir magang wajib dikumpulkan paling lambat tanggal 10 Januari 2026.'
-            ]
-        ];
-        return view('admin.dashboard', compact('announcements'));
+        return view('admin.dashboard');
     });
-    
+
     // Users Management
-    Route::get('/users', function () { return view('admin.users.index'); });
-    Route::get('/users/create', function () { return view('admin.users.create'); });
-    Route::post('/users', function () { return redirect('/admin/users')->with('success', 'User berhasil ditambahkan'); });
-    Route::get('/users/{id}', function () { return view('admin.users.show'); });
-    Route::get('/users/{id}/edit', function () { return view('admin.users.edit'); });
-    Route::put('/users/{id}', function () { return redirect('/admin/users')->with('success', 'User berhasil diupdate'); });
-    
+    Route::get('/users', function () {
+        return view('admin.users.index');
+    });
+    Route::get('/users/create', function () {
+        return view('admin.users.create');
+    });
+    Route::post('/users', function () {
+        return redirect('/admin/users')->with('success', 'User berhasil ditambahkan');
+    });
+    Route::get('/users/{id}', function () {
+        return view('admin.users.show');
+    });
+    Route::get('/users/{id}/edit', function () {
+        return view('admin.users.edit');
+    });
+    Route::put('/users/{id}', function () {
+        return redirect('/admin/users')->with('success', 'User berhasil diupdate');
+    });
+
     // Magang Management
-    Route::get('/magang', function () { return view('admin.magang.index'); });
-    Route::get('/magang/{id}', function () { return view('admin.magang.show'); });
-    Route::get('/magang/{id}/edit', function () { return view('admin.magang.edit'); });
-    Route::put('/magang/{id}', function () { return redirect('/admin/magang')->with('success', 'Data magang berhasil diupdate'); });
-    
+    Route::get('/magang', function () {
+        return view('admin.magang.index');
+    });
+    Route::get('/magang/{id}', function () {
+        return view('admin.magang.show');
+    });
+    Route::get('/magang/{id}/edit', function () {
+        return view('admin.magang.edit');
+    });
+    Route::put('/magang/{id}', function () {
+        return redirect('/admin/magang')->with('success', 'Data magang berhasil diupdate');
+    });
+
     // Periode Magang
-    Route::get('/periode-magang', function () { return view('admin.periode.index'); });
-    Route::get('/periode-magang/create', function () { return view('admin.periode.create'); });
-    Route::post('/periode-magang', function () { return redirect('/admin/periode-magang')->with('success', 'Periode berhasil ditambahkan'); });
-    Route::get('/periode-magang/{id}/edit', function () { return view('admin.periode.edit'); });
-    Route::put('/periode-magang/{id}', function () { return redirect('/admin/periode-magang')->with('success', 'Periode berhasil diupdate'); });
+    Route::get('/periode-magang', function () {
+        return view('admin.periode.index');
+    });
+    Route::get('/periode-magang/create', function () {
+        return view('admin.periode.create');
+    });
+    Route::post('/periode-magang', function () {
+        return redirect('/admin/periode-magang')->with('success', 'Periode berhasil ditambahkan');
+    });
+    Route::get('/periode-magang/{id}/edit', function () {
+        return view('admin.periode.edit');
+    });
+    Route::put('/periode-magang/{id}', function () {
+        return redirect('/admin/periode-magang')->with('success', 'Periode berhasil diupdate');
+    });
 
     // Monitoring
-    Route::get('/logbook', function () { return view('admin.logbook.index'); });
-    Route::get('/logbook/{id}', function () { return view('admin.logbook.show'); });
-    
-    Route::get('/absensi', function () { return view('admin.absensi.index'); });
-    Route::get('/absensi/{id}', function () { return view('admin.absensi.show'); });
+    Route::get('/logbook', function () {
+        return view('admin.logbook.index');
+    });
+    Route::get('/logbook/{id}', function () {
+        return view('admin.logbook.show');
+    });
+
+    Route::get('/absensi', function () {
+        return view('admin.absensi.index');
+    });
+    Route::get('/absensi/{id}', function () {
+        return view('admin.absensi.show');
+    });
 
     // Penilaian & Laporan
-    Route::get('/penilaian', function () { return view('admin.penilaian.index'); });
-    Route::get('/penilaian/{id}', function () { return view('admin.penilaian.show'); });
-    Route::get('/penilaian/{id}/edit', function () { return view('admin.penilaian.edit'); });
-    Route::put('/penilaian/{id}', function () { return redirect('/admin/penilaian')->with('success', 'Penilaian berhasil diupdate'); });
-    Route::get('/laporan', function () { return view('admin.laporan.index'); });
-
-    // Pengumuman
-    Route::get('/announcements', function () { return view('admin.announcements.index'); });
-    Route::get('/announcements/create', function () { return view('admin.announcements.create'); });
-    Route::post('/announcements', function () { return redirect('/admin/announcements')->with('success', 'Pengumuman berhasil dibuat'); });
-    Route::get('/announcements/{id}/edit', function () { return view('admin.announcements.edit'); });
-    Route::put('/announcements/{id}', function () { return redirect('/admin/announcements')->with('success', 'Pengumuman berhasil diupdate'); });
+    Route::get('/penilaian', function () {
+        return view('admin.penilaian.index');
+    });
+    Route::get('/penilaian/{id}', function () {
+        return view('admin.penilaian.show');
+    });
+    Route::get('/penilaian/{id}/edit', function () {
+        return view('admin.penilaian.edit');
+    });
+    Route::put('/penilaian/{id}', function () {
+        return redirect('/admin/penilaian')->with('success', 'Penilaian berhasil diupdate');
+    });
+    Route::get('/laporan', function () {
+        return view('admin.laporan.index');
+    });
 });
 
 // Pembimbing Routes
@@ -122,27 +151,32 @@ Route::prefix('pembimbing')->group(function () {
         $logbook_pending = 12;
         $absensi_hadir = 8;
         $absensi_total = 8;
-        $announcements = [
-            [
-                'title' => 'Jadwal Libur Idul Fitri',
-                'date' => '01 Des 2025',
-                'content' => 'Diberitahukan kepada seluruh peserta magang dan pembimbing bahwa kegiatan magang diliburkan mulai tanggal 25 Desember 2025 sampai 1 Januari 2026.'
-            ]
-        ];
-        return view('pembimbing.dashboard', compact('peserta_count', 'logbook_pending', 'absensi_hadir', 'absensi_total', 'announcements'));
+        return view('pembimbing.dashboard', compact('peserta_count', 'logbook_pending', 'absensi_hadir', 'absensi_total'));
     });
 
     // Peserta Bimbingan
-    Route::get('/peserta', function () { return view('pembimbing.peserta.index'); });
-    Route::get('/peserta/{id}', function () { return view('pembimbing.peserta.show'); });
+    Route::get('/peserta', function () {
+        return view('pembimbing.peserta.index');
+    });
+    Route::get('/peserta/{id}', function () {
+        return view('pembimbing.peserta.show');
+    });
 
     // Penilaian
-    Route::get('/penilaian', function () { return view('pembimbing.penilaian.index'); });
-    Route::get('/penilaian/{id}', function () { return view('pembimbing.penilaian.edit'); });
-    Route::post('/penilaian', function () { return redirect('/pembimbing/penilaian')->with('success', 'Penilaian berhasil disimpan'); });
+    Route::get('/penilaian', function () {
+        return view('pembimbing.penilaian.index');
+    });
+    Route::get('/penilaian/{id}', function () {
+        return view('pembimbing.penilaian.edit');
+    });
+    Route::post('/penilaian', function () {
+        return redirect('/pembimbing/penilaian')->with('success', 'Penilaian berhasil disimpan');
+    });
 
     // Laporan
-    Route::get('/laporan', function () { return view('pembimbing.laporan.index'); });
+    Route::get('/laporan', function () {
+        return view('pembimbing.laporan.index');
+    });
 });
 
 // Mahasiswa Routes
@@ -155,57 +189,65 @@ Route::prefix('mahasiswa')->group(function () {
         $kehadiran_max = 20;
         $logbook_minggu_ini = 4;
         $logbook_target = 5;
-        $announcements = [
-            [
-                'title' => 'Jadwal Libur Idul Fitri',
-                'date' => '01 Des 2025',
-                'content' => 'Diberitahukan kepada seluruh peserta magang dan pembimbing bahwa kegiatan magang diliburkan mulai tanggal 25 Desember 2025 sampai 1 Januari 2026.'
-            ],
-            [
-                'title' => 'Batas Akhir Pengumpulan Laporan',
-                'date' => '28 Nov 2025',
-                'content' => 'Laporan akhir magang wajib dikumpulkan paling lambat tanggal 10 Januari 2026.'
-            ]
-        ];
-
         return view('mahasiswa.dashboard', compact(
-            'status_magang', 
-            'unit_penempatan', 
-            'kehadiran_persen', 
-            'kehadiran_total', 
-            'kehadiran_max', 
-            'logbook_minggu_ini', 
-            'logbook_target',
-            'announcements'
+            'status_magang',
+            'unit_penempatan',
+            'kehadiran_persen',
+            'kehadiran_total',
+            'kehadiran_max',
+            'logbook_minggu_ini',
+            'logbook_target'
         ));
     });
 
     // Logbook
-    Route::get('/logbook', function () { return view('mahasiswa.logbook.index'); });
-    Route::get('/logbook/create', function () { return view('mahasiswa.logbook.create'); });
-    Route::post('/logbook', function () { return redirect('/mahasiswa/logbook')->with('success', 'Logbook berhasil disimpan'); });
-    Route::get('/logbook/{id}/edit', function () { return view('mahasiswa.logbook.edit'); });
-    Route::put('/logbook/{id}', function () { return redirect('/mahasiswa/logbook')->with('success', 'Logbook berhasil diperbarui'); });
+    Route::get('/logbook', function () {
+        return view('mahasiswa.logbook.index');
+    });
+    Route::get('/logbook/create', function () {
+        return view('mahasiswa.logbook.create');
+    });
+    Route::post('/logbook', function () {
+        return redirect('/mahasiswa/logbook')->with('success', 'Logbook berhasil disimpan');
+    });
+    Route::get('/logbook/{id}/edit', function () {
+        return view('mahasiswa.logbook.edit');
+    });
+    Route::put('/logbook/{id}', function () {
+        return redirect('/mahasiswa/logbook')->with('success', 'Logbook berhasil diperbarui');
+    });
 
     // Absensi
-    Route::get('/absensi', function () { return view('mahasiswa.absensi.index'); });
-    Route::get('/absensi/create', function () { return view('mahasiswa.absensi.create'); });
-    Route::post('/absensi', function () { return redirect('/mahasiswa/absensi')->with('success', 'Absensi berhasil dikirim'); });
+    Route::get('/absensi', function () {
+        return view('mahasiswa.absensi.index');
+    });
+    Route::get('/absensi/create', function () {
+        return view('mahasiswa.absensi.create');
+    });
+    Route::post('/absensi', function () {
+        return redirect('/mahasiswa/absensi')->with('success', 'Absensi berhasil dikirim');
+    });
 
     // Profil
-    Route::get('/profil', function () { return view('mahasiswa.profil.index'); });
-    Route::put('/profil', function () { return redirect('/mahasiswa/profil')->with('success', 'Profil berhasil diperbarui'); });
+    Route::get('/profil', function () {
+        return view('mahasiswa.profil.index');
+    });
+    Route::put('/profil', function () {
+        return redirect('/mahasiswa/profil')->with('success', 'Profil berhasil diperbarui');
+    });
 
     // Info Magang
-    Route::get('/magang', function () { 
+    Route::get('/magang', function () {
         $deskripsi_tugas = "Sebagai peserta magang di unit IT Support, tugas utama Anda meliputi:\n- Membantu maintenance perangkat keras dan lunak kantor.\n- Melakukan troubleshooting jaringan dasar.\n- Membantu instalasi dan konfigurasi software.\n- Mendokumentasikan kegiatan perbaikan dan maintenance.";
         $pembimbing_lapangan = "Pak Joko (IT Manager)";
         $tgl_mulai = "01 Jan 2025";
         $tgl_selesai = "30 Jun 2025";
         $target_logbook = 5; // Data dari database
-        return view('mahasiswa.magang.index', compact('deskripsi_tugas', 'pembimbing_lapangan', 'tgl_mulai', 'tgl_selesai', 'target_logbook')); 
+        return view('mahasiswa.magang.index', compact('deskripsi_tugas', 'pembimbing_lapangan', 'tgl_mulai', 'tgl_selesai', 'target_logbook'));
     });
 
     // Nilai
-    Route::get('/nilai', function () { return view('mahasiswa.nilai.index'); });
+    Route::get('/nilai', function () {
+        return view('mahasiswa.nilai.index');
+    });
 });
