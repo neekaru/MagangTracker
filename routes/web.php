@@ -43,24 +43,7 @@ Route::prefix('admin')->middleware('role:Admin')->group(function () {
     });
 
     // Users Management
-    Route::get('/users', function () {
-        return view('admin.users.index');
-    });
-    Route::get('/users/create', function () {
-        return view('admin.users.create');
-    });
-    Route::post('/users', function () {
-        return redirect('/admin/users')->with('success', 'User berhasil ditambahkan');
-    });
-    Route::get('/users/{id}', function () {
-        return view('admin.users.show');
-    });
-    Route::get('/users/{id}/edit', function () {
-        return view('admin.users.edit');
-    });
-    Route::put('/users/{id}', function () {
-        return redirect('/admin/users')->with('success', 'User berhasil diupdate');
-    });
+    Route::resource('users', App\Http\Controllers\Admin\UserController::class);
 
     // Magang Management
     Route::get('/magang', function () {
