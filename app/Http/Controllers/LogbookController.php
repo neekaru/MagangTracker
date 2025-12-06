@@ -55,6 +55,20 @@ class LogbookController extends Controller
         return redirect()->route('logbook.index')->with('success', 'Logbook created successfully.');
     }
 
+    public function show(Logbook $logbook)
+    {
+        $user = Auth::user();
+        if ($user->role === 'Mahasiswa') {
+            // Ensure logbook belongs to user's magang
+            if (!$logbook->magang || $logbook->magang->id_mahasiswa !== $user->mahasiswa->id) {
+                abort(403);
+            }
+            return view('mahasiswa.logbook.show', compact('logbook'));
+        } elseif ($user->role === 'Admin') {
+            return view('admin.logbook.show', compact('logbook'));
+        }
+    }
+
     public function edit(Logbook $logbook)
     {
         $user = Auth::user();

@@ -55,12 +55,7 @@ Route::prefix('admin')->middleware('role:Admin')->group(function () {
     Route::resource('unit-bisnis', App\Http\Controllers\Admin\UnitBisnisController::class);
 
     // Monitoring
-    Route::get('/logbook', function () {
-        return view('admin.logbook.index');
-    });
-    Route::get('/logbook/{id}', function () {
-        return view('admin.logbook.show');
-    });
+    Route::resource('logbook', App\Http\Controllers\LogbookController::class)->only(['index', 'show', 'edit', 'update', 'destroy']);
 
     // Absensi
     Route::resource('absensi', App\Http\Controllers\AbsensiController::class)->only(['index']);

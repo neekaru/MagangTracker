@@ -51,7 +51,7 @@
                     <tr>
                         <td>{{ \Carbon\Carbon::parse($logbook->tanggal_logbook)->format('d M Y') }}</td>
                         <td>{{ $logbook->magang->mahasiswa->nama_lengkap ?? 'N/A' }}</td>
-                        <td>{{ $logbook->magang->unit->nama_unit_bisnis ?? 'N/A' }}</td>
+                        <td>{{ $logbook->magang->unitBisnis->nama_unit_bisnis ?? 'N/A' }}</td>
                         <td>{{ Str::limit($logbook->deskripsi_kegiatan, 30) }}</td>
                         <td>
                             @if($logbook->status == 'pending')
@@ -63,11 +63,12 @@
                             @endif
                         </td>
                         <td>
-                            <a href="{{ route('logbook.edit', $logbook) }}" class="btn btn-sm btn-info text-white"><i class="fas fa-eye"></i></a>
+                            <a href="{{ route('logbook.show', $logbook) }}" class="btn btn-sm btn-info text-white" title="View"><i class="fas fa-eye"></i></a>
+                            <a href="{{ route('logbook.edit', $logbook) }}" class="btn btn-sm btn-warning" title="Edit"><i class="fas fa-edit"></i></a>
                             <form action="{{ route('logbook.destroy', $logbook) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger delete-btn"><i class="fas fa-trash"></i></button>
+                                <button type="submit" class="btn btn-sm btn-danger delete-btn" title="Delete"><i class="fas fa-trash"></i></button>
                             </form>
                         </td>
                     </tr>
