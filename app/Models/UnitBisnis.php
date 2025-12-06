@@ -18,6 +18,7 @@ class UnitBisnis extends Model
      */
     protected $fillable = [
         'nama_unit_bisnis',
+        'id_periode',
     ];
 
     /**
@@ -34,5 +35,13 @@ class UnitBisnis extends Model
     public function absen()
     {
         return $this->hasMany(Absen::class, 'id_unit_bisnis');
+    }
+
+    /**
+     * Get the periode that owns the unit bisnis.
+     */
+    public function periode()
+    {
+        return $this->belongsTo(PeriodeMagang::class, 'id_periode');
     }
 }

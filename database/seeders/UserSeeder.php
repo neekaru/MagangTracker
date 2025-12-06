@@ -54,17 +54,18 @@ class UserSeeder extends Seeder
         // Update user with mahasiswa id
         $mahasiswaUser->update(['id_mahasiswa' => $mahasiswa->id]);
 
-        // Create Unit Bisnis
-        $unitBisnis = \App\Models\UnitBisnis::create([
-            'nama_unit_bisnis' => 'IT Development',
-        ]);
-
         // Create Periode Magang
         $periodeMagang = \App\Models\PeriodeMagang::create([
             'nama_periode' => 'Periode Januari - Maret 2024',
             'tanggal_mulai' => now(),
             'tanggal_selesai' => now()->addMonths(3),
             'status_magang' => 'Aktif',
+        ]);
+
+        // Create Unit Bisnis
+        $unitBisnis = \App\Models\UnitBisnis::create([
+            'nama_unit_bisnis' => 'IT Development',
+            'id_periode' => $periodeMagang->id,
         ]);
 
         // Create Magang record for the student
