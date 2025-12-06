@@ -47,28 +47,31 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($logbooks as $logbook)
                     <tr>
-                        <td>01 Des 2025</td>
-                        <td>Siti Aminah</td>
-                        <td>IT Support</td>
-                        <td>Maintenance Server</td>
-                        <td><span class="badge bg-warning text-dark">Menunggu</span></td>
+                        <td>{{ \Carbon\Carbon::parse($logbook->tanggal_logbook)->format('d M Y') }}</td>
+                        <td>{{ $logbook->magang->mahasiswa->nama_lengkap ?? 'N/A' }}</td>
+                        <td>{{ $logbook->magang->unit->nama_unit_bisnis ?? 'N/A' }}</td>
+                        <td>{{ Str::limit($logbook->deskripsi_kegiatan, 30) }}</td>
                         <td>
-                            <a href="{{ url('/admin/logbook/1') }}" class="btn btn-sm btn-info text-white"><i class="fas fa-eye"></i></a>
-                            <button class="btn btn-sm btn-danger delete-btn"><i class="fas fa-trash"></i></button>
+                            @if($logbook->status == 'pending')
+                                <span class="badge bg-warning text-dark">Menunggu</span>
+                            @elseif($logbook->status == 'approved')
+                                <span class="badge bg-success">Disetujui</span>
+                            @else
+                                <span class="badge bg-danger">Ditolak</span>
+                            @endif
+                        </td>
+                        <td>
+                            <a href="{{ route('logbook.edit', $logbook) }}" class="btn btn-sm btn-info text-white"><i class="fas fa-eye"></i></a>
+                            <form action="{{ route('logbook.destroy', $logbook) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger delete-btn"><i class="fas fa-trash"></i></button>
+                            </form>
                         </td>
                     </tr>
-                    <tr>
-                        <td>01 Des 2025</td>
-                        <td>Rudi Hartono</td>
-                        <td>Keuangan</td>
-                        <td>Input Data Transaksi</td>
-                        <td><span class="badge bg-success">Disetujui</span></td>
-                        <td>
-                            <a href="{{ url('/admin/logbook/2') }}" class="btn btn-sm btn-info text-white"><i class="fas fa-eye"></i></a>
-                            <button class="btn btn-sm btn-danger delete-btn"><i class="fas fa-trash"></i></button>
-                        </td>
-                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

@@ -20,6 +20,7 @@ class Dosen extends Model
         'user_id',
         'nama_lengkap',
         'nip',
+        'status',
     ];
 
     /**

@@ -155,21 +155,7 @@ Route::prefix('mahasiswa')->middleware('role:Mahasiswa')->group(function () {
     });
 
     // Logbook
-    Route::get('/logbook', function () {
-        return view('mahasiswa.logbook.index');
-    });
-    Route::get('/logbook/create', function () {
-        return view('mahasiswa.logbook.create');
-    });
-    Route::post('/logbook', function () {
-        return redirect('/mahasiswa/logbook')->with('success', 'Logbook berhasil disimpan');
-    });
-    Route::get('/logbook/{id}/edit', function () {
-        return view('mahasiswa.logbook.edit');
-    });
-    Route::put('/logbook/{id}', function () {
-        return redirect('/mahasiswa/logbook')->with('success', 'Logbook berhasil diperbarui');
-    });
+    Route::resource('logbook', App\Http\Controllers\LogbookController::class)->only(['index', 'create', 'store', 'edit', 'update']);
 
     // Absensi
     Route::get('/absensi', function () {
@@ -204,4 +190,14 @@ Route::prefix('mahasiswa')->middleware('role:Mahasiswa')->group(function () {
     Route::get('/nilai', function () {
         return view('mahasiswa.nilai.index');
     });
+});
+
+// Admin Routes
+Route::prefix('admin')->middleware('role:Admin')->group(function () {
+    Route::resource('logbook', App\Http\Controllers\LogbookController::class)->only(['index', 'edit', 'update', 'destroy']);
+});
+
+Route::prefix('pembimbing')->middleware('role:Pembimbing')->group(function () {
+    Route::get('logbook', [App\Http\Controllers\LogbookController::class, 'pembimbingIndex'])->name('pembimbing.logbook.index');
+    Route::put('logbook/{logbook}', [App\Http\Controllers\LogbookController::class, 'update'])->name('pembimbing.logbook.update');
 });

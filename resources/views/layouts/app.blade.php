@@ -169,6 +169,9 @@
                         <li class="{{ request()->is('pembimbing/penilaian*') ? 'active' : '' }}">
                             <a href="{{ url('/pembimbing/penilaian') }}"><i class="fas fa-star me-2"></i> Penilaian</a>
                         </li>
+                        <li class="{{ request()->is('pembimbing/logbook*') ? 'active' : '' }}">
+                            <a href="{{ url('/pembimbing/logbook') }}"><i class="fas fa-book me-2"></i> Logbook</a>
+                        </li>
                         <li class="{{ request()->is('pembimbing/laporan*') ? 'active' : '' }}">
                             <a href="{{ url('/pembimbing/laporan') }}"><i class="fas fa-file-alt me-2"></i> Laporan</a>
                         </li>

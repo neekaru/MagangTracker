@@ -27,26 +27,30 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($logbooks as $logbook)
                     <tr>
-                        <td>01 Des 2025</td>
-                        <td>08:00 - 16:00</td>
-                        <td>Memperbaiki jaringan LAN di lantai 2.</td>
-                        <td>Koneksi stabil</td>
-                        <td><span class="badge bg-warning text-dark">Menunggu</span></td>
+                        <td>{{ \Carbon\Carbon::parse($logbook->tanggal_logbook)->format('d M Y') }}</td>
+                        <td>{{ $logbook->jam_mulai }} - {{ $logbook->jam_selesai }}</td>
+                        <td>{{ Str::limit($logbook->deskripsi_kegiatan, 50) }}</td>
+                        <td>{{ Str::limit($logbook->hasil_kegiatan, 30) }}</td>
                         <td>
-                            <a href="{{ url('/mahasiswa/logbook/1/edit') }}" class="btn btn-sm btn-secondary"><i class="fas fa-edit"></i></a>
+                            @if($logbook->status == 'pending')
+                                <span class="badge bg-warning text-dark">Menunggu</span>
+                            @elseif($logbook->status == 'approved')
+                                <span class="badge bg-success">Disetujui</span>
+                            @else
+                                <span class="badge bg-danger">Ditolak</span>
+                            @endif
+                        </td>
+                        <td>
+                            @if($logbook->status == 'pending')
+                                <a href="{{ route('logbook.edit', $logbook) }}" class="btn btn-sm btn-secondary"><i class="fas fa-edit"></i></a>
+                            @else
+                                <button class="btn btn-sm btn-secondary" disabled><i class="fas fa-edit"></i></button>
+                            @endif
                         </td>
                     </tr>
-                    <tr>
-                        <td>28 Nov 2025</td>
-                        <td>08:00 - 16:00</td>
-                        <td>Instalasi OS Windows pada PC baru.</td>
-                        <td>PC Siap pakai</td>
-                        <td><span class="badge bg-success">Disetujui</span></td>
-                        <td>
-                            <button class="btn btn-sm btn-secondary" disabled><i class="fas fa-edit"></i></button>
-                        </td>
-                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
