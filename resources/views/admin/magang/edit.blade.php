@@ -20,88 +20,127 @@
                     @csrf
                     @method('PUT')
                     
-                    <h5 class="mb-3">Informasi Peserta</h5>
-                    <div class="mb-3 row">
-                        <label class="col-sm-3 col-form-label">Nama Peserta</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control-plaintext" value="{{ $magang->mahasiswa->nama_lengkap ?? 'N/A' }}" readonly>
-                        </div>
+                    <div class="mb-3">
+                        <label for="id_mahasiswa" class="form-label">Mahasiswa <span class="text-danger">*</span></label>
+                        <input type="hidden" name="id_mahasiswa" value="{{ $magang->id_mahasiswa }}">
+                        <input type="text" class="form-control" value="{{ $magang->mahasiswa->nama_lengkap ?? 'N/A' }} ({{ $magang->mahasiswa->nisn ?? 'N/A' }})" readonly>
                     </div>
 
-                    <h5 class="mb-3 mt-4">Detail Penempatan</h5>
                     <div class="mb-3">
-                        <label for="unit_id" class="form-label">Unit Penempatan</label>
-                        <select class="form-select" id="unit_id" name="unit_id">
+                        <label for="unit_id" class="form-label">Unit Bisnis <span class="text-danger">*</span></label>
+                        <select class="form-control @error('unit_id') is-invalid @enderror" id="unit_id" name="unit_id" required onchange="toggleUnitLainnya(this.value)">
+                            <option value="">Pilih Unit</option>
                             @foreach($units as $unit)
-                                <option value="{{ $unit->id }}" {{ $magang->unit_id == $unit->id ? 'selected' : '' }}>{{ $unit->nama_unit_bisnis }}</option>
+                                <option value="{{ $unit->id }}" {{ old('unit_id', $magang->unit_id) == $unit->id ? 'selected' : '' }}>
+                                    {{ $unit->nama_unit_bisnis }}
+                                </option>
                             @endforeach
+                            <option value="lainnya" {{ old('unit_id', $magang->unit_id) == null && $magang->unit_lainnya ? 'selected' : '' }}>Unit Lainnya</option>
                         </select>
+                        @error('unit_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
-                    <div class="mb-3">
-                        <label for="unit_lainnya" class="form-label">Unit Lainnya</label>
-                        <input type="text" class="form-control" id="unit_lainnya" name="unit_lainnya" value="{{ $magang->unit_lainnya }}">
+
+                    <div class="mb-3" id="unitLainnyaGroup" style="display: {{ old('unit_id', $magang->unit_id) == null && $magang->unit_lainnya ? 'block' : 'none' }};">
+                        <label for="unit_lainnya" class="form-label">Unit Lainnya (Opsional)</label>
+                        <input type="text" class="form-control @error('unit_lainnya') is-invalid @enderror" id="unit_lainnya" name="unit_lainnya" value="{{ old('unit_lainnya', $magang->unit_lainnya) }}">
+                        @error('unit_lainnya')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
-                    
+
                     <div class="mb-3">
-                        <label for="periode_id" class="form-label">Periode Magang</label>
-                        <select class="form-select" id="periode_id" name="periode_id">
+                        <label for="periode_id" class="form-label">Periode Magang <span class="text-danger">*</span></label>
+                        <select class="form-control @error('periode_id') is-invalid @enderror" id="periode_id" name="periode_id" required>
+                            <option value="">Pilih Periode</option>
                             @foreach($periodes as $periode)
-                                <option value="{{ $periode->id }}" {{ $magang->periode_id == $periode->id ? 'selected' : '' }}>{{ $periode->nama_periode }}</option>
+                                <option value="{{ $periode->id }}" {{ old('periode_id', $magang->periode_id) == $periode->id ? 'selected' : '' }}>
+                                    {{ $periode->nama_periode }} ({{ $periode->tanggal_mulai->format('M Y') }} - {{ $periode->tanggal_selesai->format('M Y') }})
+                                </option>
                             @endforeach
                         </select>
+                        @error('periode_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="mb-3">
-                        <label for="id_dosen" class="form-label">Dosen Pembimbing</label>
-                        <select class="form-select" id="id_dosen" name="id_dosen">
+                        <label for="id_dosen" class="form-label">Dosen Pembimbing <span class="text-danger">*</span></label>
+                        <select class="form-control @error('id_dosen') is-invalid @enderror" id="id_dosen" name="id_dosen" required>
+                            <option value="">Pilih Dosen</option>
                             @foreach($dosens as $dosen)
-                                <option value="{{ $dosen->id }}" {{ $magang->id_dosen == $dosen->id ? 'selected' : '' }}>{{ $dosen->nama_lengkap }}</option>
+                                <option value="{{ $dosen->id }}" {{ old('id_dosen', $magang->id_dosen) == $dosen->id ? 'selected' : '' }}>
+                                    {{ $dosen->nama_lengkap }}
+                                </option>
                             @endforeach
                         </select>
-                    </div>
-                        </select>
+                        @error('id_dosen')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="mb-3">
-                        <label for="pembimbing_lapangan" class="form-label">Pembimbing Lapangan</label>
-                        <input type="text" class="form-control" id="pembimbing_lapangan" name="pembimbing_lapangan" value="{{ $magang->pembimbing_lapangan }}" placeholder="Masukkan nama dan jabatan pembimbing lapangan">
+                        <label for="pembimbing_lapangan" class="form-label">Pembimbing Lapangan <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control @error('pembimbing_lapangan') is-invalid @enderror" id="pembimbing_lapangan" name="pembimbing_lapangan" value="{{ old('pembimbing_lapangan', $magang->pembimbing_lapangan) }}" required>
+                        @error('pembimbing_lapangan')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
 
-                    <div class="row mb-3">
+                    <div class="row">
                         <div class="col-md-6">
-                            <label for="tanggal_mulai" class="form-label">Tanggal Mulai</label>
-                            <input type="date" class="form-control" id="tanggal_mulai" name="tanggal_mulai" value="{{ $magang->tanggal_mulai->format('Y-m-d') }}">
+                            <div class="mb-3">
+                                <label for="tanggal_mulai" class="form-label">Tanggal Mulai <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control @error('tanggal_mulai') is-invalid @enderror" id="tanggal_mulai" name="tanggal_mulai" value="{{ old('tanggal_mulai', $magang->tanggal_mulai->format('Y-m-d')) }}" required>
+                                @error('tanggal_mulai')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="tanggal_selesai" class="form-label">Tanggal Selesai</label>
-                            <input type="date" class="form-control" id="tanggal_selesai" name="tanggal_selesai" value="{{ $magang->tanggal_selesai->format('Y-m-d') }}">
+                            <div class="mb-3">
+                                <label for="tanggal_selesai" class="form-label">Tanggal Selesai <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control @error('tanggal_selesai') is-invalid @enderror" id="tanggal_selesai" name="tanggal_selesai" value="{{ old('tanggal_selesai', $magang->tanggal_selesai->format('Y-m-d')) }}" required>
+                                @error('tanggal_selesai')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <label for="status_magang" class="form-label">Status Magang</label>
-                        <select class="form-select" id="status_magang" name="status_magang">
-                            <option value="Aktif" {{ $magang->status_magang == 'Aktif' ? 'selected' : '' }}>Aktif</option>
-                            <option value="Nonaktif" {{ $magang->status_magang == 'Nonaktif' ? 'selected' : '' }}>Nonaktif</option>
-                            <option value="selesai" {{ $magang->status_magang == 'selesai' ? 'selected' : '' }}>Selesai</option>
-                            <option value="dibatalkan" {{ $magang->status_magang == 'dibatalkan' ? 'selected' : '' }}>Dibatalkan</option>
+                        <label for="status_magang" class="form-label">Status Magang <span class="text-danger">*</span></label>
+                        <select class="form-control @error('status_magang') is-invalid @enderror" id="status_magang" name="status_magang" required>
+                            <option value="Aktif" {{ old('status_magang', $magang->status_magang) == 'Aktif' ? 'selected' : '' }}>Aktif</option>
+                            <option value="Nonaktif" {{ old('status_magang', $magang->status_magang) == 'Nonaktif' ? 'selected' : '' }}>Nonaktif</option>
+                            <option value="selesai" {{ old('status_magang', $magang->status_magang) == 'selesai' ? 'selected' : '' }}>Selesai</option>
+                            <option value="dibatalkan" {{ old('status_magang', $magang->status_magang) == 'dibatalkan' ? 'selected' : '' }}>Dibatalkan</option>
                         </select>
-                        <div class="form-text">Status ini menentukan akses mahasiswa ke sistem.</div>
+                        @error('status_magang')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="mb-3">
-                        <label for="target_book_mingguan" class="form-label">Target Logbook Mingguan</label>
-                        <input type="number" class="form-control" id="target_book_mingguan" name="target_book_mingguan" value="{{ $magang->target_book_mingguan }}" min="1" max="7">
-                        <div class="form-text">Jumlah logbook yang wajib diisi mahasiswa per minggu (Default: 5 hari kerja).</div>
+                        <label for="tugas_description" class="form-label">Deskripsi Tugas <span class="text-danger">*</span></label>
+                        <textarea class="form-control @error('tugas_description') is-invalid @enderror" id="tugas_description" name="tugas_description" rows="4" required>{{ old('tugas_description', $magang->tugas_description) }}</textarea>
+                        @error('tugas_description')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="mb-3">
-                        <label for="tugas_description" class="form-label">Deskripsi Tugas</label>
-                        <textarea class="form-control" id="tugas_description" name="tugas_description" rows="4" placeholder="Jelaskan tugas-tugas yang harus dilakukan peserta magang di unit ini">{{ $magang->tugas_description }}</textarea>
+                        <label for="target_book_mingguan" class="form-label">Target Logbook Mingguan <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control @error('target_book_mingguan') is-invalid @enderror" id="target_book_mingguan" name="target_book_mingguan" min="1" value="{{ old('target_book_mingguan', $magang->target_book_mingguan) }}" required>
+                        @error('target_book_mingguan')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
-                    
-                    <div class="d-flex justify-content-end mt-4">
-                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+
+                    <div class="d-flex justify-content-end gap-2">
+                        <a href="{{ route('magang.index') }}" class="btn btn-secondary">Batal</a>
+                        <button type="submit" class="btn btn-primary">Update Magang</button>
                     </div>
                 </form>
             </div>
@@ -112,15 +151,17 @@
 
 @push('scripts')
 <script>
-    function toggleOtherUnit(value) {
-        const otherGroup = document.getElementById('otherUnitGroup');
-        const otherInput = document.getElementById('unit_lainnya');
+    function toggleUnitLainnya(value) {
+        const unitLainnyaGroup = document.getElementById('unitLainnyaGroup');
+        const unitLainnyaInput = document.getElementById('unit_lainnya');
+        
         if (value === 'lainnya') {
-            otherGroup.style.display = 'block';
-            otherInput.required = true;
+            unitLainnyaGroup.style.display = 'block';
+            unitLainnyaInput.required = true;
         } else {
-            otherGroup.style.display = 'none';
-            otherInput.required = false;
+            unitLainnyaGroup.style.display = 'none';
+            unitLainnyaInput.required = false;
+            unitLainnyaInput.value = '';
         }
     }
 </script>
