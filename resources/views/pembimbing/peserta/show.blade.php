@@ -4,9 +4,9 @@
 
 @section('content')
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Detail Peserta: Siti Aminah</h1>
+    <h1 class="h2">Detail Peserta: {{ $peserta->mahasiswa->nama_lengkap ?? 'N/A' }}</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
-        <a href="{{ url('/pembimbing/peserta') }}" class="btn btn-sm btn-secondary">
+        <a href="{{ route('pembimbing.peserta.index') }}" class="btn btn-sm btn-secondary">
             <i class="fas fa-arrow-left"></i> Kembali
         </a>
     </div>
@@ -16,10 +16,10 @@
     <div class="col-md-4">
         <div class="card shadow-sm">
             <div class="card-body text-center">
-                <img src="https://ui-avatars.com/api/?name=Siti+Aminah&background=random" class="rounded-circle mb-3" width="100">
-                <h5>Siti Aminah</h5>
-                <p class="text-muted mb-1">C030320005</p>
-                <p class="badge bg-primary">IT Support</p>
+                <img src="https://ui-avatars.com/api/?name={{ urlencode($peserta->mahasiswa->nama_lengkap ?? 'N/A') }}&background=random" class="rounded-circle mb-3" width="100">
+                <h5>{{ $peserta->mahasiswa->nama_lengkap ?? 'N/A' }}</h5>
+                <p class="text-muted mb-1">{{ $peserta->mahasiswa->nisn ?? 'N/A' }}</p>
+                <p class="badge bg-primary">{{ $peserta->unitBisnis->nama_unit_bisnis ?? 'N/A' }}</p>
             </div>
         </div>
     </div>
@@ -29,15 +29,26 @@
                 <h5 class="card-title">Statistik Magang</h5>
                 <div class="row text-center mt-4">
                     <div class="col-4">
-                        <h3>95%</h3>
+                        @php
+                            $totalAbsen = $peserta->absen->count();
+                            $hadir = $peserta->absen->where('status_absensi', 'Hadir')->count();
+                            $kehadiranPersen = $totalAbsen > 0 ? round(($hadir / $totalAbsen) * 100) : 0;
+                        @endphp
+                        <h3>{{ $kehadiranPersen }}%</h3>
                         <p class="text-muted">Kehadiran</p>
                     </div>
                     <div class="col-4">
-                        <h3>45</h3>
+                        @php
+                            $logbookDisetujui = $peserta->logbook->where('status', 'approved')->count();
+                        @endphp
+                        <h3>{{ $logbookDisetujui }}</h3>
                         <p class="text-muted">Logbook Disetujui</p>
                     </div>
                     <div class="col-4">
-                        <h3>3</h3>
+                        @php
+                            $logbookPending = $peserta->logbook->where('status', 'pending')->count();
+                        @endphp
+                        <h3>{{ $logbookPending }}</h3>
                         <p class="text-muted">Logbook Pending</p>
                     </div>
                 </div>

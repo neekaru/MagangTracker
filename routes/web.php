@@ -94,12 +94,8 @@ Route::prefix('pembimbing')->middleware('role:Pembimbing')->group(function () {
     });
 
     // Peserta Bimbingan
-    Route::get('/peserta', function () {
-        return view('pembimbing.peserta.index');
-    });
-    Route::get('/peserta/{id}', function () {
-        return view('pembimbing.peserta.show');
-    });
+    Route::get('/peserta', [App\Http\Controllers\Pembimbing\PesertaController::class, 'index'])->name('pembimbing.peserta.index');
+    Route::get('/peserta/{id}', [App\Http\Controllers\Pembimbing\PesertaController::class, 'show'])->name('pembimbing.peserta.show');
 
     // Penilaian
     Route::get('/penilaian', function () {

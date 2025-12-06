@@ -22,26 +22,31 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @forelse($pesertas as $peserta)
                     <tr>
-                        <td>Siti Aminah</td>
-                        <td>C030320005</td>
-                        <td>IT Support</td>
-                        <td>Ganjil 2025/2026</td>
-                        <td><span class="badge bg-danger">3</span></td>
+                        <td>{{ $peserta->mahasiswa->nama_lengkap ?? 'N/A' }}</td>
+                        <td>{{ $peserta->mahasiswa->nisn ?? 'N/A' }}</td>
+                        <td>{{ $peserta->unitBisnis->nama_unit_bisnis ?? 'N/A' }}</td>
+                        <td>{{ $peserta->periodeMagang->nama_periode ?? 'N/A' }}</td>
                         <td>
-                            <a href="{{ url('/pembimbing/peserta/1') }}" class="btn btn-sm btn-primary"><i class="fas fa-user"></i> Detail</a>
+                            @php
+                                $pending = $peserta->logbook->where('status', 'pending')->count();
+                            @endphp
+                            @if($pending > 0)
+                                <span class="badge bg-danger">{{ $pending }}</span>
+                            @else
+                                <span class="badge bg-secondary">0</span>
+                            @endif
+                        </td>
+                        <td>
+                            <a href="{{ route('pembimbing.peserta.show', $peserta->id) }}" class="btn btn-sm btn-primary"><i class="fas fa-user"></i> Detail</a>
                         </td>
                     </tr>
+                    @empty
                     <tr>
-                        <td>Budi Santoso</td>
-                        <td>C030320008</td>
-                        <td>IT Support</td>
-                        <td>Ganjil 2025/2026</td>
-                        <td><span class="badge bg-secondary">0</span></td>
-                        <td>
-                            <a href="{{ url('/pembimbing/peserta/2') }}" class="btn btn-sm btn-primary"><i class="fas fa-user"></i> Detail</a>
-                        </td>
+                        <td colspan="6" class="text-center">Belum ada peserta bimbingan.</td>
                     </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
