@@ -15,6 +15,11 @@ class AbsensiController extends Controller
         $user = Auth::user();
         if ($user->role === 'Mahasiswa') {
             $mahasiswa = $user->mahasiswa;
+            
+            if (!$mahasiswa) {
+                return redirect()->back()->with('error', 'Data mahasiswa tidak ditemukan.');
+            }
+            
             $absensis = Absen::whereHas('magang', function ($q) use ($mahasiswa) {
                 $q->where('id_mahasiswa', $mahasiswa->id);
             })->get();
@@ -29,7 +34,17 @@ class AbsensiController extends Controller
     {
         $user = Auth::user();
         $mahasiswa = $user->mahasiswa;
+        
+        if (!$mahasiswa) {
+            return redirect()->back()->with('error', 'Data mahasiswa tidak ditemukan.');
+        }
+        
         $magangs = Magang::where('id_mahasiswa', $mahasiswa->id)->get();
+        
+        if ($magangs->isEmpty()) {
+            return redirect()->route('mahasiswa.magang.index')->with('error', 'Anda belum terdaftar dalam magang.');
+        }
+        
         return view('mahasiswa.absensi.create', compact('magangs'));
     }
 
@@ -50,6 +65,11 @@ class AbsensiController extends Controller
 
         Absen::create($data);
 
-        return redirect()->route('absensi.index')->with('success', 'Absensi recorded successfully.');
+        $user = Auth::user();
+        if ($user->role === 'Mahasiswa') {
+            return redirect()->route('mahasiswa.absensi.index')->with('success', 'Absensi berhasil dicatat.');
+        } else {
+            return redirect()->route('admin.absensi.index')->with('success', 'Absensi berhasil dicatat.');
+        }
     }
 }

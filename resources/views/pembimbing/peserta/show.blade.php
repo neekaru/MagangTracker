@@ -82,21 +82,33 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @forelse($peserta->logbook->sortByDesc('tanggal') as $log)
                         <tr>
-                            <td>01 Des 2025</td>
-                            <td>Maintenance Server</td>
-                            <td><span class="badge bg-warning text-dark">Pending</span></td>
+                            <td>{{ $log->tanggal->format('d M Y') }}</td>
+                            <td>{{ $log->kegiatan }}</td>
                             <td>
-                                <button class="btn btn-sm btn-success"><i class="fas fa-check"></i></button>
-                                <button class="btn btn-sm btn-danger"><i class="fas fa-times"></i></button>
+                                @if($log->status == 'pending')
+                                    <span class="badge bg-warning text-dark">Pending</span>
+                                @elseif($log->status == 'approved')
+                                    <span class="badge bg-success">Disetujui</span>
+                                @else
+                                    <span class="badge bg-danger">Ditolak</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($log->status == 'pending')
+                                    <button class="btn btn-sm btn-success"><i class="fas fa-check"></i></button>
+                                    <button class="btn btn-sm btn-danger"><i class="fas fa-times"></i></button>
+                                @else
+                                    -
+                                @endif
                             </td>
                         </tr>
+                        @empty
                         <tr>
-                            <td>30 Nov 2025</td>
-                            <td>Instalasi Jaringan</td>
-                            <td><span class="badge bg-success">Disetujui</span></td>
-                            <td>-</td>
+                            <td colspan="4" class="text-center">Belum ada logbook.</td>
                         </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
@@ -113,18 +125,18 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @forelse($peserta->absen->sortByDesc('tanggal') as $absen)
                         <tr>
-                            <td>01 Des 2025</td>
-                            <td>07:55</td>
-                            <td>Hadir</td>
-                            <td>-</td>
+                            <td>{{ $absen->tanggal->format('d M Y') }}</td>
+                            <td>{{ $absen->jam_masuk ? $absen->jam_masuk->format('H:i') : '-' }}</td>
+                            <td>{{ $absen->status_absensi }}</td>
+                            <td>{{ $absen->keterangan ?? '-' }}</td>
                         </tr>
+                        @empty
                         <tr>
-                            <td>30 Nov 2025</td>
-                            <td>08:00</td>
-                            <td>Hadir</td>
-                            <td>-</td>
+                            <td colspan="4" class="text-center">Belum ada data absensi.</td>
                         </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
@@ -136,8 +148,16 @@
 @push('scripts')
 <script>
     $(document).ready(function() {
-        $('#logbookTable').DataTable();
-        $('#absensiTable').DataTable();
+        // Initialize DataTables only if table has actual data rows (not empty state)
+        var logbookRows = $('#logbookTable tbody tr:not(:has(td[colspan]))');
+        if (logbookRows.length > 0) {
+            $('#logbookTable').DataTable();
+        }
+
+        var absensiRows = $('#absensiTable tbody tr:not(:has(td[colspan]))');
+        if (absensiRows.length > 0) {
+            $('#absensiTable').DataTable();
+        }
     });
 </script>
 @endpush

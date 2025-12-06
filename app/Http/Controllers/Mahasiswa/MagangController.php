@@ -13,6 +13,11 @@ class MagangController extends Controller
     {
         $user = Auth::user();
         $mahasiswa = $user->mahasiswa;
+        
+        if (!$mahasiswa) {
+            return redirect()->back()->with('error', 'Data mahasiswa tidak ditemukan.');
+        }
+        
         $magang = Magang::where('id_mahasiswa', $mahasiswa->id)->first();
 
         if ($magang) {

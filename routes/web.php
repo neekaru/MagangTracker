@@ -139,7 +139,9 @@ Route::prefix('mahasiswa')->middleware('role:Mahasiswa')->group(function () {
     Route::resource('logbook', App\Http\Controllers\LogbookController::class)->only(['index', 'create', 'store', 'edit', 'update']);
 
     // Absensi
-    Route::resource('absensi', App\Http\Controllers\AbsensiController::class)->only(['index', 'create', 'store']);
+    Route::get('/absensi', [App\Http\Controllers\AbsensiController::class, 'index'])->name('mahasiswa.absensi.index');
+    Route::get('/absensi/create', [App\Http\Controllers\AbsensiController::class, 'create'])->name('mahasiswa.absensi.create');
+    Route::post('/absensi', [App\Http\Controllers\AbsensiController::class, 'store'])->name('mahasiswa.absensi.store');
 
     // Profil
     Route::get('/profil', function () {
