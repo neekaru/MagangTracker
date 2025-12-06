@@ -6,7 +6,7 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Edit Data Magang</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
-        <a href="{{ url('/admin/magang/1') }}" class="btn btn-sm btn-secondary">
+        <a href="{{ route('magang.index') }}" class="btn btn-sm btn-secondary">
             <i class="fas fa-arrow-left"></i> Kembali
         </a>
     </div>
@@ -16,7 +16,7 @@
     <div class="col-md-8">
         <div class="card shadow-sm">
             <div class="card-body">
-                <form action="{{ url('/admin/magang/1') }}" method="POST">
+                <form action="{{ route('magang.update', $magang->id) }}" method="POST">
                     @csrf
                     @method('PUT')
                     
@@ -24,81 +24,80 @@
                     <div class="mb-3 row">
                         <label class="col-sm-3 col-form-label">Nama Peserta</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control-plaintext" value="Siti Aminah" readonly>
+                            <input type="text" class="form-control-plaintext" value="{{ $magang->mahasiswa->nama_lengkap ?? 'N/A' }}" readonly>
                         </div>
                     </div>
 
                     <h5 class="mb-3 mt-4">Detail Penempatan</h5>
                     <div class="mb-3">
-                        <label for="unit" class="form-label">Unit Penempatan</label>
-                        <select class="form-select" id="unit" name="unit" onchange="toggleOtherUnit(this.value)">
-                            <option value="IT" selected>IT Support</option>
-                            <option value="Keuangan">Keuangan</option>
-                            <option value="HRD">HRD</option>
-                            <option value="lainnya">Lainnya</option>
+                        <label for="unit_id" class="form-label">Unit Penempatan</label>
+                        <select class="form-select" id="unit_id" name="unit_id">
+                            @foreach($units as $unit)
+                                <option value="{{ $unit->id }}" {{ $magang->unit_id == $unit->id ? 'selected' : '' }}>{{ $unit->nama_unit_bisnis }}</option>
+                            @endforeach
                         </select>
                     </div>
-                    <div class="mb-3" id="otherUnitGroup" style="display: none;">
+                    <div class="mb-3">
                         <label for="unit_lainnya" class="form-label">Unit Lainnya</label>
-                        <input type="text" class="form-control" id="unit_lainnya" name="unit_lainnya" placeholder="Masukkan unit penempatan lainnya">
+                        <input type="text" class="form-control" id="unit_lainnya" name="unit_lainnya" value="{{ $magang->unit_lainnya }}">
                     </div>
                     
                     <div class="mb-3">
-                        <label for="pembimbing" class="form-label">Dosen Pembimbing</label>
-                        <select class="form-select" id="pembimbing" name="pembimbing">
-                            <option value="1" selected>Pak Budi</option>
-                            <option value="2">Bu Ani</option>
+                        <label for="periode_id" class="form-label">Periode Magang</label>
+                        <select class="form-select" id="periode_id" name="periode_id">
+                            @foreach($periodes as $periode)
+                                <option value="{{ $periode->id }}" {{ $magang->periode_id == $periode->id ? 'selected' : '' }}>{{ $periode->nama_periode }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_dosen" class="form-label">Dosen Pembimbing</label>
+                        <select class="form-select" id="id_dosen" name="id_dosen">
+                            @foreach($dosens as $dosen)
+                                <option value="{{ $dosen->id }}" {{ $magang->id_dosen == $dosen->id ? 'selected' : '' }}>{{ $dosen->nama_lengkap }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                         </select>
                     </div>
 
                     <div class="mb-3">
                         <label for="pembimbing_lapangan" class="form-label">Pembimbing Lapangan</label>
-                        <input type="text" class="form-control" id="pembimbing_lapangan" name="pembimbing_lapangan" value="Pak Joko (IT Manager)" placeholder="Masukkan nama dan jabatan pembimbing lapangan">
+                        <input type="text" class="form-control" id="pembimbing_lapangan" name="pembimbing_lapangan" value="{{ $magang->pembimbing_lapangan }}" placeholder="Masukkan nama dan jabatan pembimbing lapangan">
                     </div>
 
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="tgl_mulai" class="form-label">Tanggal Mulai</label>
-                            <input type="date" class="form-control" id="tgl_mulai" name="tgl_mulai" value="2025-01-01">
+                            <label for="tanggal_mulai" class="form-label">Tanggal Mulai</label>
+                            <input type="date" class="form-control" id="tanggal_mulai" name="tanggal_mulai" value="{{ $magang->tanggal_mulai->format('Y-m-d') }}">
                         </div>
                         <div class="col-md-6">
-                            <label for="tgl_selesai" class="form-label">Tanggal Selesai</label>
-                            <input type="date" class="form-control" id="tgl_selesai" name="tgl_selesai" value="2025-06-30">
+                            <label for="tanggal_selesai" class="form-label">Tanggal Selesai</label>
+                            <input type="date" class="form-control" id="tanggal_selesai" name="tanggal_selesai" value="{{ $magang->tanggal_selesai->format('Y-m-d') }}">
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <label for="periode" class="form-label">Periode</label>
-                        <select class="form-select" id="periode" name="periode">
-                            <option value="1" selected>Jan 2025 - Jun 2025</option>
-                            <option value="2">Jul 2025 - Des 2025</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="status" class="form-label">Status Magang</label>
-                        <select class="form-select" id="status" name="status">
-                            <option value="aktif" selected>Aktif</option>
-                            <option value="nonaktif">Nonaktif</option>
-                            <option value="selesai">Selesai</option>
-                            <option value="batal">Dibatalkan</option>
+                        <label for="status_magang" class="form-label">Status Magang</label>
+                        <select class="form-select" id="status_magang" name="status_magang">
+                            <option value="Aktif" {{ $magang->status_magang == 'Aktif' ? 'selected' : '' }}>Aktif</option>
+                            <option value="Nonaktif" {{ $magang->status_magang == 'Nonaktif' ? 'selected' : '' }}>Nonaktif</option>
+                            <option value="selesai" {{ $magang->status_magang == 'selesai' ? 'selected' : '' }}>Selesai</option>
+                            <option value="dibatalkan" {{ $magang->status_magang == 'dibatalkan' ? 'selected' : '' }}>Dibatalkan</option>
                         </select>
                         <div class="form-text">Status ini menentukan akses mahasiswa ke sistem.</div>
                     </div>
 
                     <div class="mb-3">
-                        <label for="target_logbook" class="form-label">Target Logbook Mingguan</label>
-                        <input type="number" class="form-control" id="target_logbook" name="target_logbook" value="5" min="1" max="7">
+                        <label for="target_book_mingguan" class="form-label">Target Logbook Mingguan</label>
+                        <input type="number" class="form-control" id="target_book_mingguan" name="target_book_mingguan" value="{{ $magang->target_book_mingguan }}" min="1" max="7">
                         <div class="form-text">Jumlah logbook yang wajib diisi mahasiswa per minggu (Default: 5 hari kerja).</div>
                     </div>
 
                     <div class="mb-3">
-                        <label for="deskripsi_tugas" class="form-label">Deskripsi Tugas</label>
-                        <textarea class="form-control" id="deskripsi_tugas" name="deskripsi_tugas" rows="4" placeholder="Jelaskan tugas-tugas yang harus dilakukan peserta magang di unit ini">Sebagai peserta magang di unit IT Support, tugas utama Anda meliputi:
-- Membantu maintenance perangkat keras dan lunak kantor.
-- Melakukan troubleshooting jaringan dasar.
-- Membantu instalasi dan konfigurasi software.
-- Mendokumentasikan kegiatan perbaikan dan maintenance.</textarea>
+                        <label for="tugas_description" class="form-label">Deskripsi Tugas</label>
+                        <textarea class="form-control" id="tugas_description" name="tugas_description" rows="4" placeholder="Jelaskan tugas-tugas yang harus dilakukan peserta magang di unit ini">{{ $magang->tugas_description }}</textarea>
                     </div>
                     
                     <div class="d-flex justify-content-end mt-4">

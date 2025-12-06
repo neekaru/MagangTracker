@@ -46,18 +46,7 @@ Route::prefix('admin')->middleware('role:Admin')->group(function () {
     Route::resource('users', App\Http\Controllers\Admin\UserController::class);
 
     // Magang Management
-    Route::get('/magang', function () {
-        return view('admin.magang.index');
-    });
-    Route::get('/magang/{id}', function () {
-        return view('admin.magang.show');
-    });
-    Route::get('/magang/{id}/edit', function () {
-        return view('admin.magang.edit');
-    });
-    Route::put('/magang/{id}', function () {
-        return redirect('/admin/magang')->with('success', 'Data magang berhasil diupdate');
-    });
+    Route::resource('magang', App\Http\Controllers\Admin\MagangController::class);
 
     // Periode Magang
     Route::resource('periode-magang', App\Http\Controllers\Admin\PeriodeMagangController::class);
@@ -177,8 +166,8 @@ Route::prefix('mahasiswa')->middleware('role:Mahasiswa')->group(function () {
             $tgl_selesai = $magang->tanggal_selesai->format('d M Y');
             $target_logbook = $magang->target_book_mingguan;
             $status_magang = $magang->status_magang;
-            $unit_penempatan = $magang->unit->nama_unit_bisnis ?? 'N/A';
-            $periode = $magang->periode->nama_periode ?? 'N/A';
+            $unit_penempatan = $magang->unitBisnis->nama_unit_bisnis ?? 'N/A';
+            $periode = $magang->periodeMagang->nama_periode ?? 'N/A';
             $dosen = $magang->dosen->nama_lengkap ?? 'N/A';
             $has_magang = true;
         } else {
