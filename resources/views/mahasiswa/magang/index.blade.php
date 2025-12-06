@@ -5,39 +5,45 @@
 @section('content')
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Informasi Magang</h1>
+    @if(!$has_magang)
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <a href="{{ route('magang.create') }}" class="btn btn-sm btn-primary">Daftar Magang</a>
+        </div>
+    @endif
 </div>
 
+@if($has_magang)
 <div class="row">
     <div class="col-md-8">
         <div class="card shadow-sm mb-4">
             <div class="card-header bg-primary text-white">
-                Status Magang: <span class="fw-bold">Aktif</span>
+                Status Magang: <span class="fw-bold">{{ $status_magang }}</span>
             </div>
             <div class="card-body">
                 <table class="table table-borderless">
                     <tr>
                         <th width="30%">Unit Penempatan</th>
-                        <td>IT Support</td>
+                        <td>{{ $unit_penempatan }}</td>
                     </tr>
                     <tr>
                         <th>Periode</th>
-                        <td>Jan 2025 - Jun 2025</td>
+                        <td>{{ $periode }}</td>
                     </tr>
                     <tr>
                         <th>Dosen Pembimbing</th>
-                        <td>Pak Budi (NIP: 19850101 201001 1 001)</td>
+                        <td>{{ $dosen }}</td>
                     </tr>
                     <tr>
                         <th>Pembimbing Lapangan</th>
-                        <td>{{ $pembimbing_lapangan ?? 'Pak Joko (IT Manager)' }}</td>
+                        <td>{{ $pembimbing_lapangan }}</td>
                     </tr>
                     <tr>
                         <th>Tanggal Mulai</th>
-                        <td>{{ $tgl_mulai ?? '01 Jan 2025' }}</td>
+                        <td>{{ $tgl_mulai }}</td>
                     </tr>
                     <tr>
                         <th>Tanggal Selesai</th>
-                        <td>{{ $tgl_selesai ?? '30 Jun 2025' }}</td>
+                        <td>{{ $tgl_selesai }}</td>
                     </tr>
                 </table>
             </div>
@@ -49,11 +55,7 @@
             </div>
             <div class="card-body">
                 <p>
-                    {!! nl2br(e($deskripsi_tugas ?? 'Sebagai peserta magang di unit IT Support, tugas utama Anda meliputi:
-- Membantu maintenance perangkat keras dan lunak kantor.
-- Melakukan troubleshooting jaringan dasar.
-- Membantu instalasi dan konfigurasi software.
-- Mendokumentasikan kegiatan perbaikan dan maintenance.')) !!}
+                    {!! nl2br(e($deskripsi_tugas)) !!}
                 </p>
             </div>
         </div>
@@ -73,24 +75,12 @@
                 <small>Total Hadir: 45 hari</small>
             </div>
         </div>
-
-        <div class="card shadow-sm">
-            <div class="card-header">
-                Kontak Penting
-            </div>
-            <div class="card-body">
-                <ul class="list-unstyled">
-                    <li class="mb-2">
-                        <strong>Admin Magang</strong><br>
-                        <i class="fas fa-phone me-2"></i> 0812-3456-7890
-                    </li>
-                    <li class="mb-2">
-                        <strong>Dosen Pembimbing</strong><br>
-                        <i class="fas fa-envelope me-2"></i> budi@dosen.com
-                    </li>
-                </ul>
-            </div>
-        </div>
     </div>
 </div>
+@else
+<div class="alert alert-info">
+    <h4>Anda belum terdaftar magang.</h4>
+    <p>Silakan daftar magang terlebih dahulu untuk melihat informasi magang Anda.</p>
+</div>
+@endif
 @endsection
