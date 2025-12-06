@@ -20,6 +20,8 @@ return new class extends Migration
             $table->longText('deskripsi_kegiatan');
             $table->string('hasil_kegiatan');
             $table->string('foto_kegiatan')->nullable();
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->foreignId('approved_by')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
         });
     }

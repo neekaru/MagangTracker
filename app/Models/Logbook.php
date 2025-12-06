@@ -24,6 +24,8 @@ class Logbook extends Model
         'deskripsi_kegiatan',
         'hasil_kegiatan',
         'foto_kegiatan',
+        'status',
+        'approved_by',
     ];
 
     /**
@@ -44,5 +46,13 @@ class Logbook extends Model
     public function magang()
     {
         return $this->belongsTo(Magang::class, 'magang_id');
+    }
+
+    /**
+     * Get the user who approved the logbook.
+     */
+    public function approver()
+    {
+        return $this->belongsTo(User::class, 'approved_by');
     }
 }
