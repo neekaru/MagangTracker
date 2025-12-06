@@ -44,7 +44,7 @@
                         </td>
                         <td>
                             @if($logbook->status == 'pending')
-                                <a href="{{ route('logbook.edit', $logbook) }}" class="btn btn-sm btn-secondary"><i class="fas fa-edit"></i></a>
+                                <a href="{{ route('mahasiswa.logbook.edit', $logbook) }}" class="btn btn-sm btn-secondary"><i class="fas fa-edit"></i></a>
                             @else
                                 <button class="btn btn-sm btn-secondary" disabled><i class="fas fa-edit"></i></button>
                             @endif

@@ -148,12 +148,8 @@ Route::prefix('mahasiswa')->middleware('role:Mahasiswa')->group(function () {
     Route::post('/absensi', [App\Http\Controllers\AbsensiController::class, 'store'])->name('mahasiswa.absensi.store');
 
     // Profil
-    Route::get('/profil', function () {
-        return view('mahasiswa.profil.index');
-    });
-    Route::put('/profil', function () {
-        return redirect('/mahasiswa/profil')->with('success', 'Profil berhasil diperbarui');
-    });
+    Route::get('/profil', [App\Http\Controllers\Mahasiswa\ProfilController::class, 'index'])->name('mahasiswa.profil.index');
+    Route::put('/profil', [App\Http\Controllers\Mahasiswa\ProfilController::class, 'update'])->name('mahasiswa.profil.update');
 
     // Magang
     Route::get('/magang', [App\Http\Controllers\Mahasiswa\MagangController::class, 'index'])->name('mahasiswa.magang.index');

@@ -7,14 +7,21 @@
     <h1 class="h2">Profil Saya</h1>
 </div>
 
+@if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+
 <div class="row">
     <div class="col-md-4">
         <div class="card shadow-sm mb-4">
             <div class="card-body text-center">
-                <img src="https://ui-avatars.com/api/?name=Ahmad+Fulan&background=random" class="rounded-circle mb-3" width="100">
-                <h5>Ahmad Fulan</h5>
+                <img src="https://ui-avatars.com/api/?name={{ urlencode($mahasiswa->nama_lengkap ?? $user->email) }}&background=random" class="rounded-circle mb-3" width="100">
+                <h5>{{ $mahasiswa->nama_lengkap ?? 'N/A' }}</h5>
                 <p class="text-muted mb-1">Mahasiswa</p>
-                <span class="badge bg-success">Aktif</span>
+                <span class="badge bg-success">{{ ucfirst($user->role) }}</span>
             </div>
         </div>
     </div>
@@ -25,35 +32,37 @@
                 Edit Profil
             </div>
             <div class="card-body">
-                <form action="{{ url('/mahasiswa/profil') }}" method="POST">
+                <form action="{{ route('mahasiswa.profil.update') }}" method="POST">
                     @csrf
                     @method('PUT')
                     
                     <div class="mb-3 row">
                         <label class="col-sm-3 col-form-label">Nama Lengkap</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" name="nama" value="Ahmad Fulan" required>
+                            <input type="text" class="form-control @error('nama_lengkap') is-invalid @enderror" name="nama_lengkap" value="{{ old('nama_lengkap', $mahasiswa->nama_lengkap) }}" required>
+                            @error('nama_lengkap')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
                     
                     <div class="mb-3 row">
-                        <label class="col-sm-3 col-form-label">NIM</label>
+                        <label class="col-sm-3 col-form-label">NISN</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" name="nim" value="C030320001" readonly>
+                            <input type="text" class="form-control @error('nisn') is-invalid @enderror" name="nisn" value="{{ old('nisn', $mahasiswa->nisn) }}" required>
+                            @error('nisn')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
 
                     <div class="mb-3 row">
                         <label class="col-sm-3 col-form-label">Email</label>
                         <div class="col-sm-9">
-                            <input type="email" class="form-control" name="email" value="ahmad@mhs.com" required>
-                        </div>
-                    </div>
-
-                    <div class="mb-3 row">
-                        <label class="col-sm-3 col-form-label">No. HP</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="no_hp" value="081234567890">
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email', $user->email) }}" required>
+                            @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
 

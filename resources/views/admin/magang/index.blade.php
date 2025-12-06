@@ -17,7 +17,7 @@
         <button class="nav-link active" id="active-tab" data-bs-toggle="tab" data-bs-target="#active" type="button" role="tab">Aktif</button>
     </li>
     <li class="nav-item" role="presentation">
-        <button class="nav-link" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pending" type="button" role="tab">Pendaftaran Baru <span class="badge bg-danger">2</span></button>
+        <button class="nav-link" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pending" type="button" role="tab">Pendaftaran Baru @if($pending->count() > 0)<span class="badge bg-danger">{{ $pending->count() }}</span>@endif</button>
     </li>
     <li class="nav-item" role="presentation">
         <button class="nav-link" id="finished-tab" data-bs-toggle="tab" data-bs-target="#finished" type="button" role="tab">Selesai</button>

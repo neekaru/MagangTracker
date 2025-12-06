@@ -6,7 +6,7 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Isi Logbook Harian</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
-        <a href="{{ route('logbook.index') }}" class="btn btn-sm btn-secondary">
+        <a href="{{ route('mahasiswa.logbook.index') }}" class="btn btn-sm btn-secondary">
             <i class="fas fa-arrow-left"></i> Kembali
         </a>
     </div>
@@ -16,7 +16,7 @@
     <div class="col-md-8">
         <div class="card shadow-sm">
             <div class="card-body">
-                <form action="{{ route('logbook.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('mahasiswa.logbook.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
                         <label for="magang_id" class="form-label">Magang</label>
