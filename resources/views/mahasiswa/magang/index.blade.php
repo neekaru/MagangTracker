@@ -67,12 +67,12 @@
                 Statistik Kehadiran
             </div>
             <div class="card-body text-center">
-                <h1 class="display-4 fw-bold text-success">95%</h1>
+                <h1 class="display-4 fw-bold text-success">{{ $kehadiran_persen }}%</h1>
                 <p class="text-muted">Tingkat Kehadiran</p>
                 <div class="progress mb-3">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: 95%" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar bg-success" role="progressbar" style="width: {{ $kehadiran_persen }}%" aria-valuenow="{{ $kehadiran_persen }}" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
-                <small>Total Hadir: 45 hari</small>
+                <small>Total Hadir: {{ $hadir }} hari</small>
             </div>
         </div>
     </div>

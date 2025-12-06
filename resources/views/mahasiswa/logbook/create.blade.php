@@ -22,7 +22,7 @@
                         <label for="magang_id" class="form-label">Magang</label>
                         <select class="form-control" id="magang_id" name="magang_id" required>
                             @foreach($magangs as $magang)
-                                <option value="{{ $magang->id }}">{{ $magang->unit->nama_unit_bisnis ?? 'Unit' }} - {{ $magang->periode->nama_periode ?? 'Periode' }}</option>
+                                <option value="{{ $magang->id }}">{{ $magang->unitBisnis->nama_unit_bisnis ?? 'Unit' }} - {{ $magang->periodeMagang->nama_periode ?? 'Periode' }}</option>
                             @endforeach
                         </select>
                     </div>

@@ -136,7 +136,11 @@ Route::prefix('mahasiswa')->middleware('role:Mahasiswa')->group(function () {
     });
 
     // Logbook
-    Route::resource('logbook', App\Http\Controllers\LogbookController::class)->only(['index', 'create', 'store', 'edit', 'update']);
+    Route::get('/logbook', [App\Http\Controllers\LogbookController::class, 'index'])->name('mahasiswa.logbook.index');
+    Route::get('/logbook/create', [App\Http\Controllers\LogbookController::class, 'create'])->name('mahasiswa.logbook.create');
+    Route::post('/logbook', [App\Http\Controllers\LogbookController::class, 'store'])->name('mahasiswa.logbook.store');
+    Route::get('/logbook/{logbook}/edit', [App\Http\Controllers\LogbookController::class, 'edit'])->name('mahasiswa.logbook.edit');
+    Route::put('/logbook/{logbook}', [App\Http\Controllers\LogbookController::class, 'update'])->name('mahasiswa.logbook.update');
 
     // Absensi
     Route::get('/absensi', [App\Http\Controllers\AbsensiController::class, 'index'])->name('mahasiswa.absensi.index');

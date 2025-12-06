@@ -18,7 +18,7 @@ class MagangController extends Controller
             return redirect()->back()->with('error', 'Data mahasiswa tidak ditemukan.');
         }
         
-        $magang = Magang::where('id_mahasiswa', $mahasiswa->id)->first();
+        $magang = Magang::with(['absen'])->where('id_mahasiswa', $mahasiswa->id)->first();
 
         if ($magang) {
             $deskripsi_tugas = $magang->tugas_description;
@@ -30,6 +30,12 @@ class MagangController extends Controller
             $unit_penempatan = $magang->unitBisnis->nama_unit_bisnis ?? 'N/A';
             $periode = $magang->periodeMagang->nama_periode ?? 'N/A';
             $dosen = $magang->dosen->nama_lengkap ?? 'N/A';
+            
+            // Calculate attendance statistics
+            $total_absen = $magang->absen->count();
+            $hadir = $magang->absen->where('status_absensi', 'Hadir')->count();
+            $kehadiran_persen = $total_absen > 0 ? round(($hadir / $total_absen) * 100) : 0;
+            
             $has_magang = true;
         } else {
             $deskripsi_tugas = null;
@@ -41,6 +47,8 @@ class MagangController extends Controller
             $unit_penempatan = null;
             $periode = null;
             $dosen = null;
+            $kehadiran_persen = 0;
+            $hadir = 0;
             $has_magang = false;
         }
 
@@ -54,6 +62,8 @@ class MagangController extends Controller
             'unit_penempatan',
             'periode',
             'dosen',
+            'kehadiran_persen',
+            'hadir',
             'has_magang'
         ));
     }
