@@ -17,6 +17,7 @@ class Absen extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'magang_id',
         'tanggal',
         'jam',
         'status_kehadiran',
@@ -42,5 +43,13 @@ class Absen extends Model
     public function unitBisnis()
     {
         return $this->belongsTo(UnitBisnis::class, 'id_unit_bisnis');
+    }
+
+    /**
+     * Get the magang that owns the absen.
+     */
+    public function magang()
+    {
+        return $this->belongsTo(Magang::class, 'magang_id');
     }
 }

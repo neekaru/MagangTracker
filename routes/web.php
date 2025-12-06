@@ -73,12 +73,8 @@ Route::prefix('admin')->middleware('role:Admin')->group(function () {
         return view('admin.logbook.show');
     });
 
-    Route::get('/absensi', function () {
-        return view('admin.absensi.index');
-    });
-    Route::get('/absensi/{id}', function () {
-        return view('admin.absensi.show');
-    });
+    // Absensi
+    Route::resource('absensi', App\Http\Controllers\AbsensiController::class)->only(['index']);
 
     // Penilaian & Laporan
     Route::get('/penilaian', function () {
@@ -158,15 +154,7 @@ Route::prefix('mahasiswa')->middleware('role:Mahasiswa')->group(function () {
     Route::resource('logbook', App\Http\Controllers\LogbookController::class)->only(['index', 'create', 'store', 'edit', 'update']);
 
     // Absensi
-    Route::get('/absensi', function () {
-        return view('mahasiswa.absensi.index');
-    });
-    Route::get('/absensi/create', function () {
-        return view('mahasiswa.absensi.create');
-    });
-    Route::post('/absensi', function () {
-        return redirect('/mahasiswa/absensi')->with('success', 'Absensi berhasil dikirim');
-    });
+    Route::resource('absensi', App\Http\Controllers\AbsensiController::class)->only(['index', 'create', 'store']);
 
     // Profil
     Route::get('/profil', function () {

@@ -28,39 +28,27 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($absensis as $absen)
                     <tr>
-                        <td>01 Des 2025</td>
-                        <td>Siti Aminah</td>
-                        <td>07:55</td>
-                        <td><span class="badge bg-success">Hadir</span></td>
-                        <td>-</td>
-                        <td>Kantor Pusat</td>
+                        <td>{{ \Carbon\Carbon::parse($absen->tanggal)->format('d M Y') }}</td>
+                        <td>{{ $absen->magang->mahasiswa->nama_lengkap ?? 'N/A' }}</td>
+                        <td>{{ $absen->jam ?: '-' }}</td>
                         <td>
-                            <a href="{{ url('/admin/absensi/1') }}" class="btn btn-sm btn-info text-white"><i class="fas fa-eye"></i></a>
+                            @if($absen->status_kehadiran == 'Hadir')
+                                <span class="badge bg-success">Hadir</span>
+                            @elseif($absen->status_kehadiran == 'Izin')
+                                <span class="badge bg-warning text-dark">Izin</span>
+                            @else
+                                <span class="badge bg-danger">Sakit</span>
+                            @endif
+                        </td>
+                        <td>{{ $absen->keterangan ?: '-' }}</td>
+                        <td>{{ $absen->unitBisnis->nama_unit_bisnis ?? 'N/A' }}</td>
+                        <td>
+                            <button class="btn btn-sm btn-info text-white" disabled><i class="fas fa-eye"></i></button>
                         </td>
                     </tr>
-                    <tr>
-                        <td>01 Des 2025</td>
-                        <td>Rudi Hartono</td>
-                        <td>08:10</td>
-                        <td><span class="badge bg-success">Hadir</span></td>
-                        <td>Terlambat</td>
-                        <td>Gedung Keuangan</td>
-                        <td>
-                            <a href="{{ url('/admin/absensi/2') }}" class="btn btn-sm btn-info text-white"><i class="fas fa-eye"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>01 Des 2025</td>
-                        <td>Dewi Sartika</td>
-                        <td>-</td>
-                        <td><span class="badge bg-danger">Sakit</span></td>
-                        <td>Demam tinggi</td>
-                        <td>-</td>
-                        <td>
-                            <a href="{{ url('/admin/absensi/3') }}" class="btn btn-sm btn-info text-white"><i class="fas fa-eye"></i></a>
-                        </td>
-                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
