@@ -65,7 +65,6 @@ class UserSeeder extends Seeder
         // Create Unit Bisnis
         $unitBisnis = \App\Models\UnitBisnis::create([
             'nama_unit_bisnis' => 'IT Development',
-            'id_periode' => $periodeMagang->id,
         ]);
 
         // Create Magang record for the student

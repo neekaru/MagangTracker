@@ -40,21 +40,6 @@
                             <small class="text-muted">Nama unit bisnis harus unik</small>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="id_periode" class="form-label">Periode Magang</label>
-                            <select class="form-control @error('id_periode') is-invalid @enderror" id="id_periode" name="id_periode">
-                                <option value="">Pilih Periode (Opsional)</option>
-                                @foreach($periodes as $periode)
-                                    <option value="{{ $periode->id }}" {{ old('id_periode') == $periode->id ? 'selected' : '' }}>
-                                        {{ $periode->nama_periode }} ({{ $periode->tanggal_mulai->format('M Y') }} - {{ $periode->tanggal_selesai->format('M Y') }})
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('id_periode')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
                         <div class="d-flex justify-content-end gap-2">
                             <a href="{{ route('unit-bisnis.index') }}" class="btn btn-secondary">Batal</a>
                             <button type="submit" class="btn btn-primary">Simpan Unit Bisnis</button>

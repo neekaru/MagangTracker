@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\PeriodeMagang;
 use App\Models\UnitBisnis;
 
 class UnitBisnisController extends Controller
@@ -23,8 +22,7 @@ class UnitBisnisController extends Controller
      */
     public function create()
     {
-        $periodes = PeriodeMagang::all();
-        return view('admin.unit-bisnis.create', compact('periodes'));
+        return view('admin.unit-bisnis.create');
     }
 
     /**
@@ -34,7 +32,6 @@ class UnitBisnisController extends Controller
     {
         $validated = $request->validate([
             'nama_unit_bisnis' => 'required|string|max:255|unique:unit_bisnis,nama_unit_bisnis',
-            'id_periode' => 'nullable|exists:periode_magang,id',
         ]);
 
         UnitBisnis::create($validated);
@@ -57,8 +54,7 @@ class UnitBisnisController extends Controller
     public function edit(string $id)
     {
         $unit = UnitBisnis::findOrFail($id);
-        $periodes = PeriodeMagang::all();
-        return view('admin.unit-bisnis.edit', compact('unit', 'periodes'));
+        return view('admin.unit-bisnis.edit', compact('unit'));
     }
 
     /**
@@ -70,7 +66,6 @@ class UnitBisnisController extends Controller
 
         $validated = $request->validate([
             'nama_unit_bisnis' => 'required|string|max:255|unique:unit_bisnis,nama_unit_bisnis,' . $id,
-            'id_periode' => 'nullable|exists:periode_magang,id',
         ]);
 
         $unit->update($validated);

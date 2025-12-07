@@ -27,7 +27,6 @@
                         <tr>
                             <th>#</th>
                             <th>Nama Unit Bisnis</th>
-                            <th>Periode</th>
                             <th>Jumlah Magang</th>
                             <th>Aksi</th>
                         </tr>
@@ -37,7 +36,6 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $unit->nama_unit_bisnis }}</td>
-                                <td>{{ $unit->periode->nama_periode ?? 'N/A' }}</td>
                                 <td>
                                     <span class="badge bg-info">{{ $unit->magang->count() }} Mahasiswa</span>
                                 </td>
