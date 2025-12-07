@@ -18,7 +18,7 @@
             <div class="card-body text-center">
                 <img src="https://ui-avatars.com/api/?name={{ urlencode($peserta->mahasiswa->nama_lengkap ?? 'N/A') }}&background=random" class="rounded-circle mb-3" width="100">
                 <h5>{{ $peserta->mahasiswa->nama_lengkap ?? 'N/A' }}</h5>
-                <p class="text-muted mb-1">{{ $peserta->mahasiswa->nisn ?? 'N/A' }}</p>
+                <p class="text-muted mb-1">{{ $peserta->mahasiswa->nim ?? 'N/A' }}</p>
                 <p class="badge bg-primary">{{ $peserta->unitBisnis->nama_unit_bisnis ?? 'N/A' }}</p>
             </div>
         </div>

@@ -46,7 +46,7 @@
                                 <input type="text" class="form-control" id="nama" name="nama" required>
                             </div>
                             <div class="col-md-6">
-                                <label for="nim" class="form-label">NIM / NISN</label>
+                                <label for="nim" class="form-label">NIM</label>
                                 <input type="text" class="form-control" id="nim" name="nim" required>
                             </div>
                         </div>

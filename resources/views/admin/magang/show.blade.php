@@ -21,7 +21,7 @@
             <div class="card-body text-center">
                 <img src="https://ui-avatars.com/api/?name={{ urlencode($magang->mahasiswa->nama_lengkap ?? 'N/A') }}&background=random" class="rounded-circle mb-3" width="100">
                 <h5>{{ $magang->mahasiswa->nama_lengkap ?? 'N/A' }}</h5>
-                <p class="text-muted mb-1">{{ $magang->mahasiswa->nisn ?? 'N/A' }}</p>
+                <p class="text-muted mb-1">{{ $magang->mahasiswa->nim ?? 'N/A' }}</p>
                 <span class="badge bg-{{ $magang->status_magang == 'Aktif' ? 'success' : 'secondary' }}">{{ $magang->status_magang }}</span>
             </div>
         </div>

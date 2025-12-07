@@ -75,7 +75,7 @@
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
                                             <td>
-                                                {{ $magang->mahasiswa->nama_lengkap ?? 'NISN: ' . $magang->mahasiswa->nisn }}
+                                                {{ $magang->mahasiswa->nama_lengkap ?? 'NIM: ' . $magang->mahasiswa->nim }}
                                             </td>
                                             <td>{{ $magang->dosen->nama_lengkap ?? '-' }}</td>
                                             <td>

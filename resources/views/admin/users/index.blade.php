@@ -41,7 +41,7 @@
                                     @if ($user->role === 'Pembimbing' && $user->dosen)
                                         {{ $user->dosen->nama_lengkap }}
                                     @elseif($user->role === 'Mahasiswa' && $user->mahasiswa)
-                                        {{ $user->mahasiswa->nama_lengkap ?? 'NISN: ' . $user->mahasiswa->nisn }}
+                                        {{ $user->mahasiswa->nama_lengkap ?? 'NIM: ' . $user->mahasiswa->nim }}
                                     @else
                                         Admin
                                     @endif

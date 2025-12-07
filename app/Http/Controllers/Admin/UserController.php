@@ -39,7 +39,7 @@ class UserController extends Controller
             'role' => 'required|in:Admin,Pembimbing,Mahasiswa',
             'nama_lengkap' => 'required_if:role,Pembimbing,Mahasiswa',
             'nip' => 'nullable|string',
-            'nisn' => 'required_if:role,Mahasiswa',
+            'nim' => 'required_if:role,Mahasiswa',
             'tanggal_mulai' => 'required_if:role,Mahasiswa|nullable|date',
             'tanggal_selesai' => 'required_if:role,Mahasiswa|nullable|date',
         ]);
@@ -62,7 +62,7 @@ class UserController extends Controller
         } elseif ($validated['role'] === 'Mahasiswa') {
             $mahasiswa = Mahasiswa::create([
                 'user_id' => $user->id,
-                'nisn' => $validated['nisn'],
+                'nim' => $validated['nim'],
                 'nama_lengkap' => $validated['nama_lengkap'],
                 'tanggal_mulai' => $validated['tanggal_mulai'],
                 'tanggal_selesai' => $validated['tanggal_selesai'],
@@ -104,7 +104,7 @@ class UserController extends Controller
             'role' => 'required|in:Admin,Pembimbing,Mahasiswa',
             'nama_lengkap' => 'required_if:role,Pembimbing,Mahasiswa',
             'nip' => 'nullable|string',
-            'nisn' => 'required_if:role,Mahasiswa',
+            'nim' => 'required_if:role,Mahasiswa',
             'tanggal_mulai' => 'required_if:role,Mahasiswa|nullable|date',
             'tanggal_selesai' => 'required_if:role,Mahasiswa|nullable|date',
         ]);
@@ -135,7 +135,7 @@ class UserController extends Controller
         } elseif ($validated['role'] === 'Mahasiswa') {
             if ($user->mahasiswa) {
                 $user->mahasiswa->update([
-                    'nisn' => $validated['nisn'],
+                    'nim' => $validated['nim'],
                     'nama_lengkap' => $validated['nama_lengkap'],
                     'tanggal_mulai' => $validated['tanggal_mulai'],
                     'tanggal_selesai' => $validated['tanggal_selesai'],
@@ -143,7 +143,7 @@ class UserController extends Controller
             } else {
                 $mahasiswa = Mahasiswa::create([
                     'user_id' => $user->id,
-                    'nisn' => $validated['nisn'],
+                    'nim' => $validated['nim'],
                     'nama_lengkap' => $validated['nama_lengkap'],
                     'tanggal_mulai' => $validated['tanggal_mulai'],
                     'tanggal_selesai' => $validated['tanggal_selesai'],

@@ -47,10 +47,10 @@
                     </div>
                     
                     <div class="mb-3 row">
-                        <label class="col-sm-3 col-form-label">NISN</label>
+                        <label class="col-sm-3 col-form-label">NIM</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control @error('nisn') is-invalid @enderror" name="nisn" value="{{ old('nisn', $mahasiswa->nisn) }}" required>
-                            @error('nisn')
+                            <input type="text" class="form-control @error('nim') is-invalid @enderror" name="nim" value="{{ old('nim', $mahasiswa->nim) }}" required>
+                            @error('nim')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>

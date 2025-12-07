@@ -104,10 +104,10 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="nisn" class="form-label">NISN <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control @error('nisn') is-invalid @enderror"
-                                    id="nisn" name="nisn" value="{{ old('nisn', $user->mahasiswa->nisn ?? '') }}">
-                                @error('nisn')
+                                <label for="nim" class="form-label">NIM <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control @error('nim') is-invalid @enderror"
+                                    id="nim" name="nim" value="{{ old('nim', $user->mahasiswa->nim ?? '') }}">
+                                @error('nim')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>

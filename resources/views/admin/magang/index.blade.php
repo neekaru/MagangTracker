@@ -44,7 +44,7 @@
                         @forelse($aktif as $magang)
                         <tr>
                             <td>{{ $magang->mahasiswa->nama_lengkap ?? 'N/A' }}</td>
-                            <td>{{ $magang->mahasiswa->nisn ?? 'N/A' }}</td>
+                            <td>{{ $magang->mahasiswa->nim ?? 'N/A' }}</td>
                             <td>{{ $magang->unitBisnis->nama_unit_bisnis ?? 'N/A' }}</td>
                             <td>{{ $magang->periodeMagang->nama_periode ?? 'N/A' }}</td>
                             <td>{{ $magang->dosen->nama_lengkap ?? 'N/A' }}</td>
@@ -87,7 +87,7 @@
                         @forelse($pending as $magang)
                         <tr>
                             <td>{{ $magang->mahasiswa->nama_lengkap ?? 'N/A' }}</td>
-                            <td>{{ $magang->mahasiswa->nisn ?? 'N/A' }}</td>
+                            <td>{{ $magang->mahasiswa->nim ?? 'N/A' }}</td>
                             <td>{{ $magang->unitBisnis->nama_unit_bisnis ?? 'N/A' }}</td>
                             <td>{{ $magang->created_at->format('d M Y') }}</td>
                             <td>
@@ -125,7 +125,7 @@
                         @forelse($selesai as $magang)
                         <tr>
                             <td>{{ $magang->mahasiswa->nama_lengkap ?? 'N/A' }}</td>
-                            <td>{{ $magang->mahasiswa->nisn ?? 'N/A' }}</td>
+                            <td>{{ $magang->mahasiswa->nim ?? 'N/A' }}</td>
                             <td>{{ $magang->unitBisnis->nama_unit_bisnis ?? 'N/A' }}</td>
                             <td>{{ $magang->periodeMagang->nama_periode ?? 'N/A' }}</td>
                             <td>{{ $magang->dosen->nama_lengkap ?? 'N/A' }}</td>

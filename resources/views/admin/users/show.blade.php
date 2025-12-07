@@ -24,7 +24,7 @@
                         if ($user->role === 'Pembimbing' && $user->dosen) {
                             $name = $user->dosen->nama_lengkap;
                         } elseif ($user->role === 'Mahasiswa' && $user->mahasiswa) {
-                            $name = 'NISN: ' . $user->mahasiswa->nisn;
+                            $name = 'NIM: ' . $user->mahasiswa->nim;
                         } else {
                             $name = 'Admin';
                         }
@@ -76,8 +76,8 @@
                                 <td>{{ $user->mahasiswa->nama_lengkap ?? '-' }}</td>
                             </tr>
                             <tr>
-                                <th>NISN</th>
-                                <td>{{ $user->mahasiswa->nisn }}</td>
+                                <th>NIM</th>
+                                <td>{{ $user->mahasiswa->nim }}</td>
                             </tr>
                             <tr>
                                 <th>Tanggal Mulai</th>

@@ -25,7 +25,7 @@
                     @forelse($pesertas as $peserta)
                     <tr>
                         <td>{{ $peserta->mahasiswa->nama_lengkap ?? 'N/A' }}</td>
-                        <td>{{ $peserta->mahasiswa->nisn ?? 'N/A' }}</td>
+                        <td>{{ $peserta->mahasiswa->nim ?? 'N/A' }}</td>
                         <td>{{ $peserta->unitBisnis->nama_unit_bisnis ?? 'N/A' }}</td>
                         <td>{{ $peserta->periodeMagang->nama_periode ?? 'N/A' }}</td>
                         <td>

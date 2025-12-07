@@ -33,7 +33,7 @@ class ProfilController extends Controller
         
         $request->validate([
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'nisn' => 'required|string|unique:mahasiswa,nisn,' . $mahasiswa->id,
+            'nim' => 'required|string|unique:mahasiswa,nim,' . $mahasiswa->id,
             'nama_lengkap' => 'required|string',
             'password' => 'nullable|min:6|confirmed',
         ]);
@@ -46,7 +46,7 @@ class ProfilController extends Controller
         $user->save();
         
         // Update mahasiswa
-        $mahasiswa->nisn = $request->nisn;
+        $mahasiswa->nim = $request->nim;
         $mahasiswa->nama_lengkap = $request->nama_lengkap;
         $mahasiswa->save();
         

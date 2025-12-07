@@ -23,7 +23,7 @@
                     <div class="mb-3">
                         <label for="id_mahasiswa" class="form-label">Mahasiswa <span class="text-danger">*</span></label>
                         <input type="hidden" name="id_mahasiswa" value="{{ $magang->id_mahasiswa }}">
-                        <input type="text" class="form-control" value="{{ $magang->mahasiswa->nama_lengkap ?? 'N/A' }} ({{ $magang->mahasiswa->nisn ?? 'N/A' }})" readonly>
+                        <input type="text" class="form-control" value="{{ $magang->mahasiswa->nama_lengkap ?? 'N/A' }} ({{ $magang->mahasiswa->nim ?? 'N/A' }})" readonly>
                     </div>
 
                     <div class="mb-3">

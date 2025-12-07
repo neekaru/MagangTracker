@@ -46,7 +46,7 @@ class UserSeeder extends Seeder
         // Then create Mahasiswa record
         $mahasiswa = \App\Models\Mahasiswa::create([
             'user_id' => $mahasiswaUser->id,
-            'nisn' => '1234567890',
+            'nim' => '1234567890',
             'tanggal_mulai' => now(),
             'tanggal_selesai' => now()->addMonths(3),
         ]);
