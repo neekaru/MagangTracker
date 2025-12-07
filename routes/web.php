@@ -111,24 +111,7 @@ Route::prefix('pembimbing')->middleware('role:Pembimbing')->group(function () {
 
 // Mahasiswa Routes
 Route::prefix('mahasiswa')->middleware('role:Mahasiswa')->group(function () {
-    Route::get('/', function () {
-        $status_magang = 'Aktif';
-        $unit_penempatan = 'IT Support';
-        $kehadiran_persen = 95;
-        $kehadiran_total = 19;
-        $kehadiran_max = 20;
-        $logbook_minggu_ini = 4;
-        $logbook_target = 5;
-        return view('mahasiswa.dashboard', compact(
-            'status_magang',
-            'unit_penempatan',
-            'kehadiran_persen',
-            'kehadiran_total',
-            'kehadiran_max',
-            'logbook_minggu_ini',
-            'logbook_target'
-        ));
-    });
+    Route::get('/', [App\Http\Controllers\Mahasiswa\DashboardController::class, 'index'])->name('mahasiswa.dashboard');
 
     // Logbook
     Route::get('/logbook', [App\Http\Controllers\LogbookController::class, 'index'])->name('mahasiswa.logbook.index');

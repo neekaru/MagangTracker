@@ -51,24 +51,30 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header"><i class="fas fa-book me-2"></i>Logbook Terakhir</div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h6 class="mb-1">Senin, 1 Des 2025</h6>
-                            <small class="text-muted">08:00 - 16:00</small>
-                        </div>
-                        <p class="mb-1">Memperbaiki jaringan LAN di lantai 2.</p>
-                        <small class="text-success">Disetujui</small>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h6 class="mb-1">Jumat, 28 Nov 2025</h6>
-                            <small class="text-muted">08:00 - 16:00</small>
-                        </div>
-                        <p class="mb-1">Instalasi OS Windows pada PC baru.</p>
-                        <small class="text-success">Disetujui</small>
-                    </li>
-                </ul>
+                @if($latest_logbook->count() > 0)
+                    <ul class="list-group list-group-flush">
+                        @foreach($latest_logbook as $logbook)
+                            <li class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">{{ $logbook->tanggal_logbook->translatedFormat('l, d M Y') }}</h6>
+                                    <small class="text-muted">{{ $logbook->jam_mulai }} - {{ $logbook->jam_selesai }}</small>
+                                </div>
+                                <p class="mb-1">{{ $logbook->deskripsi_kegiatan }}</p>
+                                @if($logbook->status == 'Disetujui')
+                                    <small class="text-success">Disetujui</small>
+                                @elseif($logbook->status == 'Ditolak')
+                                    <small class="text-danger">Ditolak</small>
+                                @else
+                                    <small class="text-warning">Menunggu Persetujuan</small>
+                                @endif
+                            </li>
+                        @endforeach
+                    </ul>
+                @else
+                    <div class="card-body text-center text-muted">
+                        <p class="mb-0">Belum ada logbook. <a href="{{ url('/mahasiswa/logbook/create') }}">Isi logbook sekarang</a></p>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
