@@ -50,7 +50,7 @@ class DashboardController extends Controller
                     'id' => $magang->id,
                     'nama' => $magang->mahasiswa->nama_lengkap ?? 'N/A',
                     'nim' => $magang->mahasiswa->nim ?? 'N/A',
-                    'unit' => $magang->unitBisnis->nama ?? ($magang->unit_lainnya ?? 'N/A'),
+                    'unit' => $magang->unitBisnis->nama_unit_bisnis ?? ($magang->unit_lainnya ?? 'N/A'),
                     'logbook_count' => $logbookThisWeek,
                     'target_weekly' => $targetWeekly,
                 ];
