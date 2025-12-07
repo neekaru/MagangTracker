@@ -15,7 +15,7 @@
             <div class="card text-white bg-primary mb-3">
                 <div class="card-header"><i class="fas fa-users me-2"></i>Peserta Aktif</div>
                 <div class="card-body">
-                    <h5 class="card-title">120</h5>
+                    <h5 class="card-title">{{ $peserta_aktif }}</h5>
                     <p class="card-text">Mahasiswa sedang magang.</p>
                 </div>
             </div>
@@ -24,7 +24,7 @@
             <div class="card text-white bg-success mb-3">
                 <div class="card-header"><i class="fas fa-chalkboard-teacher me-2"></i>Pembimbing</div>
                 <div class="card-body">
-                    <h5 class="card-title">15</h5>
+                    <h5 class="card-title">{{ $pembimbing }}</h5>
                     <p class="card-text">Dosen & Pembimbing Lapangan.</p>
                 </div>
             </div>
@@ -33,7 +33,7 @@
             <div class="card text-white bg-warning mb-3">
                 <div class="card-header"><i class="fas fa-user-plus me-2"></i>Pendaftaran Baru</div>
                 <div class="card-body">
-                    <h5 class="card-title">5</h5>
+                    <h5 class="card-title">{{ $pendaftaran_baru }}</h5>
                     <p class="card-text">Menunggu verifikasi.</p>
                 </div>
             </div>
@@ -42,7 +42,7 @@
             <div class="card text-white bg-danger mb-3">
                 <div class="card-header"><i class="fas fa-book-open me-2"></i>Logbook Hari Ini</div>
                 <div class="card-body">
-                    <h5 class="card-title">45</h5>
+                    <h5 class="card-title">{{ $logbook_hari_ini }}</h5>
                     <p class="card-text">Logbook terisi hari ini.</p>
                 </div>
             </div>
@@ -66,12 +66,14 @@
                     <i class="fas fa-history me-2"></i>Aktivitas Terbaru
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Budi mengisi logbook <span class="badge bg-secondary float-end">10m
-                            ago</span></li>
-                    <li class="list-group-item">Siti mendaftar magang <span class="badge bg-secondary float-end">1h
-                            ago</span></li>
-                    <li class="list-group-item">Pak Dosen menilai Andi <span class="badge bg-secondary float-end">2h
-                            ago</span></li>
+                    @forelse($aktivitas_terbaru as $aktivitas)
+                        <li class="list-group-item">
+                            {{ $aktivitas['deskripsi'] }}
+                            <span class="badge bg-secondary float-end">{{ $aktivitas['waktu'] }}</span>
+                        </li>
+                    @empty
+                        <li class="list-group-item">Belum ada aktivitas</li>
+                    @endforelse
                 </ul>
             </div>
         </div>
@@ -85,10 +87,10 @@
             const magangChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['Ganjil 2024', 'Genap 2024', 'Ganjil 2025', 'Genap 2025'],
+                    labels: {!! json_encode($periode_labels) !!},
                     datasets: [{
                         label: 'Jumlah Peserta Magang',
-                        data: [45, 52, 38, 65],
+                        data: {!! json_encode($periode_data) !!},
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
                             'rgba(54, 162, 235, 0.2)',

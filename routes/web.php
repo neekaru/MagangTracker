@@ -38,9 +38,7 @@ Route::get('/forgot-password', function () {
 
 // Admin Routes
 Route::prefix('admin')->middleware('role:Admin')->group(function () {
-    Route::get('/', function () {
-        return view('admin.dashboard');
-    });
+    Route::get('/', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
 
     // Users Management
     Route::resource('users', App\Http\Controllers\Admin\UserController::class);
