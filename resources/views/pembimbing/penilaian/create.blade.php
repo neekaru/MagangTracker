@@ -1,17 +1,14 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Penilaian')
+@section('title', 'Tambah Penilaian')
 
 @section('content')
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Edit Penilaian: {{ $penilaian->magang->mahasiswa->nama_lengkap ?? $penilaian->magang->mahasiswa->user->name }}</h1>
+    <h1 class="h2">Form Penilaian: {{ $magang->mahasiswa->nama_lengkap ?? $magang->mahasiswa->user->name }}</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
         <a href="{{ route('pembimbing.penilaian.index') }}" class="btn btn-sm btn-secondary">
             <i class="fas fa-arrow-left"></i> Kembali
         </a>
-        <button class="btn btn-sm btn-info ms-2" onclick="window.print()">
-            <i class="fas fa-print"></i> Print
-        </button>
     </div>
 </div>
 
@@ -36,19 +33,19 @@
                 <table class="table table-sm">
                     <tr>
                         <th width="150">Nama</th>
-                        <td>{{ $penilaian->magang->mahasiswa->nama_lengkap ?? $penilaian->magang->mahasiswa->user->name }}</td>
+                        <td>{{ $magang->mahasiswa->nama_lengkap ?? $magang->mahasiswa->user->name }}</td>
                     </tr>
                     <tr>
                         <th>NIM</th>
-                        <td>{{ $penilaian->magang->mahasiswa->nim }}</td>
+                        <td>{{ $magang->mahasiswa->nim }}</td>
                     </tr>
                     <tr>
                         <th>Unit Bisnis</th>
-                        <td>{{ $penilaian->magang->unitBisnis->nama_unit_bisnis ?? '-' }}</td>
+                        <td>{{ $magang->unitBisnis->nama_unit_bisnis ?? '-' }}</td>
                     </tr>
                     <tr>
                         <th>Periode</th>
-                        <td>{{ $penilaian->magang->tanggal_mulai }} s/d {{ $penilaian->magang->tanggal_selesai }}</td>
+                        <td>{{ $magang->tanggal_mulai }} s/d {{ $magang->tanggal_selesai }}</td>
                     </tr>
                 </table>
             </div>
@@ -56,19 +53,17 @@
 
         <div class="card shadow-sm">
             <div class="card-body">
-                <form action="{{ route('pembimbing.penilaian.update', $penilaian->id) }}" method="POST">
+                <form action="{{ route('pembimbing.penilaian.store') }}" method="POST">
                     @csrf
-                    @method('PUT')
-                    @csrf
-                    @method('PUT')
+                    <input type="hidden" name="magang_id" value="{{ $magang->id }}">
+                    
                     <h5 class="mb-3">Komponen Penilaian</h5>
                     
                     <div class="mb-3 row">
                         <label class="col-sm-5 col-form-label">Kedisiplinan <span class="text-danger">*</span></label>
                         <div class="col-sm-7">
                             <input type="number" class="form-control @error('nilai_kedisplinan') is-invalid @enderror" 
-                                   name="nilai_kedisplinan" min="0" max="100" 
-                                   value="{{ old('nilai_kedisplinan', $penilaian->nilai_kedisplinan) }}" required>
+                                   name="nilai_kedisplinan" min="0" max="100" value="{{ old('nilai_kedisplinan') }}" required>
                             @error('nilai_kedisplinan')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -79,8 +74,7 @@
                         <label class="col-sm-5 col-form-label">Tanggung Jawab <span class="text-danger">*</span></label>
                         <div class="col-sm-7">
                             <input type="number" class="form-control @error('nilai_tanggung_jawab') is-invalid @enderror" 
-                                   name="nilai_tanggung_jawab" min="0" max="100" 
-                                   value="{{ old('nilai_tanggung_jawab', $penilaian->nilai_tanggung_jawab) }}" required>
+                                   name="nilai_tanggung_jawab" min="0" max="100" value="{{ old('nilai_tanggung_jawab') }}" required>
                             @error('nilai_tanggung_jawab')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -91,8 +85,7 @@
                         <label class="col-sm-5 col-form-label">Kemampuan Teknis <span class="text-danger">*</span></label>
                         <div class="col-sm-7">
                             <input type="number" class="form-control @error('nilai_kemampuan_teknis') is-invalid @enderror" 
-                                   name="nilai_kemampuan_teknis" min="0" max="100" 
-                                   value="{{ old('nilai_kemampuan_teknis', $penilaian->nilai_kemampuan_teknis) }}" required>
+                                   name="nilai_kemampuan_teknis" min="0" max="100" value="{{ old('nilai_kemampuan_teknis') }}" required>
                             @error('nilai_kemampuan_teknis')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -103,8 +96,7 @@
                         <label class="col-sm-5 col-form-label">Laporan Akhir <span class="text-danger">*</span></label>
                         <div class="col-sm-7">
                             <input type="number" class="form-control @error('nilai_laporan_akhir') is-invalid @enderror" 
-                                   name="nilai_laporan_akhir" min="0" max="100" 
-                                   value="{{ old('nilai_laporan_akhir', $penilaian->nilai_laporan_akhir) }}" required>
+                                   name="nilai_laporan_akhir" min="0" max="100" value="{{ old('nilai_laporan_akhir') }}" required>
                             @error('nilai_laporan_akhir')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -115,8 +107,7 @@
                         <label class="col-sm-5 col-form-label">Prestasi <span class="text-danger">*</span></label>
                         <div class="col-sm-7">
                             <input type="number" class="form-control @error('nilai_prestasi') is-invalid @enderror" 
-                                   name="nilai_prestasi" min="0" max="100" 
-                                   value="{{ old('nilai_prestasi', $penilaian->nilai_prestasi) }}" required>
+                                   name="nilai_prestasi" min="0" max="100" value="{{ old('nilai_prestasi') }}" required>
                             @error('nilai_prestasi')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -139,7 +130,7 @@
                     <div class="mb-3">
                         <label class="form-label">Catatan / Komentar</label>
                         <textarea class="form-control @error('catatan') is-invalid @enderror" 
-                                  name="catatan" rows="4">{{ old('catatan', $penilaian->catatan) }}</textarea>
+                                  name="catatan" rows="4">{{ old('catatan') }}</textarea>
                         @error('catatan')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -147,7 +138,7 @@
 
                     <div class="d-flex justify-content-end gap-2">
                         <a href="{{ route('pembimbing.penilaian.index') }}" class="btn btn-secondary">Batal</a>
-                        <button type="submit" class="btn btn-primary">Update Penilaian</button>
+                        <button type="submit" class="btn btn-primary">Simpan Penilaian</button>
                     </div>
                 </form>
             </div>
@@ -159,9 +150,10 @@
             <div class="card-body">
                 <h6>Panduan Penilaian</h6>
                 <ul class="small text-muted ps-3">
-                    <li>Rentang nilai 0 - 100.</li>
-                    <li>Nilai Akhir dihitung otomatis berdasarkan bobot.</li>
-                    <li>Pastikan objektif dalam memberikan penilaian.</li>
+                    <li>Rentang nilai 0 - 100</li>
+                    <li>Nilai Rata-rata dihitung otomatis</li>
+                    <li>Semua field wajib diisi</li>
+                    <li>Pastikan objektif dalam memberikan penilaian</li>
                 </ul>
             </div>
         </div>

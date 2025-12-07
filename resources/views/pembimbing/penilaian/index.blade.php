@@ -7,6 +7,20 @@
     <h1 class="h2">Input Penilaian Peserta</h1>
 </div>
 
+@if(session('success'))
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ session('success') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+@endif
+
+@if(session('error'))
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ session('error') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+@endif
+
 <div class="card shadow-sm">
     <div class="card-body">
         <div class="table-responsive">
@@ -21,24 +35,41 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @forelse($magangList as $magang)
+                    @php
+                        $penilaian = $penilaianList->where('magang_id', $magang->id)->first();
+                    @endphp
                     <tr>
-                        <td>Siti Aminah</td>
-                        <td>C030320005</td>
-                        <td>IT Support</td>
-                        <td><span class="badge bg-warning text-dark">Belum Dinilai</span></td>
+                        <td>{{ $magang->mahasiswa->nama_lengkap ?? $magang->mahasiswa->user->name }}</td>
+                        <td>{{ $magang->mahasiswa->nim }}</td>
+                        <td>{{ $magang->unitBisnis->nama_unit_bisnis ?? '-' }}</td>
                         <td>
-                            <a href="{{ url('/pembimbing/penilaian/1') }}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Nilai</a>
+                            @if($penilaian)
+                                <span class="badge bg-success">Sudah Dinilai</span>
+                            @else
+                                <span class="badge bg-warning text-dark">Belum Dinilai</span>
+                            @endif
+                        </td>
+                        <td>
+                            @if($penilaian)
+                                <a href="{{ route('pembimbing.penilaian.show', $penilaian->id) }}" class="btn btn-sm btn-info">
+                                    <i class="fas fa-eye"></i> Lihat
+                                </a>
+                                <a href="{{ route('pembimbing.penilaian.edit', $penilaian->id) }}" class="btn btn-sm btn-secondary">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                            @else
+                                <a href="{{ route('pembimbing.penilaian.create', $magang->id) }}" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-edit"></i> Nilai
+                                </a>
+                            @endif
                         </td>
                     </tr>
+                    @empty
                     <tr>
-                        <td>Budi Santoso</td>
-                        <td>C030320008</td>
-                        <td>IT Support</td>
-                        <td><span class="badge bg-success">Sudah Dinilai</span></td>
-                        <td>
-                            <a href="{{ url('/pembimbing/penilaian/2') }}" class="btn btn-sm btn-secondary"><i class="fas fa-edit"></i> Edit</a>
-                        </td>
+                        <td colspan="5" class="text-center">Tidak ada peserta magang yang dibimbing</td>
                     </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

@@ -58,7 +58,7 @@ class MagangController extends Controller
 
         Magang::create($validated);
 
-        return redirect()->route('admin.magang.index')->with('success', 'Magang berhasil ditambahkan');
+        return redirect()->route('magang.index')->with('success', 'Magang berhasil ditambahkan');
     }
 
     /**
@@ -106,7 +106,7 @@ class MagangController extends Controller
 
         $magang->update($validated);
 
-        return redirect()->route('admin.magang.index')->with('success', 'Magang berhasil diupdate');
+        return redirect()->route('magang.index')->with('success', 'Magang berhasil diupdate');
     }
 
     /**
@@ -117,6 +117,6 @@ class MagangController extends Controller
         $magang = Magang::findOrFail($id);
         $magang->delete();
 
-        return redirect()->route('admin.magang.index')->with('success', 'Magang berhasil dihapus');
+        return redirect()->route('magang.index')->with('success', 'Magang berhasil dihapus');
     }
 }
