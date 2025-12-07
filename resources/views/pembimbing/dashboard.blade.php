@@ -47,76 +47,40 @@
                     <i class="fas fa-users me-2"></i>Daftar Peserta Bimbingan (Ringkasan)
                 </div>
                 <div class="card-body">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Nama</th>
-                                <th>NIM</th>
-                                <th>Unit</th>
-                                <th>Logbook (Minggu Ini)</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Ahmad Fulan</td>
-                                <td>C030320001</td>
-                                <td>IT Support</td>
-                                <td><span class="badge bg-success">Lengkap</span></td>
-                                <td><a href="{{ url('/pembimbing/peserta/2') }}" class="btn btn-sm btn-primary">Detail</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Rina Wati</td>
-                                <td>C030320002</td>
-                                <td>Keuangan</td>
-                                <td><span class="badge bg-warning">Kurang 1</span></td>
-                                <td><a href="{{ url('/pembimbing/peserta/1') }}" class="btn btn-sm btn-primary">Detail</a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <i class="fas fa-users me-2"></i>Daftar Peserta Bimbingan (Ringkasan)
-                </div>
-                <div class="card-body">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Nama</th>
-                                <th>NIM</th>
-                                <th>Unit</th>
-                                <th>Logbook (Minggu Ini)</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Ahmad Fulan</td>
-                                <td>C030320001</td>
-                                <td>IT Support</td>
-                                <td><span class="badge bg-success">Lengkap</span></td>
-                                <td><a href="{{ url('/pembimbing/peserta/2') }}" class="btn btn-sm btn-primary">Detail</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Rina Wati</td>
-                                <td>C030320002</td>
-                                <td>Keuangan</td>
-                                <td><span class="badge bg-warning">Kurang 1</span></td>
-                                <td><a href="{{ url('/pembimbing/peserta/1') }}" class="btn btn-sm btn-primary">Detail</a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    @if($peserta->isEmpty())
+                        <p class="text-muted">Belum ada peserta bimbingan.</p>
+                    @else
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nama</th>
+                                    <th>NIM</th>
+                                    <th>Unit</th>
+                                    <th>Logbook (Minggu Ini)</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($peserta as $p)
+                                    <tr>
+                                        <td>{{ $p['nama'] }}</td>
+                                        <td>{{ $p['nim'] }}</td>
+                                        <td>{{ $p['unit'] }}</td>
+                                        <td>
+                                            @if($p['logbook_count'] >= $p['target_weekly'])
+                                                <span class="badge bg-success">Lengkap ({{ $p['logbook_count'] }}/{{ $p['target_weekly'] }})</span>
+                                            @else
+                                                <span class="badge bg-warning">Kurang {{ $p['target_weekly'] - $p['logbook_count'] }} ({{ $p['logbook_count'] }}/{{ $p['target_weekly'] }})</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('pembimbing.peserta.show', $p['id']) }}" class="btn btn-sm btn-primary">Detail</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @endif
                 </div>
             </div>
         </div>

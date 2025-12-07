@@ -33,6 +33,29 @@ class DashboardController extends Controller
             ->whereDate('tanggal', today())
             ->count();
 
-        return view('pembimbing.dashboard', compact('peserta_count', 'logbook_pending', 'absensi_hadir', 'absensi_total'));
+        $peserta = Magang::with(['mahasiswa', 'unitBisnis'])
+            ->where('id_dosen', $dosenId)
+            ->get()
+            ->map(function($magang) {
+                $startOfWeek = now()->startOfWeek();
+                $endOfWeek = now()->endOfWeek();
+                
+                $logbookThisWeek = Logbook::where('magang_id', $magang->id)
+                    ->whereBetween('tanggal_logbook', [$startOfWeek, $endOfWeek])
+                    ->count();
+                
+                $targetWeekly = $magang->target_book_mingguan ?? 5;
+                
+                return [
+                    'id' => $magang->id,
+                    'nama' => $magang->mahasiswa->nama_lengkap ?? 'N/A',
+                    'nim' => $magang->mahasiswa->nim ?? 'N/A',
+                    'unit' => $magang->unitBisnis->nama ?? ($magang->unit_lainnya ?? 'N/A'),
+                    'logbook_count' => $logbookThisWeek,
+                    'target_weekly' => $targetWeekly,
+                ];
+            });
+
+        return view('pembimbing.dashboard', compact('peserta_count', 'logbook_pending', 'absensi_hadir', 'absensi_total', 'peserta'));
     }
 }
