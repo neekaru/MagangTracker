@@ -59,18 +59,11 @@ Route::prefix('admin')->middleware('role:Admin')->group(function () {
     Route::resource('absensi', App\Http\Controllers\AbsensiController::class)->only(['index']);
 
     // Penilaian & Laporan
-    Route::get('/penilaian', function () {
-        return view('admin.penilaian.index');
-    });
-    Route::get('/penilaian/{id}', function () {
-        return view('admin.penilaian.show');
-    });
-    Route::get('/penilaian/{id}/edit', function () {
-        return view('admin.penilaian.edit');
-    });
-    Route::put('/penilaian/{id}', function () {
-        return redirect('/admin/penilaian')->with('success', 'Penilaian berhasil diupdate');
-    });
+    Route::get('/penilaian', [App\Http\Controllers\Admin\PenilaianController::class, 'index'])->name('penilaian.index');
+    Route::get('/penilaian/{id}', [App\Http\Controllers\Admin\PenilaianController::class, 'show'])->name('penilaian.show');
+    Route::get('/penilaian/{id}/edit', [App\Http\Controllers\Admin\PenilaianController::class, 'edit'])->name('penilaian.edit');
+    Route::put('/penilaian/{id}', [App\Http\Controllers\Admin\PenilaianController::class, 'update'])->name('penilaian.update');
+    Route::delete('/penilaian/{id}', [App\Http\Controllers\Admin\PenilaianController::class, 'destroy'])->name('penilaian.destroy');
     Route::get('/laporan', function () {
         return view('admin.laporan.index');
     });
@@ -85,15 +78,12 @@ Route::prefix('pembimbing')->middleware('role:Pembimbing')->group(function () {
     Route::get('/peserta/{id}', [App\Http\Controllers\Pembimbing\PesertaController::class, 'show'])->name('pembimbing.peserta.show');
 
     // Penilaian
-    Route::get('/penilaian', function () {
-        return view('pembimbing.penilaian.index');
-    });
-    Route::get('/penilaian/{id}', function () {
-        return view('pembimbing.penilaian.edit');
-    });
-    Route::post('/penilaian', function () {
-        return redirect('/pembimbing/penilaian')->with('success', 'Penilaian berhasil disimpan');
-    });
+    Route::get('/penilaian', [App\Http\Controllers\Pembimbing\PenilaianController::class, 'index'])->name('pembimbing.penilaian.index');
+    Route::get('/penilaian/create/{magang}', [App\Http\Controllers\Pembimbing\PenilaianController::class, 'create'])->name('pembimbing.penilaian.create');
+    Route::post('/penilaian', [App\Http\Controllers\Pembimbing\PenilaianController::class, 'store'])->name('pembimbing.penilaian.store');
+    Route::get('/penilaian/{id}', [App\Http\Controllers\Pembimbing\PenilaianController::class, 'show'])->name('pembimbing.penilaian.show');
+    Route::get('/penilaian/{id}/edit', [App\Http\Controllers\Pembimbing\PenilaianController::class, 'edit'])->name('pembimbing.penilaian.edit');
+    Route::put('/penilaian/{id}', [App\Http\Controllers\Pembimbing\PenilaianController::class, 'update'])->name('pembimbing.penilaian.update');
 
     // Laporan
     Route::get('/laporan', function () {
@@ -126,9 +116,7 @@ Route::prefix('mahasiswa')->middleware('role:Mahasiswa')->group(function () {
     Route::resource('magang', App\Http\Controllers\MagangController::class)->only(['create', 'store']);
 
     // Nilai
-    Route::get('/nilai', function () {
-        return view('mahasiswa.nilai.index');
-    });
+    Route::get('/nilai', [App\Http\Controllers\Mahasiswa\NilaiController::class, 'index'])->name('mahasiswa.nilai.index');
 });
 
 // Admin Routes
