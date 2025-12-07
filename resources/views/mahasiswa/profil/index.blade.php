@@ -73,14 +73,24 @@
                     <div class="mb-3 row">
                         <label class="col-sm-3 col-form-label">Password Baru</label>
                         <div class="col-sm-9">
-                            <input type="password" class="form-control" name="password">
+                            <div class="input-group">
+                                <input type="password" class="form-control" name="password">
+                                <button class="btn btn-outline-secondary toggle-password" type="button">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                     
                     <div class="mb-3 row">
                         <label class="col-sm-3 col-form-label">Konfirmasi Password</label>
                         <div class="col-sm-9">
-                            <input type="password" class="form-control" name="password_confirmation">
+                            <div class="input-group">
+                                <input type="password" class="form-control" name="password_confirmation">
+                                <button class="btn btn-outline-secondary toggle-password" type="button">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
 
