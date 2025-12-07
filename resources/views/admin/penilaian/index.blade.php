@@ -7,6 +7,13 @@
     <h1 class="h2">Penilaian Akhir Magang</h1>
 </div>
 
+@if(session('success'))
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ session('success') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+@endif
+
 <div class="card shadow-sm">
     <div class="card-body">
         <div class="table-responsive">
@@ -14,45 +21,59 @@
                 <thead>
                     <tr>
                         <th>Nama Peserta</th>
+                        <th>NIM</th>
                         <th>Unit</th>
                         <th>Pembimbing</th>
-                        <th>Nilai Lapangan</th>
-                        <th>Nilai Dosen</th>
                         <th>Nilai Akhir</th>
                         <th>Status</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($penilaianList as $penilaian)
+                    @php
+                        $average = ($penilaian->nilai_kedisplinan + 
+                                   $penilaian->nilai_tanggung_jawab + 
+                                   $penilaian->nilai_kemampuan_teknis + 
+                                   $penilaian->nilai_laporan_akhir + 
+                                   $penilaian->nilai_prestasi) / 5;
+                    @endphp
                     <tr>
-                        <td>Siti Aminah</td>
-                        <td>IT Support</td>
-                        <td>Pak Budi</td>
-                        <td>85</td>
-                        <td>90</td>
-                        <td><strong>87.5</strong></td>
-                        <td><span class="badge bg-success">Selesai</span></td>
+                        <td>{{ $penilaian->magang->mahasiswa->nama_lengkap ?? $penilaian->magang->mahasiswa->user->name }}</td>
+                        <td>{{ $penilaian->magang->mahasiswa->nim }}</td>
+                        <td>{{ $penilaian->magang->unitBisnis->nama_unit_bisnis ?? '-' }}</td>
+                        <td>{{ $penilaian->penilai->nama_lengkap ?? '-' }}</td>
+                        <td><strong>{{ number_format($average, 2) }}</strong></td>
                         <td>
-                            <a href="{{ url('/admin/penilaian/1') }}" class="btn btn-sm btn-info text-white"><i class="fas fa-eye"></i></a>
-                            <a href="{{ url('/admin/penilaian/1/edit') }}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
+                            @if($average >= 60)
+                                <span class="badge bg-success">Lulus</span>
+                            @else
+                                <span class="badge bg-danger">Tidak Lulus</span>
+                            @endif
+                        </td>
+                        <td>
+                            <a href="{{ route('penilaian.show', $penilaian->id) }}" class="btn btn-sm btn-info text-white" title="Lihat Detail">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="{{ route('penilaian.edit', $penilaian->id) }}" class="btn btn-sm btn-warning" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <form action="{{ route('penilaian.destroy', $penilaian->id) }}" method="POST" class="d-inline" 
+                                  onsubmit="return confirm('Apakah Anda yakin ingin menghapus penilaian ini?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger" title="Hapus">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
                         </td>
                     </tr>
-                    <tr>
-                        <td>Rudi Hartono</td>
-                        <td>Keuangan</td>
-                        <td>Bu Ani</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td><span class="badge bg-warning text-dark">Proses</span></td>
-                        <td>
-                            <a href="{{ url('/admin/penilaian/2') }}" class="btn btn-sm btn-info text-white"><i class="fas fa-eye"></i></a>
-                            <a href="{{ url('/admin/penilaian/2/edit') }}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
-                        </td>
-                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
+        
+        {{ $penilaianList->links() }}
     </div>
 </div>
 @endsection
@@ -60,7 +81,19 @@
 @push('scripts')
 <script>
     $(document).ready(function() {
-        $('#penilaianTable').DataTable();
+        $('#penilaianTable').DataTable({
+            "paging": false, // Pagination handled by Laravel
+            "info": false,
+            "language": {
+                "emptyTable": "Belum ada data penilaian",
+                "zeroRecords": "Tidak ada data yang cocok",
+                "search": "Cari:",
+                "lengthMenu": "Tampilkan _MENU_ data per halaman"
+            },
+            "columnDefs": [
+                { "orderable": false, "targets": 6 } // Disable sorting on action column
+            ]
+        });
     });
 </script>
 @endpush

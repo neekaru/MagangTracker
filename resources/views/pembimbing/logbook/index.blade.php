@@ -21,7 +21,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($logbooks as $logbook)
+                    @foreach($logbooks as $logbook)
                     <tr>
                         <td>{{ $logbook->magang->mahasiswa->nama_lengkap ?? 'N/A' }}</td>
                         <td>{{ \Carbon\Carbon::parse($logbook->tanggal_logbook)->translatedFormat('d F Y') }}</td>
@@ -47,11 +47,7 @@
                             </form>
                         </td>
                     </tr>
-                    @empty
-                    <tr>
-                        <td colspan="5" class="text-center">Belum ada data logbook.</td>
-                    </tr>
-                    @endforelse
+                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -64,8 +60,24 @@
     $(document).ready(function() {
         $('#logbookTable').DataTable({
             "language": {
-                "emptyTable": "Belum ada data logbook."
-            }
+                "emptyTable": "Belum ada data logbook",
+                "zeroRecords": "Tidak ada data yang cocok",
+                "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                "infoEmpty": "Menampilkan 0 sampai 0 dari 0 data",
+                "infoFiltered": "(disaring dari _MAX_ total data)",
+                "search": "Cari:",
+                "paginate": {
+                    "first": "Pertama",
+                    "last": "Terakhir",
+                    "next": "Selanjutnya",
+                    "previous": "Sebelumnya"
+                },
+                "lengthMenu": "Tampilkan _MENU_ data per halaman"
+            },
+            "order": [[1, "desc"]], // Sort by date descending
+            "columnDefs": [
+                { "orderable": false, "targets": 4 } // Disable sorting on action column
+            ]
         });
     });
 </script>
