@@ -78,13 +78,7 @@ Route::prefix('admin')->middleware('role:Admin')->group(function () {
 
 // Pembimbing Routes
 Route::prefix('pembimbing')->middleware('role:Pembimbing')->group(function () {
-    Route::get('/', function () {
-        $peserta_count = 8;
-        $logbook_pending = 12;
-        $absensi_hadir = 8;
-        $absensi_total = 8;
-        return view('pembimbing.dashboard', compact('peserta_count', 'logbook_pending', 'absensi_hadir', 'absensi_total'));
-    });
+    Route::get('/', [App\Http\Controllers\Pembimbing\DashboardController::class, 'index'])->name('pembimbing.dashboard');
 
     // Peserta Bimbingan
     Route::get('/peserta', [App\Http\Controllers\Pembimbing\PesertaController::class, 'index'])->name('pembimbing.peserta.index');
