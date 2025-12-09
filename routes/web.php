@@ -50,7 +50,7 @@ Route::prefix('admin')->middleware('role:Admin')->group(function () {
     Route::resource('unit-bisnis', App\Http\Controllers\Admin\UnitBisnisController::class);
 
     // Monitoring
-    Route::resource('logbook', App\Http\Controllers\LogbookController::class)->only(['index', 'show', 'edit', 'update', 'destroy']);
+    Route::resource('logbook', App\Http\Controllers\LogbookController::class)->only(['index', 'edit', 'update', 'destroy']);
 
     // Absensi
     Route::resource('absensi', App\Http\Controllers\AbsensiController::class)->only(['index']);
@@ -116,12 +116,8 @@ Route::prefix('mahasiswa')->middleware('role:Mahasiswa')->group(function () {
     Route::get('/nilai', [App\Http\Controllers\Mahasiswa\NilaiController::class, 'index'])->name('mahasiswa.nilai.index');
 });
 
-// Admin Routes
-Route::prefix('admin')->middleware('role:Admin')->group(function () {
-    Route::resource('logbook', App\Http\Controllers\LogbookController::class)->only(['index', 'edit', 'update', 'destroy']);
-});
-
 Route::prefix('pembimbing')->middleware('role:Pembimbing')->group(function () {
     Route::get('logbook', [App\Http\Controllers\LogbookController::class, 'pembimbingIndex'])->name('pembimbing.logbook.index');
+    Route::get('logbook/{logbook}', [App\Http\Controllers\LogbookController::class, 'show'])->name('pembimbing.logbook.show');
     Route::put('logbook/{logbook}', [App\Http\Controllers\LogbookController::class, 'update'])->name('pembimbing.logbook.update');
 });

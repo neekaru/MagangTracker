@@ -16,7 +16,16 @@
         </div>
         <div class="mb-3">
             <label>Approved By</label>
-            <input type="number" name="approved_by" class="form-control" value="{{ $logbook->approved_by }}">
+            <select name="approved_by" class="form-control">
+                <option value="">Pilih Pembimbing</option>
+                @foreach($dosens as $dosen)
+                    @if($dosen->user)
+                        <option value="{{ $dosen->user->id }}" {{ $logbook->approved_by == $dosen->user->id ? 'selected' : '' }}>
+                            {{ $dosen->nama_lengkap }}
+                        </option>
+                    @endif
+                @endforeach
+            </select>
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
     </form>

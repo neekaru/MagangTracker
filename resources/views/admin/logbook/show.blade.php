@@ -5,8 +5,12 @@
 @section('content')
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Detail Logbook</h1>
+    @php
+        $isPembimbing = auth()->check() && auth()->user()->role === 'Pembimbing';
+        $backRoute = $isPembimbing ? route('pembimbing.logbook.index') : route('logbook.index');
+    @endphp
     <div class="btn-toolbar mb-2 mb-md-0">
-        <a href="{{ route('logbook.index') }}" class="btn btn-sm btn-secondary">
+        <a href="{{ $backRoute }}" class="btn btn-sm btn-secondary">
             <i class="fas fa-arrow-left"></i> Kembali
         </a>
     </div>
@@ -66,13 +70,6 @@
                     </div>
                 </div>
                 @endif
-
-                <hr>
-                
-                <div class="d-flex justify-content-end gap-2">
-                    <button class="btn btn-success"><i class="fas fa-check"></i> Setujui</button>
-                    <button class="btn btn-danger"><i class="fas fa-times"></i> Tolak</button>
-                </div>
             </div>
         </div>
     </div>

@@ -63,9 +63,8 @@
                             @endif
                         </td>
                         <td>
-                            <a href="{{ route('logbook.show', $logbook) }}" class="btn btn-sm btn-info text-white" title="View"><i class="fas fa-eye"></i></a>
                             <a href="{{ route('logbook.edit', $logbook) }}" class="btn btn-sm btn-warning" title="Edit"><i class="fas fa-edit"></i></a>
-                            <form action="{{ route('logbook.destroy', $logbook) }}" method="POST" style="display:inline;">
+                            <form action="{{ route('logbook.destroy', $logbook) }}" method="POST" class="d-inline-block delete-form">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-sm btn-danger delete-btn" title="Delete"><i class="fas fa-trash"></i></button>
@@ -87,7 +86,9 @@
             "order": [[ 0, "desc" ]]
         });
 
-        $('.delete-btn').click(function() {
+        $('.delete-btn').on('click', function(e) {
+            e.preventDefault();
+            const form = $(this).closest('form');
             Swal.fire({
                 title: 'Hapus Logbook?',
                 text: "Data yang dihapus tidak dapat dikembalikan!",
@@ -99,13 +100,9 @@
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire(
-                        'Terhapus!',
-                        'Logbook berhasil dihapus.',
-                        'success'
-                    )
+                    form.submit();
                 }
-            })
+            });
         });
     });
 </script>

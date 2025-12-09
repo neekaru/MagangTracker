@@ -35,8 +35,11 @@
                                 <span class="badge bg-warning text-dark">Pending</span>
                             @endif
                         </td>
-                        <td>
-                            <form action="{{ route('pembimbing.logbook.update', $logbook) }}" method="POST">
+                        <td class="d-flex gap-2">
+                            <a href="{{ route('pembimbing.logbook.show', $logbook) }}" class="btn btn-sm btn-info text-white">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <form action="{{ route('pembimbing.logbook.update', $logbook) }}" method="POST" class="flex-grow-1">
                                 @csrf
                                 @method('PUT')
                                 <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">

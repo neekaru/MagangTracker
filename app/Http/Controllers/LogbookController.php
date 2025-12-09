@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dosen;
 use App\Models\Logbook;
 use App\Models\Magang;
 use Illuminate\Http\Request;
@@ -52,21 +53,20 @@ class LogbookController extends Controller
 
         Logbook::create($data);
 
-        return redirect()->route('logbook.index')->with('success', 'Logbook created successfully.');
+        return redirect()->route('mahasiswa.logbook.index')->with('success', 'Logbook created successfully.');
     }
 
     public function show(Logbook $logbook)
     {
         $user = Auth::user();
-        if ($user->role === 'Mahasiswa') {
-            // Ensure logbook belongs to user's magang
-            if (!$logbook->magang || $logbook->magang->id_mahasiswa !== $user->mahasiswa->id) {
+        if ($user->role === 'Pembimbing') {
+            if (!$logbook->magang || $logbook->magang->id_dosen !== optional($user->dosen)->id) {
                 abort(403);
             }
-            return view('mahasiswa.logbook.show', compact('logbook'));
-        } elseif ($user->role === 'Admin') {
             return view('admin.logbook.show', compact('logbook'));
         }
+
+        abort(403);
     }
 
     public function edit(Logbook $logbook)
@@ -79,7 +79,8 @@ class LogbookController extends Controller
             }
             return view('mahasiswa.logbook.edit', compact('logbook'));
         } elseif ($user->role === 'Admin') {
-            return view('admin.logbook.edit', compact('logbook'));
+            $dosens = Dosen::with('user')->get();
+            return view('admin.logbook.edit', compact('logbook', 'dosens'));
         }
     }
 
@@ -100,7 +101,7 @@ class LogbookController extends Controller
                 $data['foto_kegiatan'] = $request->file('foto_kegiatan')->store('logbook_photos', 'public');
             }
             $logbook->update($data);
-            return redirect()->route('logbook.index')->with('success', 'Logbook updated successfully.');
+            return redirect()->route('mahasiswa.logbook.index')->with('success', 'Logbook updated successfully.');
         } elseif ($user->role === 'Admin') {
             $request->validate([
                 'status' => 'required|in:pending,approved,rejected',
