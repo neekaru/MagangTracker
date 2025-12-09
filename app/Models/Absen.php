@@ -18,6 +18,7 @@ class Absen extends Model
      */
     protected $fillable = [
         'magang_id',
+        'jenis_absen',
         'tanggal',
         'jam',
         'status_kehadiran',

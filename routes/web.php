@@ -53,7 +53,7 @@ Route::prefix('admin')->middleware('role:Admin')->group(function () {
     Route::resource('logbook', App\Http\Controllers\LogbookController::class)->only(['index', 'edit', 'update', 'destroy']);
 
     // Absensi
-    Route::resource('absensi', App\Http\Controllers\AbsensiController::class)->only(['index']);
+    Route::resource('absensi', App\Http\Controllers\AbsensiController::class)->only(['index', 'show']);
 
     // Penilaian & Laporan
     Route::get('/penilaian', [App\Http\Controllers\Admin\PenilaianController::class, 'index'])->name('penilaian.index');

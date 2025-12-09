@@ -27,6 +27,14 @@
                         </select>
                     </div>
                     <div class="mb-3">
+                        <label for="jenis_absen" class="form-label">Jenis Absensi</label>
+                        <select class="form-select" id="jenis_absen" name="jenis_absen" required>
+                            <option value="">-- Pilih Jenis Absensi --</option>
+                            <option value="masuk">Absensi Masuk</option>
+                            <option value="pulang">Absensi Pulang</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
                         <label for="tanggal" class="form-label">Tanggal</label>
                         <input type="date" class="form-control" id="tanggal" name="tanggal" value="{{ date('Y-m-d') }}" required>
                     </div>
@@ -58,7 +66,9 @@
         <div class="alert alert-info">
             <h5><i class="fas fa-info-circle"></i> Aturan Absensi</h5>
             <ul class="mb-0">
-                <li>Absensi masuk dilakukan antara pukul 07:00 - 09:00.</li>
+                <li>Pilih jenis absensi: Masuk atau Pulang.</li>
+                <li>Anda hanya dapat melakukan 1x absensi masuk dan 1x absensi pulang per hari.</li>
+                <li>Absensi masuk disarankan dilakukan antara pukul 07:00 - 09:00.</li>
                 <li>Jika berhalangan hadir, pilih status Izin atau Sakit dan berikan keterangan yang jelas.</li>
             </ul>
         </div>

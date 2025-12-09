@@ -12,6 +12,20 @@
     </div>
 </div>
 
+@if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+
+@if(session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+
 <div class="card shadow-sm">
     <div class="card-body">
         <div class="table-responsive">
@@ -20,7 +34,8 @@
                     <tr>
                         <th>Tanggal</th>
                         <th>Nama Peserta</th>
-                        <th>Jam Masuk</th>
+                        <th>Jenis Absensi</th>
+                        <th>Jam</th>
                         <th>Status</th>
                         <th>Keterangan</th>
                         <th>Lokasi</th>
@@ -32,6 +47,13 @@
                     <tr>
                         <td>{{ \Carbon\Carbon::parse($absen->tanggal)->format('d M Y') }}</td>
                         <td>{{ $absen->magang->mahasiswa->nama_lengkap ?? 'N/A' }}</td>
+                        <td>
+                            @if($absen->jenis_absen == 'masuk')
+                                <span class="badge bg-primary">Masuk</span>
+                            @else
+                                <span class="badge bg-secondary">Pulang</span>
+                            @endif
+                        </td>
                         <td>{{ $absen->jam ?: '-' }}</td>
                         <td>
                             @if($absen->status_kehadiran == 'Hadir')
@@ -45,7 +67,9 @@
                         <td>{{ $absen->keterangan ?: '-' }}</td>
                         <td>{{ $absen->unitBisnis->nama_unit_bisnis ?? 'N/A' }}</td>
                         <td>
-                            <button class="btn btn-sm btn-info text-white" disabled><i class="fas fa-eye"></i></button>
+                            <a href="{{ route('admin.absensi.show', $absen->id) }}" class="btn btn-sm btn-info text-white">
+                                <i class="fas fa-eye"></i>
+                            </a>
                         </td>
                     </tr>
                     @endforeach

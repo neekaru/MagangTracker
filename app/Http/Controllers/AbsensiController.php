@@ -22,10 +22,10 @@ class AbsensiController extends Controller
             
             $absensis = Absen::whereHas('magang', function ($q) use ($mahasiswa) {
                 $q->where('id_mahasiswa', $mahasiswa->id);
-            })->get();
+            })->orderBy('tanggal', 'desc')->orderBy('jenis_absen', 'asc')->get();
             return view('mahasiswa.absensi.index', compact('absensis'));
         } elseif ($user->role === 'Admin') {
-            $absensis = Absen::all();
+            $absensis = Absen::with(['magang.mahasiswa', 'unitBisnis'])->orderBy('tanggal', 'desc')->orderBy('jenis_absen', 'asc')->get();
             return view('admin.absensi.index', compact('absensis'));
         }
     }
@@ -52,11 +52,22 @@ class AbsensiController extends Controller
     {
         $request->validate([
             'magang_id' => 'required|exists:magang,id',
+            'jenis_absen' => 'required|in:masuk,pulang',
             'tanggal' => 'required|date',
             'jam' => 'nullable|date_format:H:i',
             'status_kehadiran' => 'required|in:Hadir,Izin,Sakit',
             'keterangan' => 'nullable|string',
         ]);
+
+        // Cek apakah sudah absen untuk jenis yang sama di hari yang sama
+        $existingAbsen = Absen::where('magang_id', $request->magang_id)
+            ->where('jenis_absen', $request->jenis_absen)
+            ->whereDate('tanggal', $request->tanggal)
+            ->first();
+
+        if ($existingAbsen) {
+            return redirect()->back()->withInput()->with('error', 'Anda sudah melakukan absensi ' . $request->jenis_absen . ' pada tanggal ini.');
+        }
 
         // Auto set id_unit_bisnis from magang
         $magang = Magang::find($request->magang_id);
@@ -71,5 +82,11 @@ class AbsensiController extends Controller
         } else {
             return redirect()->route('admin.absensi.index')->with('success', 'Absensi berhasil dicatat.');
         }
+    }
+
+    public function show($id)
+    {
+        $absen = Absen::with(['magang.mahasiswa', 'unitBisnis'])->findOrFail($id);
+        return view('admin.absensi.show', compact('absen'));
     }
 }

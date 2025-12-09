@@ -12,6 +12,20 @@
     </div>
 </div>
 
+@if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+
+@if(session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+
 <div class="card shadow-sm">
     <div class="card-body">
         <div class="table-responsive">
@@ -19,7 +33,8 @@
                 <thead>
                     <tr>
                         <th>Tanggal</th>
-                        <th>Jam Input</th>
+                        <th>Jenis Absensi</th>
+                        <th>Jam</th>
                         <th>Status</th>
                         <th>Keterangan</th>
                         <th>Lokasi</th>
@@ -29,6 +44,13 @@
                     @foreach($absensis as $absen)
                     <tr>
                         <td>{{ \Carbon\Carbon::parse($absen->tanggal)->format('d M Y') }}</td>
+                        <td>
+                            @if($absen->jenis_absen == 'masuk')
+                                <span class="badge bg-primary">Masuk</span>
+                            @else
+                                <span class="badge bg-secondary">Pulang</span>
+                            @endif
+                        </td>
                         <td>{{ $absen->jam ?: '-' }}</td>
                         <td>
                             @if($absen->status_kehadiran == 'Hadir')
