@@ -227,9 +227,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ url('/login') }}">Login</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('/register-magang') }}">Daftar Magang</a>
-                                </li>
+                                {{-- Pendaftaran magang publik dinonaktifkan; link dihapus --}}
                             @else
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"

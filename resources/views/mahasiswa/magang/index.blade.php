@@ -7,7 +7,8 @@
     <h1 class="h2">Informasi Magang</h1>
     @if(!$has_magang)
         <div class="btn-toolbar mb-2 mb-md-0">
-            <a href="{{ url('/register-magang') }}" class="btn btn-sm btn-primary">Daftar Magang</a>
+            {{-- Pendaftaran magang melalui aplikasi dinonaktifkan. --}}
+            <a href="#" class="btn btn-sm btn-secondary disabled">Pendaftaran ditutup</a>
         </div>
     @endif
 </div>
@@ -80,9 +81,9 @@
 @else
 <div class="alert alert-info">
     <h4><i class="fas fa-info-circle"></i> Anda belum terdaftar magang.</h4>
-    <p>Silakan daftar magang terlebih dahulu untuk melihat informasi magang Anda.</p>
-    <a href="{{ url('/register-magang') }}" class="btn btn-primary">
-        <i class="fas fa-plus-circle"></i> Daftar Magang
+    <p>Pendaftaran magang melalui aplikasi saat ini dinonaktifkan. Untuk mendaftar, silakan hubungi Admin.</p>
+    <a href="{{ route('mahasiswa.profil.index') }}" class="btn btn-primary">
+        <i class="fas fa-envelope"></i> Hubungi Admin
     </a>
 </div>
 @endif

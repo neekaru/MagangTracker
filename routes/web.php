@@ -24,8 +24,11 @@ Route::get('/login', [App\Http\Controllers\AuthController::class, 'showLoginForm
 Route::post('/login', [App\Http\Controllers\AuthController::class, 'login']);
 Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 
-Route::get('/register-magang', [App\Http\Controllers\RegisterMagangController::class, 'showForm'])->name('register.magang.form')->middleware('auth');
-Route::post('/register-magang', [App\Http\Controllers\RegisterMagangController::class, 'store'])->name('register.magang.store')->middleware('auth');
+// Pendaftaran magang oleh mahasiswa telah dinonaktifkan.
+// Pendaftaran sekarang harus dilakukan oleh Admin melalui panel Admin -> Magang.
+// Jika perlu mengaktifkan kembali pendaftaran mandiri, restore route berikut dan implementasi controller terkait.
+// Route::get('/register-magang', [App\Http\Controllers\RegisterMagangController::class, 'showForm'])->name('register.magang.form')->middleware('auth');
+// Route::post('/register-magang', [App\Http\Controllers\RegisterMagangController::class, 'store'])->name('register.magang.store')->middleware('auth');
 
 Route::get('/forgot-password', function () {
     return view('placeholder');
@@ -119,8 +122,10 @@ Route::prefix('mahasiswa')->middleware('role:Mahasiswa')->group(function () {
     Route::put('/profil', [App\Http\Controllers\Mahasiswa\ProfilController::class, 'update'])->name('mahasiswa.profil.update');
 
     // Magang
+    // Mahasiswa hanya dapat melihat status magangnya. Pendaftaran magang (create/store)
+    // telah dipindahkan ke Admin. Jika mahasiswa ingin mendaftar, mereka harus menghubungi Admin.
     Route::get('/magang', [App\Http\Controllers\Mahasiswa\MagangController::class, 'index'])->name('mahasiswa.magang.index');
-    Route::resource('magang', App\Http\Controllers\MagangController::class)->only(['create', 'store']);
+    // Route::resource('magang', App\Http\Controllers\MagangController::class)->only(['create', 'store']);
 
     // Nilai
     Route::get('/nilai', [App\Http\Controllers\Mahasiswa\NilaiController::class, 'index'])->name('mahasiswa.nilai.index');
