@@ -53,8 +53,7 @@ Route::prefix('admin')->middleware('role:Admin')->group(function () {
     Route::resource('logbook', App\Http\Controllers\LogbookController::class)->only(['index', 'edit', 'update', 'destroy']);
 
     // Absensi
-    Route::get('/absensi', [App\Http\Controllers\AbsensiController::class, 'index'])->name('admin.absensi.index');
-    Route::get('/absensi/{absen}', [App\Http\Controllers\AbsensiController::class, 'show'])->name('admin.absensi.show');
+    Route::resource('absensi', App\Http\Controllers\AbsensiController::class);
 
     // Penilaian & Laporan
     Route::get('/penilaian', [App\Http\Controllers\Admin\PenilaianController::class, 'index'])->name('penilaian.index');
@@ -87,6 +86,10 @@ Route::prefix('pembimbing')->middleware('role:Pembimbing')->group(function () {
     Route::get('/laporan', function () {
         return view('pembimbing.laporan.index');
     });
+
+    // Absensi validation
+    Route::get('/absensi', [App\Http\Controllers\AbsensiController::class, 'index'])->name('pembimbing.absensi.index');
+    Route::put('/absensi/{absensi}', [App\Http\Controllers\AbsensiController::class, 'update'])->name('pembimbing.absensi.update');
 });
 
 // Mahasiswa Routes

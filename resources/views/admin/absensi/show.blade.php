@@ -57,6 +57,26 @@
                     </div>
                 </div>
                 <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">Status Validasi</div>
+                    <div class="col-md-8">
+                        @if($absen->status_validasi === 'approved')
+                            <span class="badge bg-success">Disetujui</span>
+                        @elseif($absen->status_validasi === 'rejected')
+                            <span class="badge bg-danger">Ditolak</span>
+                        @else
+                            <span class="badge bg-secondary">Menunggu</span>
+                        @endif
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">Divalidasi Oleh</div>
+                    <div class="col-md-8">{{ $absen->validator->nama_lengkap ?? '-' }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">Waktu Validasi</div>
+                    <div class="col-md-8">{{ $absen->validated_at ? \Carbon\Carbon::parse($absen->validated_at)->format('d F Y, H:i') . ' WIB' : '-' }}</div>
+                </div>
+                <div class="row mb-3">
                     <div class="col-md-4 fw-bold">Lokasi</div>
                     <div class="col-md-8">{{ $absen->unitBisnis->nama_unit_bisnis ?? 'N/A' }}</div>
                 </div>

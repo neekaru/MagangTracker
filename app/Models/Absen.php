@@ -22,6 +22,9 @@ class Absen extends Model
         'tanggal',
         'jam',
         'status_kehadiran',
+        'status_validasi',
+        'validated_by',
+        'validated_at',
         'id_unit_bisnis',
         'keterangan',
     ];
@@ -35,6 +38,7 @@ class Absen extends Model
     {
         return [
             'tanggal' => 'datetime',
+            'validated_at' => 'datetime',
         ];
     }
 
@@ -52,5 +56,13 @@ class Absen extends Model
     public function magang()
     {
         return $this->belongsTo(Magang::class, 'magang_id');
+    }
+
+    /**
+     * Get the dosen who validated the absen.
+     */
+    public function validator()
+    {
+        return $this->belongsTo(Dosen::class, 'validated_by');
     }
 }

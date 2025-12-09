@@ -36,6 +36,7 @@
                         <th>Jenis Absensi</th>
                         <th>Jam</th>
                         <th>Status</th>
+                        <th>Status Validasi</th>
                         <th>Keterangan</th>
                         <th>Lokasi</th>
                     </tr>
@@ -59,6 +60,15 @@
                                 <span class="badge bg-warning text-dark">Izin</span>
                             @else
                                 <span class="badge bg-danger">Sakit</span>
+                            @endif
+                        </td>
+                        <td>
+                            @if($absen->status_validasi === 'approved')
+                                <span class="badge bg-success">Disetujui</span>
+                            @elseif($absen->status_validasi === 'rejected')
+                                <span class="badge bg-danger">Ditolak</span>
+                            @else
+                                <span class="badge bg-secondary">Menunggu</span>
                             @endif
                         </td>
                         <td>{{ $absen->keterangan ?: '-' }}</td>

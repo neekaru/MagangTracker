@@ -1,18 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Monitoring Absensi')
+@section('title', 'Validasi Absensi')
 
 @section('content')
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Monitoring Absensi Peserta</h1>
-    <div class="btn-toolbar mb-2 mb-md-0 gap-2">
-        <a href="{{ route('admin.absensi.create') }}" class="btn btn-sm btn-primary">
-            <i class="fas fa-plus"></i> Tambah Absensi
-        </a>
-        <button class="btn btn-sm btn-success">
-            <i class="fas fa-file-excel"></i> Export Excel
-        </button>
-    </div>
+    <h1 class="h2">Validasi Absensi Peserta Bimbingan</h1>
 </div>
 
 @if(session('success'))
@@ -32,19 +24,17 @@
 <div class="card shadow-sm">
     <div class="card-body">
         <div class="table-responsive">
-            <table id="absensiTable" class="table table-striped table-hover">
+            <table id="pembimbingAbsensiTable" class="table table-striped table-hover">
                 <thead>
                     <tr>
                         <th>Tanggal</th>
-                        <th>Nama Peserta</th>
-                        <th>Jenis Absensi</th>
-                        <th>Jam</th>
-                        <th>Status</th>
+                        <th>Mahasiswa</th>
+                        <th>Jenis</th>
+                        <th>Status Input</th>
                         <th>Status Validasi</th>
-                        <th>Dosen Validator</th>
-                        <th>Keterangan</th>
                         <th>Lokasi</th>
-                        <th>Aksi</th>
+                        <th>Keterangan</th>
+                        <th>Validasi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -59,7 +49,6 @@
                                 <span class="badge bg-secondary">Pulang</span>
                             @endif
                         </td>
-                        <td>{{ $absen->jam ?: '-' }}</td>
                         <td>
                             @if($absen->status_kehadiran == 'Hadir')
                                 <span class="badge bg-success">Hadir</span>
@@ -78,25 +67,30 @@
                                 <span class="badge bg-secondary">Menunggu</span>
                             @endif
                         </td>
-                        <td>{{ $absen->validator->nama_lengkap ?? '-' }}</td>
-                        <td>{{ $absen->keterangan ?: '-' }}</td>
                         <td>{{ $absen->unitBisnis->nama_unit_bisnis ?? 'N/A' }}</td>
+                        <td>{{ $absen->keterangan ?: '-' }}</td>
                         <td>
-                            <div class="d-flex gap-1 flex-wrap">
-                                <a href="{{ route('admin.absensi.show', $absen->id) }}" class="btn btn-sm btn-info text-white">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                                <a href="{{ route('admin.absensi.edit', $absen->id) }}" class="btn btn-sm btn-warning text-white">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <form action="{{ route('admin.absensi.destroy', $absen->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Hapus data absensi ini?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
-                            </div>
+                            <form action="{{ route('pembimbing.absensi.update', $absen->id) }}" method="POST" class="d-flex flex-column flex-lg-row gap-2">
+                                @csrf
+                                @method('PUT')
+                                <div>
+                                    <select name="status_kehadiran" class="form-select form-select-sm" required>
+                                        <option value="Hadir" @selected($absen->status_kehadiran == 'Hadir')>Hadir</option>
+                                        <option value="Izin" @selected($absen->status_kehadiran == 'Izin')>Izin</option>
+                                        <option value="Sakit" @selected($absen->status_kehadiran == 'Sakit')>Sakit</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <select name="status_validasi" class="form-select form-select-sm" required>
+                                        <option value="pending" @selected($absen->status_validasi == 'pending')>Menunggu</option>
+                                        <option value="approved" @selected($absen->status_validasi == 'approved')>Setujui</option>
+                                        <option value="rejected" @selected($absen->status_validasi == 'rejected')>Tolak</option>
+                                    </select>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                                </div>
+                            </form>
                         </td>
                     </tr>
                     @endforeach
@@ -110,7 +104,7 @@
 @push('scripts')
 <script>
     $(document).ready(function() {
-        $('#absensiTable').DataTable({
+        $('#pembimbingAbsensiTable').DataTable({
             "order": [[ 0, "desc" ]]
         });
     });
