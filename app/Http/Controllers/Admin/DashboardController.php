@@ -161,7 +161,7 @@ class DashboardController extends Controller
                 return $item['timestamp'];
             })
             ->take(10)
-            ->values();
+            ->values();   
 
         return view('admin.dashboard', compact(
             'peserta_aktif',

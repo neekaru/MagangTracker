@@ -42,13 +42,6 @@
                     <div class="col-md-4 fw-bold">Keterangan</div>
                     <div class="col-md-8">-</div>
                 </div>
-                
-                <div class="mt-4">
-                    <h6>Peta Lokasi (Dummy)</h6>
-                    <div style="height: 200px; background: #eee; display: flex; align-items: center; justify-content: center;" class="rounded">
-                        <i class="fas fa-map-marker-alt fa-2x text-danger"></i>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

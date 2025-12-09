@@ -60,7 +60,6 @@
             <ul class="mb-0">
                 <li>Absensi masuk dilakukan antara pukul 07:00 - 09:00.</li>
                 <li>Jika berhalangan hadir, pilih status Izin atau Sakit dan berikan keterangan yang jelas.</li>
-                <li>Lokasi wajib diisi jika status Hadir.</li>
             </ul>
         </div>
     </div>
