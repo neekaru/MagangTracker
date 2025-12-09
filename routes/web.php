@@ -40,6 +40,8 @@ Route::prefix('admin')->middleware('role:Admin')->group(function () {
 
     // Magang Management
     Route::resource('magang', App\Http\Controllers\Admin\MagangController::class);
+    Route::post('magang/{id}/terima', [App\Http\Controllers\Admin\MagangController::class, 'terima'])->name('magang.terima');
+    Route::post('magang/{id}/tolak', [App\Http\Controllers\Admin\MagangController::class, 'tolak'])->name('magang.tolak');
 
     // Periode Magang
     Route::resource('periode-magang', App\Http\Controllers\Admin\PeriodeMagangController::class);

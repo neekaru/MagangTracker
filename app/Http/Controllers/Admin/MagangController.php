@@ -20,8 +20,9 @@ class MagangController extends Controller
         $magangs = Magang::with(['mahasiswa', 'unitBisnis', 'periodeMagang', 'dosen'])->get();
         $aktif = $magangs->where('status_magang', 'Aktif');
         $pending = $magangs->where('status_magang', 'Pending');
+        $dibatalkan = $magangs->whereIn('status_magang', ['dibatalkan', 'Nonaktif']);
         $selesai = $magangs->where('status_magang', 'selesai');
-        return view('admin.magang.index', compact('aktif', 'pending', 'selesai'));
+        return view('admin.magang.index', compact('aktif', 'pending', 'dibatalkan', 'selesai'));
     }
 
     /**
@@ -118,5 +119,49 @@ class MagangController extends Controller
         $magang->delete();
 
         return redirect()->route('magang.index')->with('success', 'Magang berhasil dihapus');
+    }
+
+    /**
+     * Accept a pending magang application.
+     */
+    public function terima(string $id)
+    {
+        $magang = Magang::findOrFail($id);
+        $magang->update(['status_magang' => 'Aktif']);
+
+        // Create initial logbook entry when magang is activated
+        \App\Models\Logbook::create([
+            'magang_id' => $magang->id,
+            'tanggal_logbook' => now(),
+            'jam_mulai' => null,
+            'jam_selesai' => null,
+            'deskripsi_kegiatan' => 'Persiapan dan pengenalan tempat magang',
+            'hasil_kegiatan' => 'Magang dimulai - orientasi awal',
+            'status' => 'approved',
+        ]);
+
+        return redirect()->route('magang.index')->with('success', 'Pendaftaran magang berhasil diterima dan logbook awal dibuat');
+    }
+
+    /**
+     * Reject a pending magang application.
+     */
+    public function tolak(string $id)
+    {
+        $magang = Magang::findOrFail($id);
+        $magang->update(['status_magang' => 'dibatalkan']);
+
+        // Create logbook entry when magang is rejected
+        \App\Models\Logbook::create([
+            'magang_id' => $magang->id,
+            'tanggal_logbook' => now(),
+            'jam_mulai' => null,
+            'jam_selesai' => null,
+            'deskripsi_kegiatan' => 'Pendaftaran magang ditolak oleh admin',
+            'hasil_kegiatan' => 'Magang dibatalkan',
+            'status' => 'rejected',
+        ]);
+
+        return redirect()->route('magang.index')->with('success', 'Pendaftaran magang berhasil ditolak dan pencatatan dibuat');
     }
 }
