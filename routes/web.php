@@ -53,7 +53,13 @@ Route::prefix('admin')->middleware('role:Admin')->group(function () {
     Route::resource('logbook', App\Http\Controllers\LogbookController::class)->only(['index', 'edit', 'update', 'destroy']);
 
     // Absensi
-    Route::resource('absensi', App\Http\Controllers\AbsensiController::class);
+    Route::get('/absensi', [App\Http\Controllers\AbsensiController::class, 'index'])->name('admin.absensi.index');
+    Route::get('/absensi/create', [App\Http\Controllers\AbsensiController::class, 'create'])->name('admin.absensi.create');
+    Route::post('/absensi', [App\Http\Controllers\AbsensiController::class, 'store'])->name('admin.absensi.store');
+    Route::get('/absensi/{absen}', [App\Http\Controllers\AbsensiController::class, 'show'])->name('admin.absensi.show');
+    Route::get('/absensi/{absen}/edit', [App\Http\Controllers\AbsensiController::class, 'edit'])->name('admin.absensi.edit');
+    Route::put('/absensi/{absen}', [App\Http\Controllers\AbsensiController::class, 'update'])->name('admin.absensi.update');
+    Route::delete('/absensi/{absen}', [App\Http\Controllers\AbsensiController::class, 'destroy'])->name('admin.absensi.destroy');
 
     // Penilaian & Laporan
     Route::get('/penilaian', [App\Http\Controllers\Admin\PenilaianController::class, 'index'])->name('penilaian.index');
@@ -124,4 +130,8 @@ Route::prefix('pembimbing')->middleware('role:Pembimbing')->group(function () {
     Route::get('logbook', [App\Http\Controllers\LogbookController::class, 'pembimbingIndex'])->name('pembimbing.logbook.index');
     Route::get('logbook/{logbook}', [App\Http\Controllers\LogbookController::class, 'show'])->name('pembimbing.logbook.show');
     Route::put('logbook/{logbook}', [App\Http\Controllers\LogbookController::class, 'update'])->name('pembimbing.logbook.update');
+
+    // Absensi - untuk validasi/view
+    Route::get('/absensi', [App\Http\Controllers\AbsensiController::class, 'index'])->name('pembimbing.absensi.index');
+    Route::get('/absensi/{absen}', [App\Http\Controllers\AbsensiController::class, 'show'])->name('pembimbing.absensi.show');
 });

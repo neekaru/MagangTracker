@@ -128,12 +128,20 @@ class AbsensiController extends Controller
     public function show(Absen $absensi)
     {
         $user = Auth::user();
-        if ($user->role !== 'Admin') {
-            abort(403);
+        
+        if ($user->role === 'Admin') {
+            $absensi->load(['magang.mahasiswa', 'unitBisnis', 'validator']);
+            return view('admin.absensi.show', ['absen' => $absensi]);
+        } elseif ($user->role === 'Pembimbing') {
+            $dosen = $user->dosen;
+            if (!$dosen || !$absensi->magang || $absensi->magang->id_dosen !== $dosen->id) {
+                abort(403);
+            }
+            $absensi->load(['magang.mahasiswa', 'unitBisnis']);
+            return view('pembimbing.absensi.show', ['absen' => $absensi]);
         }
 
-        $absensi->load(['magang.mahasiswa', 'unitBisnis', 'validator']);
-        return view('admin.absensi.show', ['absen' => $absensi]);
+        abort(403);
     }
 
     public function edit(Absen $absensi)
@@ -179,17 +187,15 @@ class AbsensiController extends Controller
             return redirect()->route('admin.absensi.index')->with('success', 'Absensi berhasil diperbarui.');
         } elseif ($user->role === 'Pembimbing') {
             $validated = $request->validate([
-                'status_kehadiran' => 'required|in:Hadir,Izin,Sakit',
                 'status_validasi' => 'required|in:pending,approved,rejected',
             ]);
 
             $dosen = $user->dosen;
-            if (!$dosen || $absensi->magang->id_dosen !== $dosen->id) {
+            if (!$dosen || !$absensi->magang || $absensi->magang->id_dosen !== $dosen->id) {
                 abort(403);
             }
 
             $updateData = [
-                'status_kehadiran' => $validated['status_kehadiran'],
                 'status_validasi' => $validated['status_validasi'],
             ];
 

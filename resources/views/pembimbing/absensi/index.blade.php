@@ -70,27 +70,21 @@
                         <td>{{ $absen->unitBisnis->nama_unit_bisnis ?? 'N/A' }}</td>
                         <td>{{ $absen->keterangan ?: '-' }}</td>
                         <td>
-                            <form action="{{ route('pembimbing.absensi.update', $absen->id) }}" method="POST" class="d-flex flex-column flex-lg-row gap-2">
-                                @csrf
-                                @method('PUT')
-                                <div>
-                                    <select name="status_kehadiran" class="form-select form-select-sm" required>
-                                        <option value="Hadir" @selected($absen->status_kehadiran == 'Hadir')>Hadir</option>
-                                        <option value="Izin" @selected($absen->status_kehadiran == 'Izin')>Izin</option>
-                                        <option value="Sakit" @selected($absen->status_kehadiran == 'Sakit')>Sakit</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <select name="status_validasi" class="form-select form-select-sm" required>
+                            <div class="d-flex gap-2 align-items-center flex-wrap">
+                                <a href="{{ route('pembimbing.absensi.show', $absen->id) }}" class="btn btn-sm btn-info text-white" title="Lihat Detail">
+                                    <i class="fas fa-eye"></i> Show
+                                </a>
+                                <form action="{{ route('pembimbing.absensi.update', $absen->id) }}" method="POST" class="d-flex gap-2 align-items-center">
+                                    @csrf
+                                    @method('PUT')
+                                    <select name="status_validasi" class="form-select form-select-sm" style="width: auto;">
                                         <option value="pending" @selected($absen->status_validasi == 'pending')>Menunggu</option>
                                         <option value="approved" @selected($absen->status_validasi == 'approved')>Setujui</option>
                                         <option value="rejected" @selected($absen->status_validasi == 'rejected')>Tolak</option>
                                     </select>
-                                </div>
-                                <div class="d-grid">
                                     <button type="submit" class="btn btn-sm btn-primary">Update</button>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                     @endforeach
