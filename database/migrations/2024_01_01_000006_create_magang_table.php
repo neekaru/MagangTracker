@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('pembimbing_lapangan');
             $table->dateTime('tanggal_mulai');
             $table->dateTime('tanggal_selesai');
-            $table->enum('status_magang', ['Aktif', 'Nonaktif', 'selesai', 'dibatalkan'])->default('Nonaktif');
+            $table->enum('status_magang', ['Pending', 'Aktif', 'Nonaktif', 'selesai', 'dibatalkan'])->default('Pending');
             $table->integer('target_book_mingguan');
             $table->longText('tugas_description')->nullable();
             $table->timestamps();

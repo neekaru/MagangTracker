@@ -20,17 +20,12 @@ Route::get('/', function () {
 });
 
 // Authentication Routes
-Route::get('/login', [App\Http\Controllers\AuthController::class, 'showLoginForm'])->name('login');
+Route::get('/login', [App\Http\Controllers\AuthController::class, 'showLoginForm'])->name('login')->middleware('guest');
 Route::post('/login', [App\Http\Controllers\AuthController::class, 'login']);
 Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 
-Route::get('/register-magang', function () {
-    return view('auth.register-magang');
-});
-
-Route::post('/register-magang', function () {
-    return redirect('/')->with('success', 'Pendaftaran berhasil dikirim!');
-});
+Route::get('/register-magang', [App\Http\Controllers\RegisterMagangController::class, 'showForm'])->name('register.magang.form')->middleware('auth');
+Route::post('/register-magang', [App\Http\Controllers\RegisterMagangController::class, 'store'])->name('register.magang.store')->middleware('auth');
 
 Route::get('/forgot-password', function () {
     return view('placeholder');

@@ -19,7 +19,7 @@ class MagangController extends Controller
     {
         $magangs = Magang::with(['mahasiswa', 'unitBisnis', 'periodeMagang', 'dosen'])->get();
         $aktif = $magangs->where('status_magang', 'Aktif');
-        $pending = $magangs->where('status_magang', 'pending'); // Asumsikan status pending untuk pendaftaran baru
+        $pending = $magangs->where('status_magang', 'Pending');
         $selesai = $magangs->where('status_magang', 'selesai');
         return view('admin.magang.index', compact('aktif', 'pending', 'selesai'));
     }
@@ -98,7 +98,7 @@ class MagangController extends Controller
             'pembimbing_lapangan' => 'required|string',
             'tanggal_mulai' => 'required|date',
             'tanggal_selesai' => 'required|date|after:tanggal_mulai',
-            'status_magang' => 'required|in:Aktif,Nonaktif,selesai,dibatalkan',
+            'status_magang' => 'required|in:Pending,Aktif,Nonaktif,selesai,dibatalkan',
             'tugas_description' => 'required|string',
             'target_book_mingguan' => 'required|integer|min:1',
             'unit_lainnya' => 'nullable|string',

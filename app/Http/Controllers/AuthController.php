@@ -34,13 +34,13 @@ class AuthController extends Controller
 
             switch ($user->role) {
                 case 'Admin':
-                    return redirect()->intended('/admin');
+                    return redirect('/admin');
                 case 'Pembimbing':
-                    return redirect()->intended('/pembimbing');
+                    return redirect('/pembimbing');
                 case 'Mahasiswa':
-                    return redirect()->intended('/mahasiswa');
+                    return redirect('/mahasiswa');
                 default:
-                    return redirect()->intended('/');
+                    return redirect('/login');
             }
         }
 

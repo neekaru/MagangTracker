@@ -112,6 +112,7 @@
                     <div class="mb-3">
                         <label for="status_magang" class="form-label">Status Magang <span class="text-danger">*</span></label>
                         <select class="form-select @error('status_magang') is-invalid @enderror" id="status_magang" name="status_magang" required>
+                            <option value="Pending" {{ old('status_magang', $magang->status_magang) == 'Pending' ? 'selected' : '' }}>Pending</option>
                             <option value="Aktif" {{ old('status_magang', $magang->status_magang) == 'Aktif' ? 'selected' : '' }}>Aktif</option>
                             <option value="Nonaktif" {{ old('status_magang', $magang->status_magang) == 'Nonaktif' ? 'selected' : '' }}>Nonaktif</option>
                             <option value="selesai" {{ old('status_magang', $magang->status_magang) == 'selesai' ? 'selected' : '' }}>Selesai</option>

@@ -91,9 +91,8 @@
             </div>
         </form>
 
-        <div class="mt-3 d-flex justify-content-between">
+        <div class="mt-3">
             <a href="{{ url('/forgot-password') }}" class="text-decoration-none">Lupa password?</a>
-            <a href="{{ url('/register-magang') }}" class="text-decoration-none">Daftar Magang Baru</a>
         </div>
     </div>
 

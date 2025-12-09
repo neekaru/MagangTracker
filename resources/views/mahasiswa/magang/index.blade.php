@@ -7,7 +7,7 @@
     <h1 class="h2">Informasi Magang</h1>
     @if(!$has_magang)
         <div class="btn-toolbar mb-2 mb-md-0">
-            <a href="{{ route('magang.create') }}" class="btn btn-sm btn-primary">Daftar Magang</a>
+            <a href="{{ url('/register-magang') }}" class="btn btn-sm btn-primary">Daftar Magang</a>
         </div>
     @endif
 </div>
@@ -79,8 +79,11 @@
 </div>
 @else
 <div class="alert alert-info">
-    <h4>Anda belum terdaftar magang.</h4>
+    <h4><i class="fas fa-info-circle"></i> Anda belum terdaftar magang.</h4>
     <p>Silakan daftar magang terlebih dahulu untuk melihat informasi magang Anda.</p>
+    <a href="{{ url('/register-magang') }}" class="btn btn-primary">
+        <i class="fas fa-plus-circle"></i> Daftar Magang
+    </a>
 </div>
 @endif
 @endsection

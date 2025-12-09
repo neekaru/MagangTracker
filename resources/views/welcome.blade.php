@@ -47,8 +47,13 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="#fitur">Fitur</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url('/login') }}">Login</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-primary text-white ms-2" href="{{ url('/register-magang') }}">Daftar Magang</a></li>
+                    @auth
+                        <li class="nav-item">
+                            <a class="nav-link" href="@if(auth()->user()->role == 'Admin')/admin @elseif(auth()->user()->role == 'Pembimbing')/pembimbing @else/mahasiswa @endif">Dashboard</a>
+                        </li>
+                    @else
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/login') }}">Login</a></li>
+                    @endauth
                 </ul>
             </div>
         </div>
