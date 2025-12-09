@@ -42,7 +42,7 @@
                 </div>
                 <div class="row mb-3">
                     <div class="col-md-4 fw-bold">Jam</div>
-                    <div class="col-md-8">{{ $absen->jam ? \Carbon\Carbon::parse($absen->jam, 'H:i:s')->format('H:i') . ' WIB' : '-' }}</div>
+                    <div class="col-md-8">{{ $absen->jam ? substr($absen->jam, 0, 5) . ' WIB' : '-' }}</div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-md-4 fw-bold">Status</div>
