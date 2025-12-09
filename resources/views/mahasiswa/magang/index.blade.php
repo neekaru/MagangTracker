@@ -16,7 +16,7 @@
 <div class="row">
     <div class="col-md-8">
         <div class="card shadow-sm mb-4">
-            <div class="card-header bg-primary text-white">
+            <div class="card-header @if($status_magang == 'Aktif') bg-success @elseif($status_magang == 'Pending') bg-warning @else bg-secondary @endif text-white">
                 Status Magang: <span class="fw-bold">{{ $status_magang }}</span>
             </div>
             <div class="card-body">

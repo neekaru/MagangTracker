@@ -17,7 +17,7 @@
                 <div class="card-body text-center">
                     <h5 class="card-title">Status Magang <i class="fas fa-info-circle text-muted" data-bs-toggle="tooltip"
                             title="Status resmi kepesertaan magang Anda."></i></h5>
-                    <p class="display-6 {{ $status_magang == 'Aktif' ? 'text-success' : 'text-secondary' }}"><i
+                    <p class="display-6 @if($status_magang == 'Aktif') text-success @elseif($status_magang == 'Pending') text-warning @else text-secondary @endif"><i
                             class="fas fa-check-circle"></i> {{ $status_magang }}</p>
                     <p class="text-muted">Unit: {{ $unit_penempatan }}</p>
                 </div>
