@@ -56,10 +56,10 @@ Route::prefix('admin')->middleware('role:Admin')->group(function () {
     Route::get('/absensi', [App\Http\Controllers\AbsensiController::class, 'index'])->name('admin.absensi.index');
     Route::get('/absensi/create', [App\Http\Controllers\AbsensiController::class, 'create'])->name('admin.absensi.create');
     Route::post('/absensi', [App\Http\Controllers\AbsensiController::class, 'store'])->name('admin.absensi.store');
-    Route::get('/absensi/{absen}', [App\Http\Controllers\AbsensiController::class, 'show'])->name('admin.absensi.show');
-    Route::get('/absensi/{absen}/edit', [App\Http\Controllers\AbsensiController::class, 'edit'])->name('admin.absensi.edit');
-    Route::put('/absensi/{absen}', [App\Http\Controllers\AbsensiController::class, 'update'])->name('admin.absensi.update');
-    Route::delete('/absensi/{absen}', [App\Http\Controllers\AbsensiController::class, 'destroy'])->name('admin.absensi.destroy');
+    Route::get('/absensi/{absensi}', [App\Http\Controllers\AbsensiController::class, 'show'])->name('admin.absensi.show');
+    Route::get('/absensi/{absensi}/edit', [App\Http\Controllers\AbsensiController::class, 'edit'])->name('admin.absensi.edit');
+    Route::put('/absensi/{absensi}', [App\Http\Controllers\AbsensiController::class, 'update'])->name('admin.absensi.update');
+    Route::delete('/absensi/{absensi}', [App\Http\Controllers\AbsensiController::class, 'destroy'])->name('admin.absensi.destroy');
 
     // Penilaian & Laporan
     Route::get('/penilaian', [App\Http\Controllers\Admin\PenilaianController::class, 'index'])->name('penilaian.index');
@@ -133,5 +133,5 @@ Route::prefix('pembimbing')->middleware('role:Pembimbing')->group(function () {
 
     // Absensi - untuk validasi/view
     Route::get('/absensi', [App\Http\Controllers\AbsensiController::class, 'index'])->name('pembimbing.absensi.index');
-    Route::get('/absensi/{absen}', [App\Http\Controllers\AbsensiController::class, 'show'])->name('pembimbing.absensi.show');
+    Route::get('/absensi/{absensi}', [App\Http\Controllers\AbsensiController::class, 'show'])->name('pembimbing.absensi.show');
 });
