@@ -129,17 +129,6 @@ class MagangController extends Controller
         $magang = Magang::findOrFail($id);
         $magang->update(['status_magang' => 'Aktif']);
 
-        // Create initial logbook entry when magang is activated
-        \App\Models\Logbook::create([
-            'magang_id' => $magang->id,
-            'tanggal_logbook' => now(),
-            'jam_mulai' => null,
-            'jam_selesai' => null,
-            'deskripsi_kegiatan' => 'Persiapan dan pengenalan tempat magang',
-            'hasil_kegiatan' => 'Magang dimulai - orientasi awal',
-            'status' => 'approved',
-        ]);
-
         return redirect()->route('magang.index')->with('success', 'Pendaftaran magang berhasil diterima dan logbook awal dibuat');
     }
 
@@ -150,18 +139,7 @@ class MagangController extends Controller
     {
         $magang = Magang::findOrFail($id);
         $magang->update(['status_magang' => 'dibatalkan']);
-
-        // Create logbook entry when magang is rejected
-        \App\Models\Logbook::create([
-            'magang_id' => $magang->id,
-            'tanggal_logbook' => now(),
-            'jam_mulai' => null,
-            'jam_selesai' => null,
-            'deskripsi_kegiatan' => 'Pendaftaran magang ditolak oleh admin',
-            'hasil_kegiatan' => 'Magang dibatalkan',
-            'status' => 'rejected',
-        ]);
-
+        
         return redirect()->route('magang.index')->with('success', 'Pendaftaran magang berhasil ditolak dan pencatatan dibuat');
     }
 }

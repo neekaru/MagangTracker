@@ -26,6 +26,12 @@ class DashboardController extends Controller
         // Logbook Hari Ini
         $logbook_hari_ini = Logbook::whereDate('tanggal_logbook', Carbon::today())->count();
 
+        // Status Magang Counts
+        $magang_diterima = Magang::where('status_magang', 'Aktif')->count();
+        $magang_ditolak = Magang::where('status_magang', 'dibatalkan')->count();
+        $magang_selesai = Magang::where('status_magang', 'selesai')->count();
+        $magang_nonaktif = Magang::where('status_magang', 'Nonaktif')->count();
+
         // Statistik Pendaftaran per Periode
         $periode_stats = PeriodeMagang::withCount('magang')
             ->orderBy('tanggal_mulai', 'desc')
@@ -56,6 +62,7 @@ class DashboardController extends Controller
                 return [
                     'deskripsi' => "{$nama} mengisi logbook",
                     'waktu' => $waktu,
+                    'timestamp' => $logbook->created_at->timestamp,
                 ];
             });
 
@@ -72,14 +79,88 @@ class DashboardController extends Controller
                 return [
                     'deskripsi' => "{$nama} mendaftar magang",
                     'waktu' => $waktu,
+                    'timestamp' => $magang->created_at->timestamp,
                 ];
             });
 
-        $aktivitas_terbaru = $aktivitas_terbaru->concat($registrasi_baru)
+        // Add accepted magang to activity
+        $magang_diterima_list = Magang::with('mahasiswa')
+            ->where('status_magang', 'Aktif')
+            ->orderBy('updated_at', 'desc')
+            ->limit(2)
+            ->get()
+            ->map(function ($magang) {
+                $nama = $magang->mahasiswa->nama_lengkap ?? 'Unknown';
+                $waktu = $magang->updated_at->diffForHumans();
+                
+                return [
+                    'deskripsi' => "{$nama} magang diterima",
+                    'waktu' => $waktu,
+                    'timestamp' => $magang->updated_at->timestamp,
+                ];
+            });
+
+        // Add rejected magang to activity
+        $magang_ditolak_list = Magang::with('mahasiswa')
+            ->where('status_magang', 'dibatalkan')
+            ->orderBy('updated_at', 'desc')
+            ->limit(2)
+            ->get()
+            ->map(function ($magang) {
+                $nama = $magang->mahasiswa->nama_lengkap ?? 'Unknown';
+                $waktu = $magang->updated_at->diffForHumans();
+                
+                return [
+                    'deskripsi' => "{$nama} magang ditolak",
+                    'waktu' => $waktu,
+                    'timestamp' => $magang->updated_at->timestamp,
+                ];
+            });
+
+        // Add completed magang to activity
+        $magang_selesai_list = Magang::with('mahasiswa')
+            ->where('status_magang', 'selesai')
+            ->orderBy('updated_at', 'desc')
+            ->limit(2)
+            ->get()
+            ->map(function ($magang) {
+                $nama = $magang->mahasiswa->nama_lengkap ?? 'Unknown';
+                $waktu = $magang->updated_at->diffForHumans();
+                
+                return [
+                    'deskripsi' => "{$nama} magang selesai",
+                    'waktu' => $waktu,
+                    'timestamp' => $magang->updated_at->timestamp,
+                ];
+            });
+
+        // Add inactive magang to activity
+        $magang_nonaktif_list = Magang::with('mahasiswa')
+            ->where('status_magang', 'Nonaktif')
+            ->orderBy('updated_at', 'desc')
+            ->limit(2)
+            ->get()
+            ->map(function ($magang) {
+                $nama = $magang->mahasiswa->nama_lengkap ?? 'Unknown';
+                $waktu = $magang->updated_at->diffForHumans();
+                
+                return [
+                    'deskripsi' => "{$nama} magang nonaktif",
+                    'waktu' => $waktu,
+                    'timestamp' => $magang->updated_at->timestamp,
+                ];
+            });
+
+        $aktivitas_terbaru = $aktivitas_terbaru
+            ->concat($registrasi_baru)
+            ->concat($magang_diterima_list)
+            ->concat($magang_ditolak_list)
+            ->concat($magang_selesai_list)
+            ->concat($magang_nonaktif_list)
             ->sortByDesc(function ($item) {
-                return strtotime(str_replace(['ago', 'in'], '', $item['waktu']));
+                return $item['timestamp'];
             })
-            ->take(5)
+            ->take(10)
             ->values();
 
         return view('admin.dashboard', compact(
@@ -89,7 +170,11 @@ class DashboardController extends Controller
             'logbook_hari_ini',
             'periode_labels',
             'periode_data',
-            'aktivitas_terbaru'
+            'aktivitas_terbaru',
+            'magang_diterima',
+            'magang_ditolak',
+            'magang_selesai',
+            'magang_nonaktif'
         ));
     }
 }
