@@ -55,4 +55,20 @@ class Logbook extends Model
     {
         return $this->belongsTo(User::class, 'approved_by');
     }
+
+    /**
+     * Accessor for tanggal (maps to tanggal_logbook).
+     */
+    public function getTanggalAttribute()
+    {
+        return $this->tanggal_logbook;
+    }
+
+    /**
+     * Accessor for kegiatan (maps to deskripsi_kegiatan).
+     */
+    public function getKegiatanAttribute()
+    {
+        return $this->deskripsi_kegiatan;
+    }
 }

@@ -18,16 +18,9 @@
                 role="tab">Aktif</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pending" type="button"
-                role="tab">Pendaftaran Baru @if ($pending->count() > 0)
-                    <span class="badge bg-danger">{{ $pending->count() }}</span>
-                @endif
-            </button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="cancelled-tab" data-bs-toggle="tab" data-bs-target="#cancelled" type="button"
-                role="tab">Dibatalkan @if ($dibatalkan->count() > 0)
-                    <span class="badge bg-secondary">{{ $dibatalkan->count() }}</span>
+            <button class="nav-link" id="nonactive-tab" data-bs-toggle="tab" data-bs-target="#nonactive" type="button"
+                role="tab">Nonaktif @if ($nonaktif->count() > 0)
+                    <span class="badge bg-secondary">{{ $nonaktif->count() }}</span>
                 @endif
             </button>
         </li>
@@ -87,94 +80,40 @@
             </div>
         </div>
 
-        <!-- Tab Pending -->
-        <div class="tab-pane fade" id="pending" role="tabpanel">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <table id="tablePending" class="table table-striped table-hover w-100">
-                        <thead>
-                            <tr>
-                                <th>Nama Peserta</th>
-                                <th>NIM</th>
-                                <th>Unit Tujuan</th>
-                                <th>Tanggal Pengajuan</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($pending as $magang)
-                                <tr>
-                                    <td>{{ $magang->mahasiswa->nama_lengkap ?? 'N/A' }}</td>
-                                    <td>{{ $magang->mahasiswa->nim ?? 'N/A' }}</td>
-                                    <td>{{ $magang->unitBisnis->nama_unit_bisnis ?? 'N/A' }}</td>
-                                    <td>{{ $magang->created_at->format('d M Y') }}</td>
-                                    <td>
-                                        <form action="{{ route('magang.terima', $magang->id) }}" method="POST"
-                                            style="display:inline;">
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-success"
-                                                onclick="return confirm('Terima pendaftaran magang ini?')"><i
-                                                    class="fas fa-check"></i> Terima</button>
-                                        </form>
-                                        <form action="{{ route('magang.tolak', $magang->id) }}" method="POST"
-                                            style="display:inline;">
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-danger"
-                                                onclick="return confirm('Tolak pendaftaran magang ini?')"><i
-                                                    class="fas fa-times"></i> Tolak</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="5" class="text-center">Belum ada pendaftaran baru.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
 
-        <!-- Tab Dibatalkan -->
-        <div class="tab-pane fade" id="cancelled" role="tabpanel">
+        <!-- Tab Nonaktif -->
+        <div class="tab-pane fade" id="nonactive" role="tabpanel">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <table id="tableCancelled" class="table table-striped table-hover w-100">
+                    <table id="tableNonactive" class="table table-striped table-hover w-100">
                         <thead>
                             <tr>
                                 <th>Nama Peserta</th>
                                 <th>NIM</th>
                                 <th>Unit Tujuan</th>
-                                <th>Status</th>
+                                <th>Periode</th>
                                 <th>Tanggal</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($dibatalkan as $magang)
+                            @forelse($nonaktif as $magang)
                                 <tr>
                                     <td>{{ $magang->mahasiswa->nama_lengkap ?? 'N/A' }}</td>
                                     <td>{{ $magang->mahasiswa->nim ?? 'N/A' }}</td>
                                     <td>{{ $magang->unitBisnis->nama_unit_bisnis ?? 'N/A' }}</td>
-                                    <td>
-                                        @if ($magang->status_magang == 'dibatalkan')
-                                            <span class="badge bg-danger">Dibatalkan</span>
-                                        @else
-                                            <span class="badge bg-secondary">Nonaktif</span>
-                                        @endif
-                                    </td>
+                                    <td>{{ $magang->periodeMagang->nama_periode ?? 'N/A' }}</td>
                                     <td>{{ $magang->updated_at->format('d M Y') }}</td>
                                     <td>
                                         <a href="{{ route('magang.show', $magang->id) }}"
                                             class="btn btn-sm btn-info text-white"><i class="fas fa-eye"></i> Detail</a>
-                                        <a href="{{ route('magang.edit', $magang->id) }}"
-                                            class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
+                                        <a href="{{ route('magang.edit', $magang->id) }}" class="btn btn-sm btn-warning"><i
+                                                class="fas fa-edit"></i></a>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" class="text-center">Belum ada data magang yang dibatalkan.</td>
+                                    <td colspan="6" class="text-center">Belum ada data magang nonaktif.</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -231,11 +170,8 @@
             if ($.fn.DataTable.isDataTable('#tableActive')) {
                 $('#tableActive').DataTable().destroy();
             }
-            if ($.fn.DataTable.isDataTable('#tablePending')) {
-                $('#tablePending').DataTable().destroy();
-            }
-            if ($.fn.DataTable.isDataTable('#tableCancelled')) {
-                $('#tableCancelled').DataTable().destroy();
+            if ($.fn.DataTable.isDataTable('#tableNonactive')) {
+                $('#tableNonactive').DataTable().destroy();
             }
             if ($.fn.DataTable.isDataTable('#tableFinished')) {
                 $('#tableFinished').DataTable().destroy();
@@ -250,18 +186,11 @@
             $('button[data-bs-toggle="tab"]').on('shown.bs.tab', function(e) {
                 var target = $(e.target).data('bs-target');
 
-                if (target === '#pending' && !$.fn.DataTable.isDataTable('#tablePending')) {
+                if (target === '#nonactive' && !$.fn.DataTable.isDataTable('#tableNonactive')) {
                     setTimeout(function() {
-                        var pendingRows = $('#tablePending tbody tr:not(:has(td[colspan]))');
-                        if (pendingRows.length > 0) {
-                            $('#tablePending').DataTable();
-                        }
-                    }, 100);
-                } else if (target === '#cancelled' && !$.fn.DataTable.isDataTable('#tableCancelled')) {
-                    setTimeout(function() {
-                        var cancelledRows = $('#tableCancelled tbody tr:not(:has(td[colspan]))');
-                        if (cancelledRows.length > 0) {
-                            $('#tableCancelled').DataTable();
+                        var nonactiveRows = $('#tableNonactive tbody tr:not(:has(td[colspan]))');
+                        if (nonactiveRows.length > 0) {
+                            $('#tableNonactive').DataTable();
                         }
                     }, 100);
                 } else if (target === '#finished' && !$.fn.DataTable.isDataTable('#tableFinished')) {

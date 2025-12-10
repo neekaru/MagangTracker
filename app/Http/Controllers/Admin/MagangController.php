@@ -19,10 +19,9 @@ class MagangController extends Controller
     {
         $magangs = Magang::with(['mahasiswa', 'unitBisnis', 'periodeMagang', 'dosen'])->get();
         $aktif = $magangs->where('status_magang', 'Aktif');
-        $pending = $magangs->where('status_magang', 'Pending');
-        $dibatalkan = $magangs->whereIn('status_magang', ['dibatalkan', 'Nonaktif']);
-        $selesai = $magangs->where('status_magang', 'selesai');
-        return view('admin.magang.index', compact('aktif', 'pending', 'dibatalkan', 'selesai'));
+        $nonaktif = $magangs->where('status_magang', 'Nonaktif');
+        $selesai = $magangs->where('status_magang', 'Selesai');
+        return view('admin.magang.index', compact('aktif', 'nonaktif', 'selesai'));
     }
 
     /**
@@ -99,7 +98,7 @@ class MagangController extends Controller
             'pembimbing_lapangan' => 'required|string',
             'tanggal_mulai' => 'required|date',
             'tanggal_selesai' => 'required|date|after:tanggal_mulai',
-            'status_magang' => 'required|in:Pending,Aktif,Nonaktif,selesai,dibatalkan',
+            'status_magang' => 'required|in:Aktif,Nonaktif,Selesai',
             'tugas_description' => 'required|string',
             'target_book_mingguan' => 'required|integer|min:1',
             'unit_lainnya' => 'nullable|string',
@@ -119,27 +118,5 @@ class MagangController extends Controller
         $magang->delete();
 
         return redirect()->route('magang.index')->with('success', 'Magang berhasil dihapus');
-    }
-
-    /**
-     * Accept a pending magang application.
-     */
-    public function terima(string $id)
-    {
-        $magang = Magang::findOrFail($id);
-        $magang->update(['status_magang' => 'Aktif']);
-
-        return redirect()->route('magang.index')->with('success', 'Pendaftaran magang berhasil diterima dan logbook awal dibuat');
-    }
-
-    /**
-     * Reject a pending magang application.
-     */
-    public function tolak(string $id)
-    {
-        $magang = Magang::findOrFail($id);
-        $magang->update(['status_magang' => 'dibatalkan']);
-        
-        return redirect()->route('magang.index')->with('success', 'Pendaftaran magang berhasil ditolak dan pencatatan dibuat');
     }
 }

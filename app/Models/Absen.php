@@ -38,6 +38,7 @@ class Absen extends Model
     {
         return [
             'tanggal' => 'datetime',
+            'jam' => 'datetime:H:i',
             'validated_at' => 'datetime',
         ];
     }
@@ -64,5 +65,21 @@ class Absen extends Model
     public function validator()
     {
         return $this->belongsTo(Dosen::class, 'validated_by');
+    }
+
+    /**
+     * Accessor for jam_masuk (maps to jam).
+     */
+    public function getJamMasukAttribute()
+    {
+        return $this->jam;
+    }
+
+    /**
+     * Accessor for status_absensi (maps to status_kehadiran).
+     */
+    public function getStatusAbsensiAttribute()
+    {
+        return $this->status_kehadiran;
     }
 }
