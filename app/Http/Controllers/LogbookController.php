@@ -61,12 +61,15 @@ class LogbookController extends Controller
         $user = Auth::user();
         if ($user->role === 'Pembimbing') {
             if (!$logbook->magang || $logbook->magang->id_dosen !== optional($user->dosen)->id) {
-                abort(403);
+                abort(403, 'Unauthorized action.');
             }
+            return view('pembimbing.logbook.show', compact('logbook'));
+        } elseif ($user->role === 'Admin') {
+            // Admin can view all logbooks
             return view('admin.logbook.show', compact('logbook'));
         }
 
-        abort(403);
+        abort(403, 'Unauthorized action.');
     }
 
     public function edit(Logbook $logbook)
@@ -75,13 +78,12 @@ class LogbookController extends Controller
         if ($user->role === 'Mahasiswa') {
             // Ensure logbook belongs to user's magang
             if (!$logbook->magang || $logbook->magang->id_mahasiswa !== $user->mahasiswa->id) {
-                abort(403);
+                abort(403, 'Unauthorized action.');
             }
             return view('mahasiswa.logbook.edit', compact('logbook'));
-        } elseif ($user->role === 'Admin') {
-            $dosens = Dosen::with('user')->get();
-            return view('admin.logbook.edit', compact('logbook', 'dosens'));
         }
+
+        abort(403, 'Unauthorized action.');
     }
 
     public function update(Request $request, Logbook $logbook)
@@ -102,20 +104,13 @@ class LogbookController extends Controller
             }
             $logbook->update($data);
             return redirect()->route('mahasiswa.logbook.index')->with('success', 'Logbook updated successfully.');
-        } elseif ($user->role === 'Admin') {
-            $request->validate([
-                'status' => 'required|in:pending,approved,rejected',
-                'approved_by' => 'nullable|exists:users,id',
-            ]);
-            $logbook->update($request->only(['status', 'approved_by']));
-            return redirect()->route('logbook.index')->with('success', 'Logbook updated successfully.');
         } elseif ($user->role === 'Pembimbing') {
             $request->validate([
                 'status' => 'required|in:pending,approved,rejected',
             ]);
             // Check if dosen is the pembimbing for this magang
             if ($logbook->magang->id_dosen !== $user->id_dosen) {
-                abort(403);
+                abort(403, 'Unauthorized action.');
             }
             $logbook->update([
                 'status' => $request->status,
@@ -123,6 +118,8 @@ class LogbookController extends Controller
             ]);
             return redirect()->route('pembimbing.logbook.index')->with('success', 'Logbook status updated successfully.');
         }
+
+        abort(403, 'Unauthorized action.');
     }
 
     public function destroy(Logbook $logbook)

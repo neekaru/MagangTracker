@@ -53,15 +53,11 @@ Route::prefix('admin')->middleware('role:Admin')->group(function () {
     Route::resource('unit-bisnis', App\Http\Controllers\Admin\UnitBisnisController::class);
 
     // Monitoring
-    Route::resource('logbook', App\Http\Controllers\LogbookController::class)->only(['index', 'edit', 'update', 'destroy']);
+    Route::resource('logbook', App\Http\Controllers\LogbookController::class)->only(['index', 'show', 'destroy']);
 
     // Absensi
     Route::get('/absensi', [App\Http\Controllers\AbsensiController::class, 'index'])->name('admin.absensi.index');
-    Route::get('/absensi/create', [App\Http\Controllers\AbsensiController::class, 'create'])->name('admin.absensi.create');
-    Route::post('/absensi', [App\Http\Controllers\AbsensiController::class, 'store'])->name('admin.absensi.store');
     Route::get('/absensi/{absensi}', [App\Http\Controllers\AbsensiController::class, 'show'])->name('admin.absensi.show');
-    Route::get('/absensi/{absensi}/edit', [App\Http\Controllers\AbsensiController::class, 'edit'])->name('admin.absensi.edit');
-    Route::put('/absensi/{absensi}', [App\Http\Controllers\AbsensiController::class, 'update'])->name('admin.absensi.update');
     Route::delete('/absensi/{absensi}', [App\Http\Controllers\AbsensiController::class, 'destroy'])->name('admin.absensi.destroy');
 
     // Laporan

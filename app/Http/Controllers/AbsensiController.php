@@ -63,37 +63,27 @@ class AbsensiController extends Controller
             }
 
             return view('mahasiswa.absensi.create', compact('magangs'));
-        } elseif ($user->role === 'Admin') {
-            $magangs = Magang::with(['mahasiswa', 'unitBisnis', 'periodeMagang'])->get();
-            return view('admin.absensi.create', compact('magangs'));
         }
 
-        abort(403);
+        abort(403, 'Unauthorized action.');
     }
 
     public function store(Request $request)
     {
         $user = Auth::user();
-        $isAdmin = $user->role === 'Admin';
 
-        if (!in_array($user->role, ['Mahasiswa', 'Admin'])) {
-            abort(403);
+        if ($user->role !== 'Mahasiswa') {
+            abort(403, 'Unauthorized action.');
         }
 
-        $rules = [
+        $validated = $request->validate([
             'magang_id' => 'required|exists:magang,id',
             'jenis_absen' => 'nullable|in:masuk,pulang',
             'tanggal' => 'required|date',
             'jam' => 'nullable|date_format:H:i',
             'status_kehadiran' => 'required|in:Hadir,Izin,Sakit',
             'keterangan' => 'nullable|string',
-        ];
-
-        if ($isAdmin) {
-            $rules['status_validasi'] = 'required|in:pending,approved,rejected';
-        }
-
-        $validated = $request->validate($rules);
+        ]);
 
         // Jika status bukan Hadir, set jenis_absen ke null
         if ($validated['status_kehadiran'] !== 'Hadir') {
@@ -122,18 +112,16 @@ class AbsensiController extends Controller
         if (!$magang) {
             return redirect()->back()->withInput()->with('error', 'Data magang tidak ditemukan.');
         }
+
         $data = $validated;
         $data['id_unit_bisnis'] = $magang->unit_id;
-        $data['status_validasi'] = $isAdmin ? $validated['status_validasi'] : 'pending';
-
-        if (!$isAdmin || $data['status_validasi'] === 'pending') {
-            $data['validated_by'] = null;
-            $data['validated_at'] = null;
-        }
+        $data['status_validasi'] = 'pending';
+        $data['validated_by'] = null;
+        $data['validated_at'] = null;
 
         Absen::create($data);
 
-        return redirect()->route($isAdmin ? 'admin.absensi.index' : 'mahasiswa.absensi.index')
+        return redirect()->route('mahasiswa.absensi.index')
             ->with('success', 'Absensi berhasil dicatat.');
     }
 
@@ -156,65 +144,19 @@ class AbsensiController extends Controller
         abort(403);
     }
 
-    public function edit(Absen $absensi)
-    {
-        $user = Auth::user();
-        if ($user->role !== 'Admin') {
-            abort(403);
-        }
-
-        $magangs = Magang::with(['mahasiswa', 'unitBisnis'])->get();
-        return view('admin.absensi.edit', compact('absensi', 'magangs'));
-    }
 
     public function update(Request $request, Absen $absensi)
     {
         $user = Auth::user();
 
-        if ($user->role === 'Admin') {
-            $validated = $request->validate([
-                'magang_id' => 'required|exists:magang,id',
-                'jenis_absen' => 'nullable|in:masuk,pulang',
-                'tanggal' => 'required|date',
-                'jam' => 'nullable|date_format:H:i',
-                'status_kehadiran' => 'required|in:Hadir,Izin,Sakit',
-                'status_validasi' => 'required|in:pending,approved,rejected',
-                'keterangan' => 'nullable|string',
-            ]);
-
-            // Jika status bukan Hadir, set jenis_absen ke null
-            if ($validated['status_kehadiran'] !== 'Hadir') {
-                $validated['jenis_absen'] = null;
-            } else {
-                // Jika Hadir, jenis_absen wajib diisi
-                if (empty($validated['jenis_absen'])) {
-                    return redirect()->back()->withInput()->with('error', 'Jenis absensi wajib diisi untuk status Hadir.');
-                }
-            }
-
-            $magang = Magang::find($validated['magang_id']);
-            if (!$magang) {
-                return redirect()->back()->withInput()->with('error', 'Data magang tidak ditemukan.');
-            }
-            $data = $validated;
-            $data['id_unit_bisnis'] = $magang->unit_id;
-
-            if ($validated['status_validasi'] === 'pending') {
-                $data['validated_by'] = null;
-                $data['validated_at'] = null;
-            }
-
-            $absensi->update($data);
-
-            return redirect()->route('admin.absensi.index')->with('success', 'Absensi berhasil diperbarui.');
-        } elseif ($user->role === 'Pembimbing') {
+        if ($user->role === 'Pembimbing') {
             $validated = $request->validate([
                 'status_validasi' => 'required|in:pending,approved,rejected',
             ]);
 
             $dosen = $user->dosen;
             if (!$dosen || !$absensi->magang || $absensi->magang->id_dosen !== $dosen->id) {
-                abort(403);
+                abort(403, 'Unauthorized action.');
             }
 
             $updateData = [
@@ -234,7 +176,7 @@ class AbsensiController extends Controller
             return redirect()->route('pembimbing.absensi.index')->with('success', 'Status absensi berhasil diperbarui.');
         }
 
-        abort(403);
+        abort(403, 'Unauthorized action.');
     }
 
     public function destroy(Absen $absensi)

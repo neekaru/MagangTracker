@@ -3,107 +3,112 @@
 @section('title', 'Monitoring Logbook')
 
 @section('content')
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Monitoring Logbook Peserta</h1>
-</div>
-
-<div class="card shadow-sm mb-4">
-    <div class="card-body">
-        <form class="row g-3">
-            <div class="col-md-3">
-                <label class="form-label">Periode</label>
-                <select class="form-select">
-                    <option selected>Semua Periode</option>
-                    <option>Ganjil 2025/2026</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <label class="form-label">Unit</label>
-                <select class="form-select">
-                    <option selected>Semua Unit</option>
-                    <option>IT Support</option>
-                    <option>Keuangan</option>
-                </select>
-            </div>
-            <div class="col-md-2 d-flex align-items-end">
-                <button type="submit" class="btn btn-primary w-100">Filter</button>
-            </div>
-        </form>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Monitoring Logbook Peserta</h1>
     </div>
-</div>
 
-<div class="card shadow-sm">
-    <div class="card-body">
-        <div class="table-responsive">
-            <table id="logbookTable" class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>Tanggal</th>
-                        <th>Nama Peserta</th>
-                        <th>Unit</th>
-                        <th>Kegiatan</th>
-                        <th>Status</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($logbooks as $logbook)
-                    <tr>
-                        <td>{{ \Carbon\Carbon::parse($logbook->tanggal_logbook)->format('d M Y') }}</td>
-                        <td>{{ $logbook->magang->mahasiswa->nama_lengkap ?? 'N/A' }}</td>
-                        <td>{{ $logbook->magang->unitBisnis->nama_unit_bisnis ?? 'N/A' }}</td>
-                        <td>{{ Str::limit($logbook->deskripsi_kegiatan, 30) }}</td>
-                        <td>
-                            @if($logbook->status == 'pending')
-                                <span class="badge bg-warning text-dark">Menunggu</span>
-                            @elseif($logbook->status == 'approved')
-                                <span class="badge bg-success">Disetujui</span>
-                            @else
-                                <span class="badge bg-danger">Ditolak</span>
-                            @endif
-                        </td>
-                        <td>
-                            <a href="{{ route('logbook.edit', $logbook) }}" class="btn btn-sm btn-warning" title="Edit"><i class="fas fa-edit"></i></a>
-                            <form action="{{ route('logbook.destroy', $logbook) }}" method="POST" class="d-inline-block delete-form">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger delete-btn" title="Delete"><i class="fas fa-trash"></i></button>
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <form class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Periode</label>
+                    <select class="form-select">
+                        <option selected>Semua Periode</option>
+                        <option>Ganjil 2025/2026</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Unit</label>
+                    <select class="form-select">
+                        <option selected>Semua Unit</option>
+                        <option>IT Support</option>
+                        <option>Keuangan</option>
+                    </select>
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">Filter</button>
+                </div>
+            </form>
         </div>
     </div>
-</div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="logbookTable" class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Tanggal</th>
+                            <th>Nama Peserta</th>
+                            <th>Unit</th>
+                            <th>Kegiatan</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($logbooks as $logbook)
+                            <tr>
+                                <td>{{ \Carbon\Carbon::parse($logbook->tanggal_logbook)->format('d M Y') }}</td>
+                                <td>{{ $logbook->magang->mahasiswa->nama_lengkap ?? 'N/A' }}</td>
+                                <td>{{ $logbook->magang->unitBisnis->nama_unit_bisnis ?? 'N/A' }}</td>
+                                <td>{{ Str::limit($logbook->deskripsi_kegiatan, 30) }}</td>
+                                <td>
+                                    @if ($logbook->status == 'pending')
+                                        <span class="badge bg-warning text-dark">Menunggu</span>
+                                    @elseif($logbook->status == 'approved')
+                                        <span class="badge bg-success">Disetujui</span>
+                                    @else
+                                        <span class="badge bg-danger">Ditolak</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <a href="{{ route('logbook.show', $logbook) }}" class="btn btn-sm btn-info text-white"
+                                        title="Lihat Detail"><i class="fas fa-eye"></i></a>
+                                    <form action="{{ route('logbook.destroy', $logbook) }}" method="POST"
+                                        class="d-inline-block delete-form">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger delete-btn" title="Delete"><i
+                                                class="fas fa-trash"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
-<script>
-    $(document).ready(function() {
-        $('#logbookTable').DataTable({
-            "order": [[ 0, "desc" ]]
-        });
+    <script>
+        $(document).ready(function() {
+            $('#logbookTable').DataTable({
+                "order": [
+                    [0, "desc"]
+                ]
+            });
 
-        $('.delete-btn').on('click', function(e) {
-            e.preventDefault();
-            const form = $(this).closest('form');
-            Swal.fire({
-                title: 'Hapus Logbook?',
-                text: "Data yang dihapus tidak dapat dikembalikan!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Ya, hapus!',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    form.submit();
-                }
+            $('.delete-btn').on('click', function(e) {
+                e.preventDefault();
+                const form = $(this).closest('form');
+                Swal.fire({
+                    title: 'Hapus Logbook?',
+                    text: "Data yang dihapus tidak dapat dikembalikan!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
             });
         });
-    });
-</script>
+    </script>
 @endpush
