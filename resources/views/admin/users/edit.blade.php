@@ -44,7 +44,8 @@
                             <label for="password" class="form-label">Password Baru (Opsional)</label>
                             <div class="input-group has-validation">
                                 <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                    id="password" name="password" placeholder="Kosongkan jika tidak ingin mengubah password">
+                                    id="password" name="password"
+                                    placeholder="Kosongkan jika tidak ingin mengubah password">
                                 <button class="btn btn-outline-secondary toggle-password" type="button">
                                     <i class="fas fa-eye"></i>
                                 </button>
@@ -110,40 +111,17 @@
 
                             <div class="mb-3">
                                 <label for="nim" class="form-label">NIM <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control @error('nim') is-invalid @enderror"
-                                    id="nim" name="nim" value="{{ old('nim', $user->mahasiswa->nim ?? '') }}">
+                                <input type="text" class="form-control @error('nim') is-invalid @enderror" id="nim"
+                                    name="nim" value="{{ old('nim', $user->mahasiswa->nim ?? '') }}">
                                 @error('nim')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
 
-                            <div class="mb-3">
-                                <label for="tanggal_mulai" class="form-label">Tanggal Mulai <span
-                                        class="text-danger">*</span></label>
-                                <input type="date" class="form-control @error('tanggal_mulai') is-invalid @enderror"
-                                    id="tanggal_mulai" name="tanggal_mulai"
-                                    value="{{ old('tanggal_mulai', $user->mahasiswa ? $user->mahasiswa->tanggal_mulai->format('Y-m-d') : '') }}">
-                                @error('tanggal_mulai')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
+                            <div class="d-flex justify-content-end gap-2">
+                                <a href="{{ route('users.index') }}" class="btn btn-secondary">Batal</a>
+                                <button type="submit" class="btn btn-primary">Update User</button>
                             </div>
-
-                            <div class="mb-3">
-                                <label for="tanggal_selesai" class="form-label">Tanggal Selesai <span
-                                        class="text-danger">*</span></label>
-                                <input type="date" class="form-control @error('tanggal_selesai') is-invalid @enderror"
-                                    id="tanggal_selesai" name="tanggal_selesai"
-                                    value="{{ old('tanggal_selesai', $user->mahasiswa ? $user->mahasiswa->tanggal_selesai->format('Y-m-d') : '') }}">
-                                @error('tanggal_selesai')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="d-flex justify-content-end gap-2">
-                            <a href="{{ route('users.index') }}" class="btn btn-secondary">Batal</a>
-                            <button type="submit" class="btn btn-primary">Update User</button>
-                        </div>
                     </form>
                 </div>
             </div>

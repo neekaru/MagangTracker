@@ -40,8 +40,6 @@ class UserController extends Controller
             'nama_lengkap' => 'required_if:role,Pembimbing,Mahasiswa',
             'nip' => 'nullable|string',
             'nim' => 'required_if:role,Mahasiswa',
-            'tanggal_mulai' => 'required_if:role,Mahasiswa|nullable|date',
-            'tanggal_selesai' => 'required_if:role,Mahasiswa|nullable|date',
         ]);
 
         // Create user first
@@ -64,8 +62,6 @@ class UserController extends Controller
                 'user_id' => $user->id,
                 'nim' => $validated['nim'],
                 'nama_lengkap' => $validated['nama_lengkap'],
-                'tanggal_mulai' => $validated['tanggal_mulai'],
-                'tanggal_selesai' => $validated['tanggal_selesai'],
             ]);
             $user->update(['id_mahasiswa' => $mahasiswa->id]);
         }
@@ -105,8 +101,6 @@ class UserController extends Controller
             'nama_lengkap' => 'required_if:role,Pembimbing,Mahasiswa',
             'nip' => 'nullable|string',
             'nim' => 'required_if:role,Mahasiswa',
-            'tanggal_mulai' => 'required_if:role,Mahasiswa|nullable|date',
-            'tanggal_selesai' => 'required_if:role,Mahasiswa|nullable|date',
         ]);
 
         // Update user
@@ -137,16 +131,12 @@ class UserController extends Controller
                 $user->mahasiswa->update([
                     'nim' => $validated['nim'],
                     'nama_lengkap' => $validated['nama_lengkap'],
-                    'tanggal_mulai' => $validated['tanggal_mulai'],
-                    'tanggal_selesai' => $validated['tanggal_selesai'],
                 ]);
             } else {
                 $mahasiswa = Mahasiswa::create([
                     'user_id' => $user->id,
                     'nim' => $validated['nim'],
                     'nama_lengkap' => $validated['nama_lengkap'],
-                    'tanggal_mulai' => $validated['tanggal_mulai'],
-                    'tanggal_selesai' => $validated['tanggal_selesai'],
                 ]);
                 $user->update(['id_mahasiswa' => $mahasiswa->id]);
             }
