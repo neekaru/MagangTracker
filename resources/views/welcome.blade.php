@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,6 +18,7 @@
             justify-content: center;
             text-align: center;
         }
+
         .hero-section::before {
             content: '';
             position: absolute;
@@ -24,18 +26,20 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1920&q=80');
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
             background-position: center;
             filter: blur(1px);
             z-index: -1;
         }
+
         .hero-content {
             max-width: 800px;
             padding: 20px;
         }
     </style>
 </head>
+
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -49,7 +53,8 @@
                     <li class="nav-item"><a class="nav-link" href="#fitur">Fitur</a></li>
                     @auth
                         <li class="nav-item">
-                            <a class="nav-link" href="@if(auth()->user()->role == 'Admin')/admin @elseif(auth()->user()->role == 'Pembimbing')/pembimbing @else/mahasiswa @endif">Dashboard</a>
+                            <a class="nav-link"
+                                href="@if (auth()->user()->role == 'Admin') /admin @elseif(auth()->user()->role == 'Pembimbing')/pembimbing @else/mahasiswa @endif">Dashboard</a>
                         </li>
                     @else
                         <li class="nav-item"><a class="nav-link" href="{{ url('/login') }}">Login</a></li>
@@ -62,7 +67,8 @@
     <div class="hero-section">
         <div class="hero-content">
             <h1 class="display-4 fw-bold">Sistem Manajemen Data Karyawan Magang</h1>
-            <p class="lead mb-4">Kelola pendaftaran, logbook, absensi, dan penilaian magang dengan mudah, transparan, dan paperless.</p>
+            <p class="lead mb-4">Kelola pendaftaran, logbook, dan absensi magang dengan mudah, transparan, dan
+                paperless.</p>
             <a href="{{ url('/login') }}" class="btn btn-lg btn-primary me-2">Masuk Sekarang</a>
             <a href="#fitur" class="btn btn-lg btn-outline-light">Pelajari Lebih Lanjut</a>
         </div>
@@ -96,10 +102,10 @@
                 <div class="card h-100 border-0 shadow-sm">
                     <div class="card-body">
                         <div class="mb-3">
-                            <i class="fas fa-star-half-alt fa-3x text-warning"></i>
+                            <i class="fas fa-chart-line fa-3x text-info"></i>
                         </div>
-                        <h3 class="h5">Penilaian Transparan</h3>
-                        <p>Dapatkan penilaian kinerja dari pembimbing secara objektif dan terukur.</p>
+                        <h3 class="h5">Monitoring Real-time</h3>
+                        <p>Pantau progress magang dan aktivitas harian secara real-time dari dashboard.</p>
                     </div>
                 </div>
             </div>
@@ -112,4 +118,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

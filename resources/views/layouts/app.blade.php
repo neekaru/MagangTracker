@@ -152,9 +152,7 @@
                         <li class="{{ request()->is('admin/absensi*') ? 'active' : '' }}">
                             <a href="{{ url('/admin/absensi') }}"><i class="fas fa-clock me-2"></i> Absensi</a>
                         </li>
-                        <li class="{{ request()->is('admin/penilaian*') ? 'active' : '' }}">
-                            <a href="{{ url('/admin/penilaian') }}"><i class="fas fa-star me-2"></i> Penilaian</a>
-                        </li>
+
                         <li class="{{ request()->is('admin/laporan*') ? 'active' : '' }}">
                             <a href="{{ url('/admin/laporan') }}"><i class="fas fa-file-alt me-2"></i> Laporan</a>
                         </li>
@@ -166,14 +164,13 @@
                             <a href="{{ url('/pembimbing/peserta') }}"><i class="fas fa-users me-2"></i> Peserta
                                 Bimbingan</a>
                         </li>
-                        <li class="{{ request()->is('pembimbing/penilaian*') ? 'active' : '' }}">
-                            <a href="{{ url('/pembimbing/penilaian') }}"><i class="fas fa-star me-2"></i> Penilaian</a>
-                        </li>
+
                         <li class="{{ request()->is('pembimbing/logbook*') ? 'active' : '' }}">
                             <a href="{{ url('/pembimbing/logbook') }}"><i class="fas fa-book me-2"></i> Logbook</a>
                         </li>
                         <li class="{{ request()->is('pembimbing/absensi*') ? 'active' : '' }}">
-                            <a href="{{ url('/pembimbing/absensi') }}"><i class="fas fa-clock me-2"></i> Validasi Absensi</a>
+                            <a href="{{ url('/pembimbing/absensi') }}"><i class="fas fa-clock me-2"></i> Validasi
+                                Absensi</a>
                         </li>
                         <li class="{{ request()->is('pembimbing/laporan*') ? 'active' : '' }}">
                             <a href="{{ url('/pembimbing/laporan') }}"><i class="fas fa-file-alt me-2"></i> Laporan</a>
@@ -194,9 +191,6 @@
                         </li>
                         <li class="{{ request()->is('mahasiswa/absensi*') ? 'active' : '' }}">
                             <a href="{{ url('/mahasiswa/absensi') }}"><i class="fas fa-clock me-2"></i> Absensi</a>
-                        </li>
-                        <li class="{{ request()->is('mahasiswa/nilai*') ? 'active' : '' }}">
-                            <a href="{{ url('/mahasiswa/nilai') }}"><i class="fas fa-star me-2"></i> Nilai</a>
                         </li>
                     @endif
                 </ul>

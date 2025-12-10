@@ -64,12 +64,6 @@ Route::prefix('admin')->middleware('role:Admin')->group(function () {
     Route::put('/absensi/{absensi}', [App\Http\Controllers\AbsensiController::class, 'update'])->name('admin.absensi.update');
     Route::delete('/absensi/{absensi}', [App\Http\Controllers\AbsensiController::class, 'destroy'])->name('admin.absensi.destroy');
 
-    // Penilaian & Laporan
-    Route::get('/penilaian', [App\Http\Controllers\Admin\PenilaianController::class, 'index'])->name('penilaian.index');
-    Route::get('/penilaian/{id}', [App\Http\Controllers\Admin\PenilaianController::class, 'show'])->name('penilaian.show');
-    Route::get('/penilaian/{id}/edit', [App\Http\Controllers\Admin\PenilaianController::class, 'edit'])->name('penilaian.edit');
-    Route::put('/penilaian/{id}', [App\Http\Controllers\Admin\PenilaianController::class, 'update'])->name('penilaian.update');
-    Route::delete('/penilaian/{id}', [App\Http\Controllers\Admin\PenilaianController::class, 'destroy'])->name('penilaian.destroy');
     // Laporan
     Route::get('/laporan', [App\Http\Controllers\Admin\LaporanController::class, 'index'])->name('admin.laporan.index');
     Route::get('/laporan/export-pdf', [App\Http\Controllers\Admin\LaporanController::class, 'exportPdf'])->name('admin.laporan.export-pdf');
@@ -84,13 +78,7 @@ Route::prefix('pembimbing')->middleware('role:Pembimbing')->group(function () {
     Route::get('/peserta', [App\Http\Controllers\Pembimbing\PesertaController::class, 'index'])->name('pembimbing.peserta.index');
     Route::get('/peserta/{id}', [App\Http\Controllers\Pembimbing\PesertaController::class, 'show'])->name('pembimbing.peserta.show');
 
-    // Penilaian
-    Route::get('/penilaian', [App\Http\Controllers\Pembimbing\PenilaianController::class, 'index'])->name('pembimbing.penilaian.index');
-    Route::get('/penilaian/create/{magang}', [App\Http\Controllers\Pembimbing\PenilaianController::class, 'create'])->name('pembimbing.penilaian.create');
-    Route::post('/penilaian', [App\Http\Controllers\Pembimbing\PenilaianController::class, 'store'])->name('pembimbing.penilaian.store');
-    Route::get('/penilaian/{id}', [App\Http\Controllers\Pembimbing\PenilaianController::class, 'show'])->name('pembimbing.penilaian.show');
-    Route::get('/penilaian/{id}/edit', [App\Http\Controllers\Pembimbing\PenilaianController::class, 'edit'])->name('pembimbing.penilaian.edit');
-    Route::put('/penilaian/{id}', [App\Http\Controllers\Pembimbing\PenilaianController::class, 'update'])->name('pembimbing.penilaian.update');
+
 
     // Laporan
     Route::get('/laporan', [App\Http\Controllers\Pembimbing\LaporanController::class, 'index'])->name('pembimbing.laporan.index');
@@ -128,8 +116,7 @@ Route::prefix('mahasiswa')->middleware('role:Mahasiswa')->group(function () {
     Route::get('/magang', [App\Http\Controllers\Mahasiswa\MagangController::class, 'index'])->name('mahasiswa.magang.index');
     // Route::resource('magang', App\Http\Controllers\MagangController::class)->only(['create', 'store']);
 
-    // Nilai
-    Route::get('/nilai', [App\Http\Controllers\Mahasiswa\NilaiController::class, 'index'])->name('mahasiswa.nilai.index');
+
 });
 
 Route::prefix('pembimbing')->middleware('role:Pembimbing')->group(function () {
