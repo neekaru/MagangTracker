@@ -14,11 +14,11 @@ class AbsensiController extends Controller
         $user = Auth::user();
         if ($user->role === 'Mahasiswa') {
             $mahasiswa = $user->mahasiswa;
-            
+
             if (!$mahasiswa) {
                 return redirect()->back()->with('error', 'Data mahasiswa tidak ditemukan.');
             }
-            
+
             $absensis = Absen::whereHas('magang', function ($q) use ($mahasiswa) {
                 $q->where('id_mahasiswa', $mahasiswa->id);
             })->with(['unitBisnis', 'magang'])->orderBy('tanggal', 'desc')->orderBy('jenis_absen', 'asc')->get();
@@ -51,17 +51,17 @@ class AbsensiController extends Controller
         $user = Auth::user();
         if ($user->role === 'Mahasiswa') {
             $mahasiswa = $user->mahasiswa;
-            
+
             if (!$mahasiswa) {
                 return redirect()->back()->with('error', 'Data mahasiswa tidak ditemukan.');
             }
-            
+
             $magangs = Magang::where('id_mahasiswa', $mahasiswa->id)->get();
-            
+
             if ($magangs->isEmpty()) {
                 return redirect()->route('mahasiswa.magang.index')->with('error', 'Anda belum terdaftar dalam magang.');
             }
-            
+
             return view('mahasiswa.absensi.create', compact('magangs'));
         } elseif ($user->role === 'Admin') {
             $magangs = Magang::with(['mahasiswa', 'unitBisnis', 'periodeMagang'])->get();
@@ -82,7 +82,7 @@ class AbsensiController extends Controller
 
         $rules = [
             'magang_id' => 'required|exists:magang,id',
-            'jenis_absen' => 'required|in:masuk,pulang',
+            'jenis_absen' => 'nullable|in:masuk,pulang',
             'tanggal' => 'required|date',
             'jam' => 'nullable|date_format:H:i',
             'status_kehadiran' => 'required|in:Hadir,Izin,Sakit',
@@ -95,14 +95,26 @@ class AbsensiController extends Controller
 
         $validated = $request->validate($rules);
 
-        // Cek apakah sudah absen untuk jenis yang sama di hari yang sama
-        $existingAbsen = Absen::where('magang_id', $validated['magang_id'])
-            ->where('jenis_absen', $validated['jenis_absen'])
-            ->whereDate('tanggal', $validated['tanggal'])
-            ->first();
+        // Jika status bukan Hadir, set jenis_absen ke null
+        if ($validated['status_kehadiran'] !== 'Hadir') {
+            $validated['jenis_absen'] = null;
+        } else {
+            // Jika Hadir, jenis_absen wajib diisi
+            if (empty($validated['jenis_absen'])) {
+                return redirect()->back()->withInput()->with('error', 'Jenis absensi wajib diisi untuk status Hadir.');
+            }
+        }
 
-        if ($existingAbsen) {
-            return redirect()->back()->withInput()->with('error', 'Anda sudah melakukan absensi ' . $validated['jenis_absen'] . ' pada tanggal ini.');
+        // Cek apakah sudah absen untuk jenis yang sama di hari yang sama (hanya untuk Hadir)
+        if ($validated['status_kehadiran'] === 'Hadir' && $validated['jenis_absen']) {
+            $existingAbsen = Absen::where('magang_id', $validated['magang_id'])
+                ->where('jenis_absen', $validated['jenis_absen'])
+                ->whereDate('tanggal', $validated['tanggal'])
+                ->first();
+
+            if ($existingAbsen) {
+                return redirect()->back()->withInput()->with('error', 'Anda sudah melakukan absensi ' . $validated['jenis_absen'] . ' pada tanggal ini.');
+            }
         }
 
         // Auto set id_unit_bisnis from magang
@@ -128,7 +140,7 @@ class AbsensiController extends Controller
     public function show(Absen $absensi)
     {
         $user = Auth::user();
-        
+
         if ($user->role === 'Admin') {
             $absensi->load(['magang.mahasiswa', 'unitBisnis', 'validator']);
             return view('admin.absensi.show', ['absen' => $absensi]);
@@ -162,13 +174,23 @@ class AbsensiController extends Controller
         if ($user->role === 'Admin') {
             $validated = $request->validate([
                 'magang_id' => 'required|exists:magang,id',
-                'jenis_absen' => 'required|in:masuk,pulang',
+                'jenis_absen' => 'nullable|in:masuk,pulang',
                 'tanggal' => 'required|date',
                 'jam' => 'nullable|date_format:H:i',
                 'status_kehadiran' => 'required|in:Hadir,Izin,Sakit',
                 'status_validasi' => 'required|in:pending,approved,rejected',
                 'keterangan' => 'nullable|string',
             ]);
+
+            // Jika status bukan Hadir, set jenis_absen ke null
+            if ($validated['status_kehadiran'] !== 'Hadir') {
+                $validated['jenis_absen'] = null;
+            } else {
+                // Jika Hadir, jenis_absen wajib diisi
+                if (empty($validated['jenis_absen'])) {
+                    return redirect()->back()->withInput()->with('error', 'Jenis absensi wajib diisi untuk status Hadir.');
+                }
+            }
 
             $magang = Magang::find($validated['magang_id']);
             if (!$magang) {
