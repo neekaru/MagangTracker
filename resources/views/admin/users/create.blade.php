@@ -106,32 +106,14 @@
 
                             <div class="mb-3">
                                 <label for="nim" class="form-label">NIM <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control @error('nim') is-invalid @enderror"
-                                    id="nim" name="nim" value="{{ old('nim') }}">
+                                <input type="text" class="form-control @error('nim') is-invalid @enderror" id="nim"
+                                    name="nim" value="{{ old('nim') }}">
                                 @error('nim')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
 
-                            <div class="mb-3">
-                                <label for="tanggal_mulai" class="form-label">Tanggal Mulai <span
-                                        class="text-danger">*</span></label>
-                                <input type="date" class="form-control @error('tanggal_mulai') is-invalid @enderror"
-                                    id="tanggal_mulai" name="tanggal_mulai" value="{{ old('tanggal_mulai') }}">
-                                @error('tanggal_mulai')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
 
-                            <div class="mb-3">
-                                <label for="tanggal_selesai" class="form-label">Tanggal Selesai <span
-                                        class="text-danger">*</span></label>
-                                <input type="date" class="form-control @error('tanggal_selesai') is-invalid @enderror"
-                                    id="tanggal_selesai" name="tanggal_selesai" value="{{ old('tanggal_selesai') }}">
-                                @error('tanggal_selesai')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
                         </div>
 
                         <div class="d-flex justify-content-end gap-2">
