@@ -79,14 +79,6 @@
                                 <th>NIM</th>
                                 <td>{{ $user->mahasiswa->nim }}</td>
                             </tr>
-                            <tr>
-                                <th>Tanggal Mulai</th>
-                                <td>{{ $user->mahasiswa->tanggal_mulai->format('d M Y') }}</td>
-                            </tr>
-                            <tr>
-                                <th>Tanggal Selesai</th>
-                                <td>{{ $user->mahasiswa->tanggal_selesai->format('d M Y') }}</td>
-                            </tr>
                         @endif
 
                         <tr>
