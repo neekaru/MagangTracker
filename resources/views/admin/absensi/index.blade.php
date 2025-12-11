@@ -7,6 +7,7 @@
         <h1 class="h2">Monitoring Absensi Peserta</h1>
     </div>
 
+
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
@@ -80,10 +81,10 @@
                                             <i class="fas fa-eye"></i>
                                         </a>
                                         <form action="{{ route('admin.absensi.destroy', $absen->id) }}" method="POST"
-                                            class="d-inline" onsubmit="return confirm('Hapus data absensi ini?')">
+                                            class="d-inline delete-form">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger">
+                                            <button type="button" class="btn btn-sm btn-danger delete-btn">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </form>
@@ -105,6 +106,27 @@
                 "order": [
                     [0, "desc"]
                 ]
+            });
+
+            // SweetAlert for delete confirmation
+            $('.delete-btn').on('click', function(e) {
+                e.preventDefault();
+                const form = $(this).closest('.delete-form');
+
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: "Data absensi ini akan dihapus permanen!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, Hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
             });
         });
     </script>
