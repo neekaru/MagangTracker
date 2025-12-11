@@ -43,14 +43,14 @@
                                 $logbookDisetujui = $peserta->logbook->where('status', 'approved')->count();
                             @endphp
                             <h3>{{ $logbookDisetujui }}</h3>
-                            <p class="text-muted">Logbook Disetujui</p>
+                            <p class="text-muted">Jurnal Kegiatan Disetujui</p>
                         </div>
                         <div class="col-4">
                             @php
                                 $logbookPending = $peserta->logbook->where('status', 'pending')->count();
                             @endphp
                             <h3>{{ $logbookPending }}</h3>
-                            <p class="text-muted">Logbook Pending</p>
+                            <p class="text-muted">Jurnal Kegiatan Pending</p>
                         </div>
                     </div>
                 </div>
@@ -62,8 +62,7 @@
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs" id="detailTab" role="tablist">
                 <li class="nav-item">
-                    <button class="nav-link active" id="logbook-tab" data-bs-toggle="tab" data-bs-target="#logbook"
-                        type="button">Logbook</button>
+                    type="button">Jurnal Kegiatan</button>
                 </li>
                 <li class="nav-item">
                     <button class="nav-link" id="absensi-tab" data-bs-toggle="tab" data-bs-target="#absensi"
@@ -101,7 +100,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="3" class="text-center">Belum ada logbook.</td>
+                                    <td colspan="3" class="text-center">Belum ada jurnal kegiatan.</td>
                                 </tr>
                             @endforelse
                         </tbody>

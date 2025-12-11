@@ -67,8 +67,8 @@
     <div class="hero-section">
         <div class="hero-content">
             <h1 class="display-4 fw-bold">Sistem Manajemen Data Karyawan Magang</h1>
-            <p class="lead mb-4">Kelola pendaftaran, logbook, dan absensi magang dengan mudah, transparan, dan
-                paperless.</p>
+            <p class="lead mb-4">Sistem manajemen magang yang mudah, transparan, dan paperless untuk jurnal kegiatan
+                serta absensi harian.</p>
             <a href="{{ url('/login') }}" class="btn btn-lg btn-primary me-2">Masuk Sekarang</a>
             <a href="#fitur" class="btn btn-lg btn-outline-light">Pelajari Lebih Lanjut</a>
         </div>
@@ -76,29 +76,18 @@
 
     <div id="fitur" class="container py-5">
         <div class="row text-center">
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <i class="fas fa-clipboard-list fa-3x text-primary"></i>
-                        </div>
-                        <h3 class="h5">Pendaftaran Mudah</h3>
-                        <p>Daftar magang secara online dan pantau status penerimaan anda secara real-time.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
+            <div class="col-md-6 mb-4">
                 <div class="card h-100 border-0 shadow-sm">
                     <div class="card-body">
                         <div class="mb-3">
                             <i class="fas fa-book-open fa-3x text-success"></i>
                         </div>
-                        <h3 class="h5">Logbook Digital</h3>
+                        <h3 class="h5">Jurnal Kegiatan Digital</h3>
                         <p>Isi kegiatan harian dan absensi langsung dari perangkat anda tanpa perlu kertas.</p>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 mb-4">
+            <div class="col-md-6 mb-4">
                 <div class="card h-100 border-0 shadow-sm">
                     <div class="card-body">
                         <div class="mb-3">

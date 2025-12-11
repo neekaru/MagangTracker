@@ -147,7 +147,7 @@
                                 Bisnis</a>
                         </li>
                         <li class="{{ request()->is('admin/logbook*') ? 'active' : '' }}">
-                            <a href="{{ url('/admin/logbook') }}"><i class="fas fa-book me-2"></i> Logbook</a>
+                            <a href="{{ url('/admin/logbook') }}"><i class="fas fa-book me-2"></i> Jurnal Kegiatan</a>
                         </li>
                         <li class="{{ request()->is('admin/absensi*') ? 'active' : '' }}">
                             <a href="{{ url('/admin/absensi') }}"><i class="fas fa-clock me-2"></i> Absensi</a>
@@ -166,7 +166,8 @@
                         </li>
 
                         <li class="{{ request()->is('pembimbing/logbook*') ? 'active' : '' }}">
-                            <a href="{{ url('/pembimbing/logbook') }}"><i class="fas fa-book me-2"></i> Logbook</a>
+                            <a href="{{ url('/pembimbing/logbook') }}"><i class="fas fa-book me-2"></i> Jurnal
+                                Kegiatan</a>
                         </li>
                         <li class="{{ request()->is('pembimbing/absensi*') ? 'active' : '' }}">
                             <a href="{{ url('/pembimbing/absensi') }}"><i class="fas fa-clock me-2"></i> Validasi
@@ -187,7 +188,8 @@
                                 Magang</a>
                         </li>
                         <li class="{{ request()->is('mahasiswa/logbook*') ? 'active' : '' }}">
-                            <a href="{{ url('/mahasiswa/logbook') }}"><i class="fas fa-book me-2"></i> Logbook</a>
+                            <a href="{{ url('/mahasiswa/logbook') }}"><i class="fas fa-book me-2"></i> Jurnal
+                                Kegiatan</a>
                         </li>
                         <li class="{{ request()->is('mahasiswa/absensi*') ? 'active' : '' }}">
                             <a href="{{ url('/mahasiswa/absensi') }}"><i class="fas fa-clock me-2"></i> Absensi</a>

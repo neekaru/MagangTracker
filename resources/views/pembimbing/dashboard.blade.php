@@ -22,7 +22,7 @@
         </div>
         <div class="col-md-4">
             <div class="card text-white bg-warning mb-3">
-                <div class="card-header"><i class="fas fa-book me-2"></i>Logbook Pending</div>
+                <div class="card-header"><i class="fas fa-book me-2"></i>Jurnal Kegiatan Pending</div>
                 <div class="card-body">
                     <h5 class="card-title">{{ $logbook_pending }}</h5>
                     <p class="card-text">Menunggu verifikasi anda.</p>
@@ -47,7 +47,7 @@
                     <i class="fas fa-users me-2"></i>Daftar Peserta Bimbingan (Ringkasan)
                 </div>
                 <div class="card-body">
-                    @if($peserta->isEmpty())
+                    @if ($peserta->isEmpty())
                         <p class="text-muted">Belum ada peserta bimbingan.</p>
                     @else
                         <table class="table table-striped">
@@ -56,25 +56,29 @@
                                     <th>Nama</th>
                                     <th>NIM</th>
                                     <th>Unit</th>
-                                    <th>Logbook (Minggu Ini)</th>
+                                    <th>Jurnal Kegiatan (Minggu Ini)</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($peserta as $p)
+                                @foreach ($peserta as $p)
                                     <tr>
                                         <td>{{ $p['nama'] }}</td>
                                         <td>{{ $p['nim'] }}</td>
                                         <td>{{ $p['unit'] }}</td>
                                         <td>
-                                            @if($p['logbook_count'] >= $p['target_weekly'])
-                                                <span class="badge bg-success">Lengkap ({{ $p['logbook_count'] }}/{{ $p['target_weekly'] }})</span>
+                                            @if ($p['logbook_count'] >= $p['target_weekly'])
+                                                <span class="badge bg-success">Lengkap
+                                                    ({{ $p['logbook_count'] }}/{{ $p['target_weekly'] }})</span>
                                             @else
-                                                <span class="badge bg-warning">Kurang {{ $p['target_weekly'] - $p['logbook_count'] }} ({{ $p['logbook_count'] }}/{{ $p['target_weekly'] }})</span>
+                                                <span class="badge bg-warning">Kurang
+                                                    {{ $p['target_weekly'] - $p['logbook_count'] }}
+                                                    ({{ $p['logbook_count'] }}/{{ $p['target_weekly'] }})</span>
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="{{ route('pembimbing.peserta.show', $p['id']) }}" class="btn btn-sm btn-primary">Detail</a>
+                                            <a href="{{ route('pembimbing.peserta.show', $p['id']) }}"
+                                                class="btn btn-sm btn-primary">Detail</a>
                                         </td>
                                     </tr>
                                 @endforeach
