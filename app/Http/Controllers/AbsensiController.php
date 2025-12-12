@@ -21,10 +21,10 @@ class AbsensiController extends Controller
 
             $absensis = Absen::whereHas('magang', function ($q) use ($mahasiswa) {
                 $q->where('id_mahasiswa', $mahasiswa->id);
-            })->with(['unitBisnis', 'magang'])->orderBy('tanggal', 'desc')->orderBy('jenis_absen', 'asc')->get();
+            })->with(['magang.unitBisnis'])->orderBy('tanggal', 'desc')->orderBy('jenis_absen', 'asc')->get();
             return view('mahasiswa.absensi.index', compact('absensis'));
         } elseif ($user->role === 'Admin') {
-            $absensis = Absen::with(['magang.mahasiswa', 'unitBisnis', 'validator'])->orderBy('tanggal', 'desc')->orderBy('jenis_absen', 'asc')->get();
+            $absensis = Absen::with(['magang.mahasiswa', 'magang.unitBisnis', 'validator'])->orderBy('tanggal', 'desc')->orderBy('jenis_absen', 'asc')->get();
             return view('admin.absensi.index', compact('absensis'));
         } elseif ($user->role === 'Pembimbing') {
             $dosen = $user->dosen;
@@ -32,7 +32,7 @@ class AbsensiController extends Controller
                 return redirect()->back()->with('error', 'Data dosen tidak ditemukan.');
             }
 
-            $absensis = Absen::with(['magang.mahasiswa', 'unitBisnis'])
+            $absensis = Absen::with(['magang.mahasiswa', 'magang.unitBisnis'])
                 ->whereHas('magang', function ($q) use ($dosen) {
                     $q->where('id_dosen', $dosen->id);
                 })
@@ -107,14 +107,7 @@ class AbsensiController extends Controller
             }
         }
 
-        // Auto set id_unit_bisnis from magang
-        $magang = Magang::find($validated['magang_id']);
-        if (!$magang) {
-            return redirect()->back()->withInput()->with('error', 'Data magang tidak ditemukan.');
-        }
-
         $data = $validated;
-        $data['id_unit_bisnis'] = $magang->unit_id;
         $data['status_validasi'] = 'pending';
         $data['validated_by'] = null;
         $data['validated_at'] = null;
@@ -130,14 +123,14 @@ class AbsensiController extends Controller
         $user = Auth::user();
 
         if ($user->role === 'Admin') {
-            $absensi->load(['magang.mahasiswa', 'unitBisnis', 'validator']);
+            $absensi->load(['magang.mahasiswa', 'magang.unitBisnis', 'validator']);
             return view('admin.absensi.show', ['absen' => $absensi]);
         } elseif ($user->role === 'Pembimbing') {
             $dosen = $user->dosen;
             if (!$dosen || !$absensi->magang || $absensi->magang->id_dosen !== $dosen->id) {
                 abort(403);
             }
-            $absensi->load(['magang.mahasiswa', 'unitBisnis']);
+            $absensi->load(['magang.mahasiswa', 'magang.unitBisnis']);
             return view('pembimbing.absensi.show', ['absen' => $absensi]);
         }
 

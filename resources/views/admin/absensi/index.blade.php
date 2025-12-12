@@ -73,7 +73,7 @@
                                 </td>
                                 <td>{{ $absen->validator->nama_lengkap ?? '-' }}</td>
                                 <td>{{ $absen->keterangan ?: '-' }}</td>
-                                <td>{{ $absen->unitBisnis->nama_unit_bisnis ?? 'N/A' }}</td>
+                                <td>{{ $absen->magang->unitBisnis->nama_unit_bisnis ?? 'N/A' }}</td>
                                 <td>
                                     <div class="d-flex gap-1 flex-wrap">
                                         <a href="{{ route('admin.absensi.show', $absen->id) }}"

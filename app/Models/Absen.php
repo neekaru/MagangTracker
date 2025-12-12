@@ -25,7 +25,6 @@ class Absen extends Model
         'status_validasi',
         'validated_by',
         'validated_at',
-        'id_unit_bisnis',
         'keterangan',
     ];
 
@@ -41,14 +40,6 @@ class Absen extends Model
             'jam' => 'datetime:H:i',
             'validated_at' => 'datetime',
         ];
-    }
-
-    /**
-     * Get the unit bisnis that owns the absen.
-     */
-    public function unitBisnis()
-    {
-        return $this->belongsTo(UnitBisnis::class, 'id_unit_bisnis');
     }
 
     /**

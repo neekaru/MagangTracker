@@ -72,7 +72,7 @@
                             @endif
                         </td>
                         <td>{{ $absen->keterangan ?: '-' }}</td>
-                        <td>{{ $absen->unitBisnis->nama_unit_bisnis ?? 'N/A' }}</td>
+                        <td>{{ $absen->magang->unitBisnis->nama_unit_bisnis ?? 'N/A' }}</td>
                     </tr>
                     @endforeach
                 </tbody>

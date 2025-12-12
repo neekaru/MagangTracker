@@ -78,7 +78,7 @@
                 </div>
                 <div class="row mb-3">
                     <div class="col-md-4 fw-bold">Lokasi</div>
-                    <div class="col-md-8">{{ $absen->unitBisnis->nama_unit_bisnis ?? 'N/A' }}</div>
+                    <div class="col-md-8">{{ $absen->magang->unitBisnis->nama_unit_bisnis ?? 'N/A' }}</div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-md-4 fw-bold">Keterangan</div>
