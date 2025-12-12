@@ -40,22 +40,8 @@
                                         {{ $unit->nama_unit_bisnis }}
                                     </option>
                                 @endforeach
-                                <option value="lainnya"
-                                    {{ old('unit_id', $magang->unit_id) == null && $magang->unit_lainnya ? 'selected' : '' }}>
-                                    Unit Lainnya</option>
                             </select>
                             @error('unit_id')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3" id="unitLainnyaGroup"
-                            style="display: {{ old('unit_id', $magang->unit_id) == null && $magang->unit_lainnya ? 'block' : 'none' }};">
-                            <label for="unit_lainnya" class="form-label">Unit Lainnya (Opsional)</label>
-                            <input type="text" class="form-control @error('unit_lainnya') is-invalid @enderror"
-                                id="unit_lainnya" name="unit_lainnya"
-                                value="{{ old('unit_lainnya', $magang->unit_lainnya) }}">
-                            @error('unit_lainnya')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -284,22 +270,7 @@
     <!-- Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
-        // toggle function for unit lainnya
-        function toggleUnitLainnya(value) {
-            const unitLainnyaGroup = document.getElementById('unitLainnyaGroup');
-            const unitLainnyaInput = document.getElementById('unit_lainnya');
-
-            if (value === 'lainnya') {
-                unitLainnyaGroup.style.display = 'block';
-                unitLainnyaInput.required = true;
-            } else {
-                unitLainnyaGroup.style.display = 'none';
-                unitLainnyaInput.required = false;
-                if (!('{{ old('unit_lainnya') }}')) {
-                    unitLainnyaInput.value = '';
-                }
-            }
-        }
+        // unit_lainnya removed; no toggle function needed
 
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize Select2 on Unit and Dosen selects with Bootstrap-5-like styling

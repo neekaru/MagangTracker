@@ -65,8 +65,8 @@
                                 <td>{{ $user->dosen->nama_lengkap }}</td>
                             </tr>
                             <tr>
-                                <th>NIP</th>
-                                <td>{{ $user->dosen->nip ?? '-' }}</td>
+                                <th>NIDN</th>
+                                <td>{{ $user->dosen->nidn ?? '-' }}</td>
                             </tr>
                         @endif
 

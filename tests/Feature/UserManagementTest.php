@@ -71,7 +71,7 @@ class UserManagementTest extends TestCase
             'password' => 'password123',
             'role' => 'Pembimbing',
             'nama_lengkap' => 'Pembimbing Test',
-            'nip' => '123456789',
+            'nidn' => '123456789',
         ]);
 
         $response->assertRedirect('/admin/users');
@@ -81,7 +81,7 @@ class UserManagementTest extends TestCase
         ]);
         $this->assertDatabaseHas('dosen', [
             'nama_lengkap' => 'Pembimbing Test',
-            'nip' => '123456789',
+            'nidn' => '123456789',
         ]);
     }
 

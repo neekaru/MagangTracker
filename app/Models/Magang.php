@@ -19,7 +19,6 @@ class Magang extends Model
     protected $fillable = [
         'id_mahasiswa',
         'unit_id',
-        'unit_lainnya',
         'periode_id',
         'id_dosen',
         'pembimbing_lapangan',

@@ -68,7 +68,7 @@ class MagangExport implements FromCollection, WithHeadings, WithMapping, WithSty
             $no,
             $magang->mahasiswa->nim ?? '-',
             $magang->mahasiswa->nama_lengkap ?? '-',
-            $magang->unitBisnis->nama_unit_bisnis ?? $magang->unit_lainnya ?? '-',
+            $magang->unitBisnis->nama_unit_bisnis ?? '-',
             $magang->periodeMagang->nama_periode ?? '-',
             $magang->dosen->nama_lengkap ?? '-',
             $magang->pembimbing_lapangan ?? '-',

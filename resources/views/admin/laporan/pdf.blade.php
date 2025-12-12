@@ -89,7 +89,7 @@
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $magang->mahasiswa->nim ?? '-' }}</td>
                     <td>{{ $magang->mahasiswa->nama_lengkap ?? '-' }}</td>
-                    <td>{{ $magang->unitBisnis->nama_unit_bisnis ?? ($magang->unit_lainnya ?? '-') }}</td>
+                    <td>{{ $magang->unitBisnis->nama_unit_bisnis ?? '-' }}</td>
                     <td>{{ $magang->periodeMagang->nama_periode ?? '-' }}</td>
                     <td>{{ $magang->dosen->nama_lengkap ?? '-' }}</td>
                     <td>{{ $magang->pembimbing_lapangan ?? '-' }}</td>

@@ -9,20 +9,27 @@
 
     <div class="card shadow-sm mb-4">
         <div class="card-body">
-            <form class="row g-3">
+            <form class="row g-3" method="GET" action="{{ route('logbook.index') }}">
                 <div class="col-md-3">
                     <label class="form-label">Periode</label>
-                    <select class="form-select">
-                        <option selected>Semua Periode</option>
-                        <option>Ganjil 2025/2026</option>
+                    <select class="form-select select2-filter" name="periode_id" data-placeholder="Semua Periode">
+                        <option value="">Semua Periode</option>
+                        @foreach(($periodes ?? []) as $periode)
+                            <option value="{{ $periode->id }}" @selected(($selectedPeriodeId ?? null) == $periode->id)>
+                                {{ $periode->nama_periode }}
+                            </option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">Unit</label>
-                    <select class="form-select">
-                        <option selected>Semua Unit</option>
-                        <option>IT Support</option>
-                        <option>Keuangan</option>
+                    <select class="form-select select2-filter" name="unit_id" data-placeholder="Semua Unit">
+                        <option value="">Semua Unit</option>
+                        @foreach(($units ?? []) as $unit)
+                            <option value="{{ $unit->id }}" @selected(($selectedUnitId ?? null) == $unit->id)>
+                                {{ $unit->nama_unit_bisnis }}
+                            </option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="col-md-2 d-flex align-items-end">
@@ -82,9 +89,36 @@
     </div>
 @endsection
 
+@push('styles')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        .select2-container--default .select2-selection--single {
+            height: 38px;
+            padding: 5px 12px;
+            border: 1px solid #ced4da;
+            border-radius: .375rem;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 26px;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 36px;
+        }
+    </style>
+@endpush
+
 @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
+            $('.select2-filter').select2({
+                width: '100%',
+                allowClear: true,
+                placeholder: function() {
+                    return $(this).data('placeholder');
+                }
+            });
+
             $('#logbookTable').DataTable({
                 "order": [
                     [0, "desc"]

@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
         $dosen = \App\Models\Dosen::create([
             'user_id' => $dosenUser->id,
             'nama_lengkap' => 'Dr. Budi Santoso, M.Kom',
-            'nip' => '198501012010011001',
+            'nidn' => '198501012010011001',
         ]);
 
         // Update user with dosen id

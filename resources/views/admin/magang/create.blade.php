@@ -133,14 +133,6 @@
                         @enderror
                     </div>
 
-                    <div class="mb-3">
-                        <label for="unit_lainnya" class="form-label">Unit Lainnya (Opsional)</label>
-                        <input type="text" class="form-control @error('unit_lainnya') is-invalid @enderror" id="unit_lainnya" name="unit_lainnya" value="{{ old('unit_lainnya') }}">
-                        @error('unit_lainnya')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
                     <div class="d-flex justify-content-end gap-2">
                         <a href="{{ route('magang.index') }}" class="btn btn-secondary">Batal</a>
                         <button type="submit" class="btn btn-primary">Simpan Magang</button>

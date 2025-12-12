@@ -38,7 +38,7 @@ class UserController extends Controller
             'password' => 'required|min:6',
             'role' => 'required|in:Admin,Pembimbing,Mahasiswa',
             'nama_lengkap' => 'required_if:role,Pembimbing,Mahasiswa',
-            'nip' => 'nullable|string',
+            'nidn' => 'nullable|string',
             'nim' => 'required_if:role,Mahasiswa',
         ]);
 
@@ -54,7 +54,7 @@ class UserController extends Controller
             $dosen = Dosen::create([
                 'user_id' => $user->id,
                 'nama_lengkap' => $validated['nama_lengkap'],
-                'nip' => $validated['nip'] ?? null,
+                'nidn' => $validated['nidn'] ?? null,
             ]);
             $user->update(['id_dosen' => $dosen->id]);
         } elseif ($validated['role'] === 'Mahasiswa') {
@@ -99,7 +99,7 @@ class UserController extends Controller
             'password' => 'nullable|min:6',
             'role' => 'required|in:Admin,Pembimbing,Mahasiswa',
             'nama_lengkap' => 'required_if:role,Pembimbing,Mahasiswa',
-            'nip' => 'nullable|string',
+            'nidn' => 'nullable|string',
             'nim' => 'required_if:role,Mahasiswa',
         ]);
 
@@ -116,13 +116,13 @@ class UserController extends Controller
             if ($user->dosen) {
                 $user->dosen->update([
                     'nama_lengkap' => $validated['nama_lengkap'],
-                    'nip' => $validated['nip'] ?? null,
+                    'nidn' => $validated['nidn'] ?? null,
                 ]);
             } else {
                 $dosen = Dosen::create([
                     'user_id' => $user->id,
                     'nama_lengkap' => $validated['nama_lengkap'],
-                    'nip' => $validated['nip'] ?? null,
+                    'nidn' => $validated['nidn'] ?? null,
                 ]);
                 $user->update(['id_dosen' => $dosen->id]);
             }

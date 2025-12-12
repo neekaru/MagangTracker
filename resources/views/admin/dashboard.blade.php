@@ -56,7 +56,9 @@
                     <i class="fas fa-chart-bar me-2"></i>Statistik Pendaftaran per Periode
                 </div>
                 <div class="card-body">
-                    <canvas id="magangChart" width="400" height="200"></canvas>
+                    <div style="position: relative; height: 260px;">
+                        <canvas id="magangChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
@@ -108,6 +110,7 @@
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     scales: {
                         y: {
                             beginAtZero: true

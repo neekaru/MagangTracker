@@ -51,7 +51,6 @@ class MagangController extends Controller
             'tanggal_selesai' => 'required|date|after:tanggal_mulai',
             'tugas_description' => 'required|string',
             'target_book_mingguan' => 'required|integer|min:1',
-            'unit_lainnya' => 'nullable|string',
         ]);
 
         $validated['status_magang'] = 'Aktif';
@@ -101,7 +100,6 @@ class MagangController extends Controller
             'status_magang' => 'required|in:Aktif,Nonaktif,Selesai',
             'tugas_description' => 'required|string',
             'target_book_mingguan' => 'required|integer|min:1',
-            'unit_lainnya' => 'nullable|string',
         ]);
 
         $magang->update($validated);

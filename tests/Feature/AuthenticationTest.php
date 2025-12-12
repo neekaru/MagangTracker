@@ -77,7 +77,7 @@ class AuthenticationTest extends TestCase
     {
         $dosen = Dosen::factory()->create([
             'nama_lengkap' => 'Test Pembimbing',
-            'nip' => '0123456789',
+            'nidn' => '0123456789',
             'status' => 'aktif',
         ]);
 

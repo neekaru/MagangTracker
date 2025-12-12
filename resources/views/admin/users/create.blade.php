@@ -83,10 +83,10 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="nip" class="form-label">NIP (Opsional)</label>
-                                <input type="text" class="form-control @error('nip') is-invalid @enderror" id="nip"
-                                    name="nip" value="{{ old('nip') }}">
-                                @error('nip')
+                                <label for="nidn" class="form-label">NIDN (Opsional)</label>
+                                <input type="text" class="form-control @error('nidn') is-invalid @enderror" id="nidn"
+                                    name="nidn" value="{{ old('nidn') }}">
+                                @error('nidn')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>

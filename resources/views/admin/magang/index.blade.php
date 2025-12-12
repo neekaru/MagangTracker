@@ -63,9 +63,9 @@
                                             style="display:inline;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger delete-btn"
-                                                onclick="return confirm('Hapus magang ini?')"><i
-                                                    class="fas fa-trash"></i></button>
+                                            <button type="submit" class="btn btn-sm btn-danger delete-btn">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
                                         </form>
                                     </td>
                                 </tr>
@@ -203,7 +203,9 @@
                 }
             });
 
-            $('.delete-btn').click(function() {
+            $('.delete-btn').click(function(e) {
+                e.preventDefault();
+                const form = $(this).closest('form');
                 Swal.fire({
                     title: 'Hapus Data Magang?',
                     text: "Data yang dihapus tidak dapat dikembalikan!",
@@ -215,11 +217,7 @@
                     cancelButtonText: 'Batal'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        Swal.fire(
-                            'Terhapus!',
-                            'Data magang berhasil dihapus.',
-                            'success'
-                        )
+                        form.submit();
                     }
                 })
             });

@@ -22,7 +22,7 @@ class DosenFactory extends Factory
         return [
             'user_id' => \App\Models\User::factory(),
             'nama_lengkap' => $this->faker->name(),
-            'nip' => $this->faker->optional()->numerify('##########'),
+            'nidn' => $this->faker->optional()->numerify('##########'),
             'status' => $this->faker->randomElement(['aktif', 'nonaktif']),
         ];
     }

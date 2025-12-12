@@ -87,10 +87,10 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="nip" class="form-label">NIP (Opsional)</label>
-                                <input type="text" class="form-control @error('nip') is-invalid @enderror" id="nip"
-                                    name="nip" value="{{ old('nip', $user->dosen->nip ?? '') }}">
-                                @error('nip')
+                                <label for="nidn" class="form-label">NIDN (Opsional)</label>
+                                <input type="text" class="form-control @error('nidn') is-invalid @enderror" id="nidn"
+                                    name="nidn" value="{{ old('nidn', $user->dosen->nidn ?? '') }}">
+                                @error('nidn')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -117,11 +117,12 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
+                        </div>
 
-                            <div class="d-flex justify-content-end gap-2">
-                                <a href="{{ route('users.index') }}" class="btn btn-secondary">Batal</a>
-                                <button type="submit" class="btn btn-primary">Update User</button>
-                            </div>
+                        <div class="d-flex justify-content-end gap-2">
+                            <a href="{{ route('users.index') }}" class="btn btn-secondary">Batal</a>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
                     </form>
                 </div>
             </div>

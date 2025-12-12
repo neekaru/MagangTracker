@@ -110,7 +110,7 @@ class LaporanController extends Controller
                         $no,
                         $magang->mahasiswa->nim ?? '-',
                         $magang->mahasiswa->nama_lengkap ?? '-',
-                        $magang->unitBisnis->nama_unit_bisnis ?? $magang->unit_lainnya ?? '-',
+                        $magang->unitBisnis->nama_unit_bisnis ?? '-',
                         $magang->periodeMagang->nama_periode ?? '-',
                         $magang->pembimbing_lapangan ?? '-',
                         $magang->tanggal_mulai ? $magang->tanggal_mulai->format('d/m/Y') : '-',

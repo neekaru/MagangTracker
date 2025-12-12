@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Dosen;
 use App\Models\Logbook;
 use App\Models\Magang;
+use App\Models\PeriodeMagang;
+use App\Models\UnitBisnis;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,8 +23,34 @@ class LogbookController extends Controller
             })->get();
             return view('mahasiswa.logbook.index', compact('logbooks'));
         } elseif ($user->role === 'Admin') {
-            $logbooks = Logbook::all();
-            return view('admin.logbook.index', compact('logbooks'));
+            $selectedPeriodeId = request('periode_id');
+            $selectedUnitId = request('unit_id');
+
+            $logbooksQuery = Logbook::with(['magang.mahasiswa', 'magang.unitBisnis', 'magang.periodeMagang']);
+
+            if ($selectedPeriodeId) {
+                $logbooksQuery->whereHas('magang', function ($q) use ($selectedPeriodeId) {
+                    $q->where('periode_id', $selectedPeriodeId);
+                });
+            }
+
+            if ($selectedUnitId) {
+                $logbooksQuery->whereHas('magang', function ($q) use ($selectedUnitId) {
+                    $q->where('unit_id', $selectedUnitId);
+                });
+            }
+
+            $logbooks = $logbooksQuery->get();
+            $periodes = PeriodeMagang::orderBy('nama_periode')->get();
+            $units = UnitBisnis::orderBy('nama_unit_bisnis')->get();
+
+            return view('admin.logbook.index', compact(
+                'logbooks',
+                'periodes',
+                'units',
+                'selectedPeriodeId',
+                'selectedUnitId'
+            ));
         }
     }
 
