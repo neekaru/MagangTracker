@@ -18,13 +18,13 @@ class MagangController extends Controller
             return redirect()->back()->with('error', 'Data mahasiswa tidak ditemukan.');
         }
         
-        $magang = Magang::with(['absen'])->where('id_mahasiswa', $mahasiswa->id)->first();
+        $magang = Magang::with(['absen', 'periodeMagang'])->where('id_mahasiswa', $mahasiswa->id)->first();
 
         if ($magang) {
             $deskripsi_tugas = $magang->tugas_description;
             $pembimbing_lapangan = $magang->pembimbing_lapangan;
-            $tgl_mulai = $magang->tanggal_mulai->format('d M Y');
-            $tgl_selesai = $magang->tanggal_selesai->format('d M Y');
+            $tgl_mulai = optional($magang->periodeMagang?->tanggal_mulai)->format('d M Y');
+            $tgl_selesai = optional($magang->periodeMagang?->tanggal_selesai)->format('d M Y');
             $target_logbook = $magang->target_book_mingguan;
             $status_magang = $magang->status_magang;
             $unit_penempatan = $magang->unitBisnis->nama_unit_bisnis ?? 'N/A';

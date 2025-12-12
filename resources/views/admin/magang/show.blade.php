@@ -76,11 +76,11 @@
                     </tr>
                     <tr>
                         <th>Tanggal Mulai</th>
-                        <td>{{ $magang->tanggal_mulai->format('d M Y') }}</td>
+                        <td>{{ optional($magang->periodeMagang?->tanggal_mulai)->format('d M Y') ?? 'N/A' }}</td>
                     </tr>
                     <tr>
                         <th>Tanggal Selesai</th>
-                        <td>{{ $magang->tanggal_selesai->format('d M Y') }}</td>
+                        <td>{{ optional($magang->periodeMagang?->tanggal_selesai)->format('d M Y') ?? 'N/A' }}</td>
                     </tr>
                 </table>
             </div>

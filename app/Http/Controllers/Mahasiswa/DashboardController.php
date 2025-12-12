@@ -22,7 +22,7 @@ class DashboardController extends Controller
         }
         
         // Get magang data with relationships
-        $magang = Magang::with(['absen', 'logbook', 'unitBisnis'])
+        $magang = Magang::with(['absen', 'logbook', 'unitBisnis', 'periodeMagang'])
             ->where('id_mahasiswa', $mahasiswa->id)
             ->first();
 
@@ -37,24 +37,25 @@ class DashboardController extends Controller
                 ->where('status_kehadiran', 'Hadir')
                 ->count();
             
-            // Calculate expected working days from start date to today
-            $start_date = Carbon::parse($magang->tanggal_mulai);
+            $periode = $magang->periodeMagang;
+            $start_date = $periode?->tanggal_mulai ? Carbon::parse($periode->tanggal_mulai) : null;
+            $end_date = $periode?->tanggal_selesai ? Carbon::parse($periode->tanggal_selesai) : null;
             $today = Carbon::now();
-            $end_date = Carbon::parse($magang->tanggal_selesai);
-            
-            // Don't count beyond end date
-            if ($today->gt($end_date)) {
-                $today = $end_date;
-            }
-            
-            // Calculate working days (Monday to Friday)
-            $kehadiran_max = 0;
-            $current = $start_date->copy();
-            while ($current->lte($today)) {
-                if ($current->isWeekday()) {
-                    $kehadiran_max++;
+
+            if ($start_date && $end_date) {
+                if ($today->gt($end_date)) {
+                    $today = $end_date;
                 }
-                $current->addDay();
+                $kehadiran_max = 0;
+                $current = $start_date->copy();
+                while ($current->lte($today)) {
+                    if ($current->isWeekday()) {
+                        $kehadiran_max++;
+                    }
+                    $current->addDay();
+                }
+            } else {
+                $kehadiran_max = 0;
             }
             
             $kehadiran_total = $absen_hadir;

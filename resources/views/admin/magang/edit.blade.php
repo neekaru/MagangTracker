@@ -94,36 +94,6 @@
                             @enderror
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="tanggal_mulai" class="form-label">Tanggal Mulai <span
-                                            class="text-danger">*</span></label>
-                                    <input type="date" class="form-control @error('tanggal_mulai') is-invalid @enderror"
-                                        id="tanggal_mulai" name="tanggal_mulai"
-                                        value="{{ old('tanggal_mulai', $magang->tanggal_mulai->format('Y-m-d')) }}"
-                                        required>
-                                    @error('tanggal_mulai')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="tanggal_selesai" class="form-label">Tanggal Selesai <span
-                                            class="text-danger">*</span></label>
-                                    <input type="date"
-                                        class="form-control @error('tanggal_selesai') is-invalid @enderror"
-                                        id="tanggal_selesai" name="tanggal_selesai"
-                                        value="{{ old('tanggal_selesai', $magang->tanggal_selesai->format('Y-m-d')) }}"
-                                        required>
-                                    @error('tanggal_selesai')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="mb-3">
                             <label for="status_magang" class="form-label">Status Magang <span
                                     class="text-danger">*</span></label>

@@ -22,8 +22,6 @@ class Magang extends Model
         'periode_id',
         'id_dosen',
         'pembimbing_lapangan',
-        'tanggal_mulai',
-        'tanggal_selesai',
         'status_magang',
         'target_book_mingguan',
         'tugas_description',
@@ -36,10 +34,7 @@ class Magang extends Model
      */
     protected function casts(): array
     {
-        return [
-            'tanggal_mulai' => 'datetime',
-            'tanggal_selesai' => 'datetime',
-        ];
+        return [];
     }
 
     /**

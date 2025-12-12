@@ -47,8 +47,6 @@ class MagangController extends Controller
             'periode_id' => 'required|exists:periode_magang,id',
             'id_dosen' => 'required|exists:dosen,id',
             'pembimbing_lapangan' => 'required|string',
-            'tanggal_mulai' => 'required|date',
-            'tanggal_selesai' => 'required|date|after:tanggal_mulai',
             'tugas_description' => 'required|string',
             'target_book_mingguan' => 'required|integer|min:1',
         ]);
@@ -95,8 +93,6 @@ class MagangController extends Controller
             'periode_id' => 'required|exists:periode_magang,id',
             'id_dosen' => 'required|exists:dosen,id',
             'pembimbing_lapangan' => 'required|string',
-            'tanggal_mulai' => 'required|date',
-            'tanggal_selesai' => 'required|date|after:tanggal_mulai',
             'status_magang' => 'required|in:Aktif,Nonaktif,Selesai',
             'tugas_description' => 'required|string',
             'target_book_mingguan' => 'required|integer|min:1',

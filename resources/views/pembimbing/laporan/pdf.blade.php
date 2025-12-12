@@ -91,8 +91,8 @@
                     <td>{{ $magang->unitBisnis->nama_unit_bisnis ?? '-' }}</td>
                     <td>{{ $magang->periodeMagang->nama_periode ?? '-' }}</td>
                     <td>{{ $magang->pembimbing_lapangan ?? '-' }}</td>
-                    <td>{{ $magang->tanggal_mulai ? $magang->tanggal_mulai->format('d/m/Y') : '-' }}</td>
-                    <td>{{ $magang->tanggal_selesai ? $magang->tanggal_selesai->format('d/m/Y') : '-' }}</td>
+                    <td>{{ optional($magang->periodeMagang?->tanggal_mulai)->format('d/m/Y') ?? '-' }}</td>
+                    <td>{{ optional($magang->periodeMagang?->tanggal_selesai)->format('d/m/Y') ?? '-' }}</td>
                     <td>{{ $magang->status_magang }}</td>
                 </tr>
             @empty

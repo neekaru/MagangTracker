@@ -113,8 +113,8 @@ class LaporanController extends Controller
                         $magang->unitBisnis->nama_unit_bisnis ?? '-',
                         $magang->periodeMagang->nama_periode ?? '-',
                         $magang->pembimbing_lapangan ?? '-',
-                        $magang->tanggal_mulai ? $magang->tanggal_mulai->format('d/m/Y') : '-',
-                        $magang->tanggal_selesai ? $magang->tanggal_selesai->format('d/m/Y') : '-',
+                        optional($magang->periodeMagang?->tanggal_mulai)->format('d/m/Y') ?? '-',
+                        optional($magang->periodeMagang?->tanggal_selesai)->format('d/m/Y') ?? '-',
                         $magang->status_magang,
                         $magang->target_book_mingguan,
                     ];
