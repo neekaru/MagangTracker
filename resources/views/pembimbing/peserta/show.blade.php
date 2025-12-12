@@ -62,7 +62,8 @@
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs" id="detailTab" role="tablist">
                 <li class="nav-item">
-                    type="button">Jurnal Kegiatan</button>
+                    <button class="nav-link active" id="logbook-tab" data-bs-toggle="tab" data-bs-target="#logbook"
+                        type="button">Jurnal Kegiatan</button>
                 </li>
                 <li class="nav-item">
                     <button class="nav-link" id="absensi-tab" data-bs-toggle="tab" data-bs-target="#absensi"
@@ -86,7 +87,14 @@
                             @forelse($peserta->logbook->sortByDesc('tanggal') as $log)
                                 <tr>
                                     <td>{{ $log->tanggal->format('d M Y') }}</td>
-                                    <td>{{ $log->kegiatan }}</td>
+                                    @php
+                                        $allowedTags = '<p><br><b><strong><i><em><u><ul><ol><li><a>';
+                                        $kegiatanHtml = strip_tags($log->kegiatan ?? '', $allowedTags);
+                                        $kegiatanHtml = preg_replace('/\son\w+="[^"]*"/i', '', $kegiatanHtml);
+                                        $kegiatanHtml = preg_replace("/\son\w+='[^']*'/i", '', $kegiatanHtml);
+                                        $kegiatanHtml = preg_replace('/href=("|\')\s*javascript:[^"\']*\1/i', 'href="#"', $kegiatanHtml);
+                                    @endphp
+                                    <td>{!! $kegiatanHtml !!}</td>
                                     <td>
                                         @if ($log->status == 'pending')
                                             <span class="badge bg-warning text-dark">Pending</span>
