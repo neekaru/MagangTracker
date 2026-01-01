@@ -81,6 +81,8 @@ class AbsensiController extends Controller
             'jenis_absen' => 'nullable|in:masuk,pulang',
             'tanggal' => 'required|date',
             'jam' => 'nullable|date_format:H:i',
+            'latitude' => 'nullable|numeric|between:-90,90',
+            'longitude' => 'nullable|numeric|between:-180,180',
             'status_kehadiran' => 'required|in:Hadir,Izin,Sakit',
             'keterangan' => 'nullable|string',
         ]);
@@ -184,3 +186,4 @@ class AbsensiController extends Controller
         return redirect()->route('admin.absensi.index')->with('success', 'Data absensi berhasil dihapus.');
     }
 }
+

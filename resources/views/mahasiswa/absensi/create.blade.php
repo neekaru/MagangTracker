@@ -60,6 +60,11 @@
                             <input type="time" class="form-control" id="jam" name="jam"
                                 value="{{ date('H:i') }}">
                         </div>
+                        <input type="hidden" id="latitude" name="latitude" value="{{ old('latitude') }}">
+                        <input type="hidden" id="longitude" name="longitude" value="{{ old('longitude') }}">
+                        <div class="mb-3">
+                            <small id="lokasiStatus" class="text-muted">Mendeteksi lokasi...</small>
+                        </div>
                         <div class="mb-3">
                             <label for="status_kehadiran" class="form-label">Status Kehadiran</label>
                             <select class="form-select" id="status_kehadiran" name="status_kehadiran" required>
@@ -118,6 +123,39 @@
 
             // Listen for changes
             statusKehadiran.addEventListener('change', toggleJenisAbsen);
+            const lokasiStatus = document.getElementById('lokasiStatus');
+            const latitudeInput = document.getElementById('latitude');
+            const longitudeInput = document.getElementById('longitude');
+
+            function setLokasiStatus(message) {
+                if (lokasiStatus) {
+                    lokasiStatus.textContent = message;
+                }
+            }
+
+            function requestLocation() {
+                if (!navigator.geolocation) {
+                    setLokasiStatus('Perangkat ini tidak mendukung GPS.');
+                    return;
+                }
+
+                setLokasiStatus('Mengambil lokasi GPS...');
+                navigator.geolocation.getCurrentPosition(
+                    function (position) {
+                        latitudeInput.value = position.coords.latitude;
+                        longitudeInput.value = position.coords.longitude;
+                        setLokasiStatus('Lokasi GPS tersimpan.');
+                    },
+                    function () {
+                        setLokasiStatus('Lokasi tidak diizinkan. Absensi tetap bisa dikirim.');
+                    },
+                    { enableHighAccuracy: true, timeout: 10000 }
+                );
+            }
+
+            requestLocation();
         });
     </script>
 @endsection
+
+

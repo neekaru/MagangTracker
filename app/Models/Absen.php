@@ -21,6 +21,8 @@ class Absen extends Model
         'jenis_absen',
         'tanggal',
         'jam',
+        'latitude',
+        'longitude',
         'status_kehadiran',
         'status_validasi',
         'validated_by',
@@ -74,3 +76,4 @@ class Absen extends Model
         return $this->status_kehadiran;
     }
 }
+
