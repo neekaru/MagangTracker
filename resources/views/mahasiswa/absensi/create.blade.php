@@ -60,10 +60,21 @@
                             <input type="time" class="form-control" id="jam" name="jam"
                                 value="{{ date('H:i') }}">
                         </div>
-                        <input type="hidden" id="latitude" name="latitude" value="{{ old('latitude') }}">
-                        <input type="hidden" id="longitude" name="longitude" value="{{ old('longitude') }}">
                         <div class="mb-3">
-                            <small id="lokasiStatus" class="text-muted">Mendeteksi lokasi...</small>
+                            <label class="form-label">Lokasi Absensi</label>
+                            <div id="absensi-map" class="rounded border"></div>
+                            <div class="row g-2 mt-2">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="latitude" name="latitude" placeholder="Latitude" value="{{ old('latitude') }}" readonly>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="longitude" name="longitude" placeholder="Longitude" value="{{ old('longitude') }}" readonly>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-outline-primary btn-sm mt-2" id="gunakan-lokasi">
+                                Gunakan Lokasi Saya
+                            </button>
+                            <small id="lokasiStatus" class="text-muted d-block mt-1">Mendeteksi lokasi...</small>
                         </div>
                         <div class="mb-3">
                             <label for="status_kehadiran" class="form-label">Status Kehadiran</label>
@@ -101,6 +112,19 @@
         </div>
     </div>
 
+@endsection
+
+@push('styles')
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <style>
+        #absensi-map {
+            height: 320px;
+        }
+    </style>
+@endpush
+
+@push('scripts')
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const statusKehadiran = document.getElementById('status_kehadiran');
@@ -114,18 +138,17 @@
                 } else {
                     jenisAbsenGroup.style.display = 'none';
                     jenisAbsenSelect.required = false;
-                    jenisAbsenSelect.value = ''; // Clear selection
+                    jenisAbsenSelect.value = '';
                 }
             }
 
-            // Initial check
             toggleJenisAbsen();
-
-            // Listen for changes
             statusKehadiran.addEventListener('change', toggleJenisAbsen);
+
             const lokasiStatus = document.getElementById('lokasiStatus');
             const latitudeInput = document.getElementById('latitude');
             const longitudeInput = document.getElementById('longitude');
+            const gunakanLokasiBtn = document.getElementById('gunakan-lokasi');
 
             function setLokasiStatus(message) {
                 if (lokasiStatus) {
@@ -133,29 +156,95 @@
                 }
             }
 
+            var defaultLat = -6.200000;
+            var defaultLng = 106.816666;
+            var oldLat = parseFloat("{{ old('latitude') }}");
+            var oldLng = parseFloat("{{ old('longitude') }}");
+            var hasOldCoords = !isNaN(oldLat) && !isNaN(oldLng);
+
+            var map = L.map('absensi-map').setView(
+                hasOldCoords ? [oldLat, oldLng] : [defaultLat, defaultLng],
+                hasOldCoords ? 16 : 12
+            );
+
+            L.tileLayer('https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors, tiles by openstreetmap.de'
+            }).addTo(map);
+
+            var marker = null;
+            function updateCoords(lat, lng) {
+                latitudeInput.value = lat.toFixed(6);
+                longitudeInput.value = lng.toFixed(6);
+            }
+
+            function setMarker(lat, lng) {
+                if (!marker) {
+                    marker = L.marker([lat, lng], { draggable: true }).addTo(map);
+                    marker.on('dragend', function (e) {
+                        var pos = e.target.getLatLng();
+                        updateCoords(pos.lat, pos.lng);
+                    });
+                } else {
+                    marker.setLatLng([lat, lng]);
+                }
+                updateCoords(lat, lng);
+            }
+
+            if (hasOldCoords) {
+                setMarker(oldLat, oldLng);
+            }
+
+            map.on('click', function (e) {
+                setMarker(e.latlng.lat, e.latlng.lng);
+                setLokasiStatus('Lokasi dipilih dari peta.');
+            });
+
             function requestLocation() {
                 if (!navigator.geolocation) {
                     setLokasiStatus('Perangkat ini tidak mendukung GPS.');
                     return;
                 }
 
-                setLokasiStatus('Mengambil lokasi GPS...');
-                navigator.geolocation.getCurrentPosition(
+                setLokasiStatus('Meminta izin lokasi dengan akurasi tinggi...');
+                var watchId = navigator.geolocation.watchPosition(
                     function (position) {
-                        latitudeInput.value = position.coords.latitude;
-                        longitudeInput.value = position.coords.longitude;
-                        setLokasiStatus('Lokasi GPS tersimpan.');
+                        var lat = position.coords.latitude;
+                        var lng = position.coords.longitude;
+                        var accuracy = position.coords.accuracy;
+                        setMarker(lat, lng);
+                        map.setView([lat, lng], 16);
+                        if (accuracy && accuracy > 0) {
+                            setLokasiStatus('Akurasi lokasi: ' + Math.round(accuracy) + ' m.');
+                        } else {
+                            setLokasiStatus('Lokasi berhasil diambil.');
+                        }
+                        if (accuracy && accuracy <= 50) {
+                            navigator.geolocation.clearWatch(watchId);
+                            setLokasiStatus('Lokasi akurat berhasil diambil (' + Math.round(accuracy) + ' m).');
+                        }
                     },
-                    function () {
-                        setLokasiStatus('Lokasi tidak diizinkan. Absensi tetap bisa dikirim.');
+                    function (error) {
+                        var message = 'Lokasi tidak diizinkan. Absensi tetap bisa dikirim.';
+                        if (error && typeof error.code !== 'undefined') {
+                            if (error.code === 1) {
+                                message = 'Izin lokasi ditolak. Absensi tetap bisa dikirim.';
+                            } else if (error.code === 2) {
+                                message = 'Lokasi tidak tersedia. Coba lagi.';
+                            } else if (error.code === 3) {
+                                message = 'Permintaan lokasi timeout. Coba lagi.';
+                            }
+                        }
+                        setLokasiStatus(message);
+                        navigator.geolocation.clearWatch(watchId);
                     },
-                    { enableHighAccuracy: true, timeout: 10000 }
+                    { enableHighAccuracy: true, timeout: 30000, maximumAge: 0 }
                 );
             }
 
+            gunakanLokasiBtn.addEventListener('click', requestLocation);
             requestLocation();
         });
     </script>
-@endsection
+@endpush
 
 
