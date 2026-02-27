@@ -17,14 +17,12 @@ class Magang extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'id_mahasiswa',
-        'unit_id',
+        'mahasiswa_id',
+        'unit_bisnis_id',
         'periode_id',
-        'id_dosen',
+        'dosen_pembimbing_id',
         'pembimbing_lapangan',
         'status_magang',
-        'target_book_mingguan',
-        'tugas_description',
     ];
 
     /**
@@ -42,7 +40,7 @@ class Magang extends Model
      */
     public function mahasiswa()
     {
-        return $this->belongsTo(Mahasiswa::class, 'id_mahasiswa');
+        return $this->belongsTo(Mahasiswa::class, 'mahasiswa_id');
     }
 
     /**
@@ -50,7 +48,7 @@ class Magang extends Model
      */
     public function unitBisnis()
     {
-        return $this->belongsTo(UnitBisnis::class, 'unit_id');
+        return $this->belongsTo(UnitBisnis::class, 'unit_bisnis_id');
     }
 
     /**
@@ -62,11 +60,19 @@ class Magang extends Model
     }
 
     /**
-     * Get the dosen that supervises the magang.
+     * Get the dosen pembimbing that supervises the magang.
+     */
+    public function dosenPembimbing()
+    {
+        return $this->belongsTo(Dosen::class, 'dosen_pembimbing_id');
+    }
+
+    /**
+     * Alias relasi dosen() agar backward-compatible dengan kode lama.
      */
     public function dosen()
     {
-        return $this->belongsTo(Dosen::class, 'id_dosen');
+        return $this->belongsTo(Dosen::class, 'dosen_pembimbing_id');
     }
 
     /**
@@ -93,3 +99,4 @@ class Magang extends Model
         return $this->hasMany(Absen::class, 'magang_id');
     }
 }
+

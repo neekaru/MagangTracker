@@ -20,6 +20,7 @@ class Mahasiswa extends Model
         'user_id',
         'nim',
         'nama_lengkap',
+        'prodi',
     ];
 
 
@@ -36,6 +37,6 @@ class Mahasiswa extends Model
      */
     public function magang()
     {
-        return $this->hasMany(Magang::class, 'id_mahasiswa');
+        return $this->hasMany(Magang::class, 'mahasiswa_id');
     }
 }

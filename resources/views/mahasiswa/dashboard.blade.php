@@ -17,8 +17,9 @@
                 <div class="card-body text-center">
                     <h5 class="card-title">Status Magang <i class="fas fa-info-circle text-muted" data-bs-toggle="tooltip"
                             title="Status resmi kepesertaan magang Anda."></i></h5>
-                    <p class="display-6 @if($status_magang == 'Aktif') text-success @elseif($status_magang == 'Pending') text-warning @else text-secondary @endif"><i
-                            class="fas fa-check-circle"></i> {{ $status_magang }}</p>
+                    <p
+                        class="display-6 @if($status_magang == 'Aktif') text-success @elseif($status_magang == 'Pending') text-warning @else text-secondary @endif">
+                        <i class="fas fa-check-circle"></i> {{ $status_magang }}</p>
                     <p class="text-muted">Unit: {{ $unit_penempatan }}</p>
                 </div>
             </div>
@@ -40,7 +41,7 @@
                 <div class="card-body text-center">
                     <h5 class="card-title">Logbook Minggu Ini <i class="fas fa-info-circle text-muted"
                             data-bs-toggle="tooltip" title="Jumlah logbook yang telah diisi pada minggu ini."></i></h5>
-                    <p class="display-6 text-warning">{{ $logbook_minggu_ini }}/{{ $logbook_target }}</p>
+                    <p class="display-6 text-warning">{{ $logbook_minggu_ini }}/5</p>
                     <a href="{{ url('/mahasiswa/logbook/create') }}" class="btn btn-sm btn-primary">Isi Logbook</a>
                 </div>
             </div>
@@ -72,7 +73,8 @@
                     </ul>
                 @else
                     <div class="card-body text-center text-muted">
-                        <p class="mb-0">Belum ada logbook. <a href="{{ url('/mahasiswa/logbook/create') }}">Isi logbook sekarang</a></p>
+                        <p class="mb-0">Belum ada logbook. <a href="{{ url('/mahasiswa/logbook/create') }}">Isi logbook
+                                sekarang</a></p>
                     </div>
                 @endif
             </div>

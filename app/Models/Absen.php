@@ -25,9 +25,10 @@ class Absen extends Model
         'longitude',
         'status_kehadiran',
         'status_validasi',
-        'validated_by',
+        'validasi_by',
         'validated_at',
         'keterangan',
+        'foto_bukti',
     ];
 
     /**
@@ -57,7 +58,7 @@ class Absen extends Model
      */
     public function validator()
     {
-        return $this->belongsTo(Dosen::class, 'validated_by');
+        return $this->belongsTo(Dosen::class, 'validasi_by');
     }
 
     /**
