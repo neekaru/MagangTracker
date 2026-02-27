@@ -6,6 +6,7 @@ use App\Models\Absen;
 use App\Models\Magang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AbsensiController extends Controller
 {
@@ -20,11 +21,12 @@ class AbsensiController extends Controller
             }
 
             $absensis = Absen::whereHas('magang', function ($q) use ($mahasiswa) {
-                $q->where('id_mahasiswa', $mahasiswa->id);
+                $q->where('mahasiswa_id', $mahasiswa->id);
             })->with(['magang.unitBisnis'])->orderBy('tanggal', 'desc')->orderBy('jenis_absen', 'asc')->get();
             return view('mahasiswa.absensi.index', compact('absensis'));
         } elseif ($user->role === 'Admin') {
-            $absensis = Absen::with(['magang.mahasiswa', 'magang.unitBisnis', 'validator'])->orderBy('tanggal', 'desc')->orderBy('jenis_absen', 'asc')->get();
+            $absensis = Absen::with(['magang.mahasiswa', 'magang.unitBisnis', 'validator'])
+                ->orderBy('tanggal', 'desc')->orderBy('jenis_absen', 'asc')->get();
             return view('admin.absensi.index', compact('absensis'));
         } elseif ($user->role === 'Pembimbing') {
             $dosen = $user->dosen;
@@ -34,7 +36,7 @@ class AbsensiController extends Controller
 
             $absensis = Absen::with(['magang.mahasiswa', 'magang.unitBisnis'])
                 ->whereHas('magang', function ($q) use ($dosen) {
-                    $q->where('id_dosen', $dosen->id);
+                    $q->where('dosen_pembimbing_id', $dosen->id);
                 })
                 ->orderBy('tanggal', 'desc')
                 ->orderBy('jenis_absen', 'asc')
@@ -56,10 +58,11 @@ class AbsensiController extends Controller
                 return redirect()->back()->with('error', 'Data mahasiswa tidak ditemukan.');
             }
 
-            $magangs = Magang::where('id_mahasiswa', $mahasiswa->id)->get();
+            $magangs = Magang::where('mahasiswa_id', $mahasiswa->id)->get();
 
             if ($magangs->isEmpty()) {
-                return redirect()->route('mahasiswa.magang.index')->with('error', 'Anda belum terdaftar dalam magang.');
+                return redirect()->route('mahasiswa.magang.index')
+                    ->with('error', 'Anda belum terdaftar dalam magang.');
             }
 
             return view('mahasiswa.absensi.create', compact('magangs'));
@@ -76,7 +79,7 @@ class AbsensiController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        $validated = $request->validate([
+        $request->validate([
             'magang_id' => 'required|exists:magang,id',
             'jenis_absen' => 'nullable|in:masuk,pulang',
             'tanggal' => 'required|date',
@@ -85,36 +88,55 @@ class AbsensiController extends Controller
             'longitude' => 'nullable|numeric|between:-180,180',
             'status_kehadiran' => 'required|in:Hadir,Izin,Sakit',
             'keterangan' => 'nullable|string',
+            'foto_bukti' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
         ]);
 
-        // Jika status bukan Hadir, set jenis_absen ke null
-        if ($validated['status_kehadiran'] !== 'Hadir') {
-            $validated['jenis_absen'] = null;
+        $jenisAbsen = $request->input('jenis_absen');
+        $statusKehadiran = $request->input('status_kehadiran');
+
+        // Jika status bukan Hadir, jenis_absen tidak diperlukan
+        if ($statusKehadiran !== 'Hadir') {
+            $jenisAbsen = null;
         } else {
-            // Jika Hadir, jenis_absen wajib diisi
-            if (empty($validated['jenis_absen'])) {
-                return redirect()->back()->withInput()->with('error', 'Jenis absensi wajib diisi untuk status Hadir.');
+            if (empty($jenisAbsen)) {
+                return redirect()->back()->withInput()
+                    ->with('error', 'Jenis absensi wajib diisi untuk status Hadir.');
             }
         }
 
-        // Cek apakah sudah absen untuk jenis yang sama di hari yang sama (hanya untuk Hadir)
-        if ($validated['status_kehadiran'] === 'Hadir' && $validated['jenis_absen']) {
-            $existingAbsen = Absen::where('magang_id', $validated['magang_id'])
-                ->where('jenis_absen', $validated['jenis_absen'])
-                ->whereDate('tanggal', $validated['tanggal'])
-                ->first();
+        // Cek duplikasi absensi untuk hari yang sama
+        if ($statusKehadiran === 'Hadir' && $jenisAbsen) {
+            $exists = Absen::where('magang_id', $request->magang_id)
+                ->where('jenis_absen', $jenisAbsen)
+                ->whereDate('tanggal', $request->tanggal)
+                ->exists();
 
-            if ($existingAbsen) {
-                return redirect()->back()->withInput()->with('error', 'Anda sudah melakukan absensi ' . $validated['jenis_absen'] . ' pada tanggal ini.');
+            if ($exists) {
+                return redirect()->back()->withInput()
+                    ->with('error', 'Anda sudah melakukan absensi ' . $jenisAbsen . ' pada tanggal ini.');
             }
         }
 
-        $data = $validated;
-        $data['status_validasi'] = 'pending';
-        $data['validated_by'] = null;
-        $data['validated_at'] = null;
+        // Upload foto bukti ke storage/app/public/absensi/foto
+        $fotoBuktiPath = null;
+        if ($request->hasFile('foto_bukti') && $request->file('foto_bukti')->isValid()) {
+            $fotoBuktiPath = $request->file('foto_bukti')->store('absensi/foto', 'public');
+        }
 
-        Absen::create($data);
+        Absen::create([
+            'magang_id' => $request->magang_id,
+            'jenis_absen' => $jenisAbsen,
+            'tanggal' => $request->tanggal,
+            'jam' => $request->jam ?? null,
+            'latitude' => $request->latitude ?? null,
+            'longitude' => $request->longitude ?? null,
+            'status_kehadiran' => $statusKehadiran,
+            'keterangan' => $request->keterangan ?? null,
+            'foto_bukti' => $fotoBuktiPath,
+            'status_validasi' => 'pending',
+            'validasi_by' => null,
+            'validated_at' => null,
+        ]);
 
         return redirect()->route('mahasiswa.absensi.index')
             ->with('success', 'Absensi berhasil dicatat.');
@@ -129,7 +151,7 @@ class AbsensiController extends Controller
             return view('admin.absensi.show', ['absen' => $absensi]);
         } elseif ($user->role === 'Pembimbing') {
             $dosen = $user->dosen;
-            if (!$dosen || !$absensi->magang || $absensi->magang->id_dosen !== $dosen->id) {
+            if (!$dosen || !$absensi->magang || $absensi->magang->dosen_pembimbing_id !== $dosen->id) {
                 abort(403);
             }
             $absensi->load(['magang.mahasiswa', 'magang.unitBisnis']);
@@ -138,7 +160,6 @@ class AbsensiController extends Controller
 
         abort(403);
     }
-
 
     public function update(Request $request, Absen $absensi)
     {
@@ -150,7 +171,7 @@ class AbsensiController extends Controller
             ]);
 
             $dosen = $user->dosen;
-            if (!$dosen || !$absensi->magang || $absensi->magang->id_dosen !== $dosen->id) {
+            if (!$dosen || !$absensi->magang || $absensi->magang->dosen_pembimbing_id !== $dosen->id) {
                 abort(403, 'Unauthorized action.');
             }
 
@@ -159,16 +180,17 @@ class AbsensiController extends Controller
             ];
 
             if ($validated['status_validasi'] === 'pending') {
-                $updateData['validated_by'] = null;
+                $updateData['validasi_by'] = null;
                 $updateData['validated_at'] = null;
             } else {
-                $updateData['validated_by'] = $dosen->id;
+                $updateData['validasi_by'] = $dosen->id;
                 $updateData['validated_at'] = now();
             }
 
             $absensi->update($updateData);
 
-            return redirect()->route('pembimbing.absensi.index')->with('success', 'Status absensi berhasil diperbarui.');
+            return redirect()->route('pembimbing.absensi.index')
+                ->with('success', 'Status absensi berhasil diperbarui.');
         }
 
         abort(403, 'Unauthorized action.');
@@ -181,9 +203,14 @@ class AbsensiController extends Controller
             abort(403);
         }
 
+        // Hapus file foto dari storage saat data absensi dihapus
+        if ($absensi->foto_bukti && Storage::disk('public')->exists($absensi->foto_bukti)) {
+            Storage::disk('public')->delete($absensi->foto_bukti);
+        }
+
         $absensi->delete();
 
-        return redirect()->route('admin.absensi.index')->with('success', 'Data absensi berhasil dihapus.');
+        return redirect()->route('admin.absensi.index')
+            ->with('success', 'Data absensi berhasil dihapus.');
     }
 }
-

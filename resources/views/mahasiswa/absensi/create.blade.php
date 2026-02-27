@@ -30,7 +30,7 @@
                             </ul>
                         </div>
                     @endif
-                    <form action="{{ route('mahasiswa.absensi.store') }}" method="POST">
+                    <form action="{{ route('mahasiswa.absensi.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
                             <label for="magang_id" class="form-label">Magang</label>
@@ -90,6 +90,32 @@
                                 placeholder="Tambahkan catatan jika perlu..."></textarea>
                         </div>
 
+                        <div class="mb-3">
+                            <label for="foto_bukti" class="form-label">
+                                <i class="fas fa-camera me-1"></i>Foto Bukti
+                                <span class="text-muted small">(opsional, maks. 5 MB)</span>
+                            </label>
+                            <input type="file"
+                                   class="form-control @error('foto_bukti') is-invalid @enderror"
+                                   id="foto_bukti"
+                                   name="foto_bukti"
+                                   accept="image/jpg,image/jpeg,image/png,image/webp">
+                            @error('foto_bukti')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            {{-- Preview gambar --}}
+                            <div id="foto-preview-wrapper" class="mt-2" style="display:none;">
+                                <img id="foto-preview"
+                                     src=""
+                                     alt="Preview foto bukti"
+                                     class="img-thumbnail"
+                                     style="max-height: 220px; object-fit: cover;">
+                                <button type="button" id="hapus-foto" class="btn btn-sm btn-outline-danger ms-2 mt-1">
+                                    <i class="fas fa-times"></i> Hapus
+                                </button>
+                            </div>
+                        </div>
+
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary btn-lg">Kirim Absensi</button>
                         </div>
@@ -102,11 +128,19 @@
                 <h5><i class="fas fa-info-circle"></i> Aturan Absensi</h5>
                 <ul class="mb-0">
                     <li>Untuk status <strong>Hadir</strong>, pilih jenis absensi: Masuk atau Pulang.</li>
-                    <li>Untuk status <strong>Izin</strong> atau <strong>Sakit</strong>, tidak perlu memilih jenis absensi.
-                    </li>
+                    <li>Untuk status <strong>Izin</strong> atau <strong>Sakit</strong>, tidak perlu memilih jenis absensi.</li>
                     <li>Anda hanya dapat melakukan 1x absensi masuk dan 1x absensi pulang per hari.</li>
                     <li>Absensi masuk disarankan dilakukan antara pukul 07:00 - 09:00.</li>
                     <li>Jika berhalangan hadir, pilih status Izin atau Sakit dan berikan keterangan yang jelas.</li>
+                </ul>
+            </div>
+            <div class="alert alert-warning mt-3">
+                <h5><i class="fas fa-camera"></i> Ketentuan Foto Bukti</h5>
+                <ul class="mb-0">
+                    <li>Format yang diterima: <strong>JPG, JPEG, PNG, WEBP</strong>.</li>
+                    <li>Ukuran maksimal: <strong>5 MB</strong>.</li>
+                    <li>Foto digunakan sebagai bukti kehadiran Anda (misalnya selfie di lokasi magang).</li>
+                    <li>Foto bersifat opsional, namun sangat disarankan.</li>
                 </ul>
             </div>
         </div>
@@ -243,8 +277,33 @@
 
             gunakanLokasiBtn.addEventListener('click', requestLocation);
             requestLocation();
+
+            // --- Preview foto bukti ---
+            const fotoBuktiInput   = document.getElementById('foto_bukti');
+            const fotoPreview      = document.getElementById('foto-preview');
+            const fotoPreviewWrap  = document.getElementById('foto-preview-wrapper');
+            const hapusFotoBtn     = document.getElementById('hapus-foto');
+
+            fotoBuktiInput.addEventListener('change', function () {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        fotoPreview.src = e.target.result;
+                        fotoPreviewWrap.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            hapusFotoBtn.addEventListener('click', function () {
+                fotoBuktiInput.value = '';
+                fotoPreview.src = '';
+                fotoPreviewWrap.style.display = 'none';
+            });
         });
     </script>
 @endpush
+
 
 

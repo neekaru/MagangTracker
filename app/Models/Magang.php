@@ -84,14 +84,6 @@ class Magang extends Model
     }
 
     /**
-     * Get the penilaian records for the magang.
-     */
-    public function penilaian()
-    {
-        return $this->hasMany(Penilaian::class, 'magang_id');
-    }
-
-    /**
      * Get the absen records for the magang.
      */
     public function absen()

@@ -36,14 +36,6 @@ class Dosen extends Model
      */
     public function magang()
     {
-        return $this->hasMany(Magang::class, 'id_dosen');
-    }
-
-    /**
-     * Get the penilaian records created by the dosen.
-     */
-    public function penilaian()
-    {
-        return $this->hasMany(Penilaian::class, 'dinilai_oleh_id');
+        return $this->hasMany(Magang::class, 'dosen_pembimbing_id');
     }
 }
