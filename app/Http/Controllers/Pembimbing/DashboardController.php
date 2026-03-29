@@ -25,7 +25,7 @@ class DashboardController extends Controller
         $magangIds = Magang::where('dosen_pembimbing_id', $dosenId)->pluck('id');
         
         $absensi_hadir = Absen::whereIn('magang_id', $magangIds)
-            ->where('status_kehadiran', 'hadir')
+            ->where('status_kehadiran', 'Hadir')
             ->whereDate('tanggal', today())
             ->count();
         
