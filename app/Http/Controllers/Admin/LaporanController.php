@@ -24,7 +24,7 @@ class LaporanController extends Controller
     public function exportPdf(Request $request)
     {
         $query = Magang::with(['mahasiswa', 'unitBisnis', 'periodeMagang', 'dosen']);
-        $unitBisnisId = $request->input('unit_bisnis_id', $request->input('unit_id'));
+        $unitBisnisId = $request->input('unit_bisnis_id');
 
         // Apply filters
         if ($request->status) {
@@ -56,7 +56,7 @@ class LaporanController extends Controller
 
     public function exportExcel(Request $request)
     {
-        $unitBisnisId = $request->input('unit_bisnis_id', $request->input('unit_id'));
+        $unitBisnisId = $request->input('unit_bisnis_id');
 
         return Excel::download(
             new MagangExport($request->status, $request->periode_id, $unitBisnisId),

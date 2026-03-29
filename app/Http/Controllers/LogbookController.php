@@ -19,12 +19,12 @@ class LogbookController extends Controller
         if ($user->role === 'Mahasiswa') {
             $mahasiswa = $user->mahasiswa;
             $logbooks = Logbook::whereHas('magang', function ($q) use ($mahasiswa) {
-                $q->where('id_mahasiswa', $mahasiswa->id);
+                $q->where('mahasiswa_id', $mahasiswa->id);
             })->get();
             return view('mahasiswa.logbook.index', compact('logbooks'));
         } elseif ($user->role === 'Admin') {
             $selectedPeriodeId = request('periode_id');
-            $selectedUnitId = request('unit_id');
+            $selectedUnitId = request('unit_bisnis_id');
 
             $logbooksQuery = Logbook::with(['magang.mahasiswa', 'magang.unitBisnis', 'magang.periodeMagang']);
 
@@ -36,7 +36,7 @@ class LogbookController extends Controller
 
             if ($selectedUnitId) {
                 $logbooksQuery->whereHas('magang', function ($q) use ($selectedUnitId) {
-                    $q->where('unit_id', $selectedUnitId);
+                    $q->where('unit_bisnis_id', $selectedUnitId);
                 });
             }
 
@@ -58,7 +58,7 @@ class LogbookController extends Controller
     {
         $user = Auth::user();
         $mahasiswa = $user->mahasiswa;
-        $magangs = Magang::where('id_mahasiswa', $mahasiswa->id)->get();
+        $magangs = Magang::where('mahasiswa_id', $mahasiswa->id)->get();
         return view('mahasiswa.logbook.create', compact('magangs'));
     }
 
@@ -88,7 +88,7 @@ class LogbookController extends Controller
     {
         $user = Auth::user();
         if ($user->role === 'Pembimbing') {
-            if (!$logbook->magang || $logbook->magang->id_dosen !== optional($user->dosen)->id) {
+            if (!$logbook->magang || $logbook->magang->dosen_pembimbing_id !== optional($user->dosen)->id) {
                 abort(403, 'Unauthorized action.');
             }
             return view('pembimbing.logbook.show', compact('logbook'));
@@ -105,7 +105,7 @@ class LogbookController extends Controller
         $user = Auth::user();
         if ($user->role === 'Mahasiswa') {
             // Ensure logbook belongs to user's magang
-            if (!$logbook->magang || $logbook->magang->id_mahasiswa !== $user->mahasiswa->id) {
+            if (!$logbook->magang || $logbook->magang->mahasiswa_id !== $user->mahasiswa->id) {
                 abort(403, 'Unauthorized action.');
             }
             return view('mahasiswa.logbook.edit', compact('logbook'));
@@ -137,7 +137,7 @@ class LogbookController extends Controller
                 'status' => 'required|in:pending,approved,rejected',
             ]);
             // Check if dosen is the pembimbing for this magang
-            if ($logbook->magang->id_dosen !== $user->id_dosen) {
+            if ($logbook->magang->dosen_pembimbing_id !== $user->id_dosen) {
                 abort(403, 'Unauthorized action.');
             }
             $logbook->update([
@@ -166,7 +166,7 @@ class LogbookController extends Controller
         $user = Auth::user();
         $dosen = $user->dosen;
         $logbooks = Logbook::whereHas('magang', function ($q) use ($dosen) {
-            $q->where('id_dosen', $dosen->id);
+            $q->where('dosen_pembimbing_id', $dosen->id);
         })->get();
         return view('pembimbing.logbook.index', compact('logbooks'));
     }

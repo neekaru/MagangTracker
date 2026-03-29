@@ -26,7 +26,7 @@ class LaporanController extends Controller
         $dosen = Dosen::where('user_id', auth()->id())->firstOrFail();
 
         $query = Magang::with(['mahasiswa', 'unitBisnis', 'periodeMagang', 'dosen'])
-            ->where('id_dosen', $dosen->id);
+            ->where('dosen_pembimbing_id', $dosen->id);
 
         // Apply filters
         if ($request->status) {
@@ -58,7 +58,7 @@ class LaporanController extends Controller
 
         // Filter hanya peserta bimbingan dosen ini
         $query = Magang::with(['mahasiswa', 'unitBisnis', 'periodeMagang', 'dosen'])
-            ->where('id_dosen', $dosen->id);
+            ->where('dosen_pembimbing_id', $dosen->id);
 
         if ($request->status) {
             $query->where('status_magang', $request->status);

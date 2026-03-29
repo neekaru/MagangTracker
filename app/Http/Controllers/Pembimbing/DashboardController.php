@@ -16,13 +16,13 @@ class DashboardController extends Controller
         $user = Auth::user();
         $dosenId = $user->id_dosen;
 
-        $peserta_count = Magang::where('id_dosen', $dosenId)->count();
+        $peserta_count = Magang::where('dosen_pembimbing_id', $dosenId)->count();
 
         $logbook_pending = Logbook::whereHas('magang', function($query) use ($dosenId) {
-            $query->where('id_dosen', $dosenId);
+            $query->where('dosen_pembimbing_id', $dosenId);
         })->where('status', 'pending')->count();
 
-        $magangIds = Magang::where('id_dosen', $dosenId)->pluck('id');
+        $magangIds = Magang::where('dosen_pembimbing_id', $dosenId)->pluck('id');
         
         $absensi_hadir = Absen::whereIn('magang_id', $magangIds)
             ->where('status_kehadiran', 'hadir')
@@ -34,7 +34,7 @@ class DashboardController extends Controller
             ->count();
 
         $peserta = Magang::with(['mahasiswa', 'unitBisnis'])
-            ->where('id_dosen', $dosenId)
+            ->where('dosen_pembimbing_id', $dosenId)
             ->get()
             ->map(function($magang) {
                 $startOfWeek = now()->startOfWeek();

@@ -25,7 +25,7 @@ class UnitBisnis extends Model
      */
     public function magang()
     {
-        return $this->hasMany(Magang::class, 'unit_id');
+        return $this->hasMany(Magang::class, 'unit_bisnis_id');
     }
 
     /**

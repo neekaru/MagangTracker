@@ -23,7 +23,7 @@
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">Unit</label>
-                    <select class="form-select select2-filter" name="unit_id" data-placeholder="Semua Unit">
+                    <select class="form-select select2-filter" name="unit_bisnis_id" data-placeholder="Semua Unit">
                         <option value="">Semua Unit</option>
                         @foreach(($units ?? []) as $unit)
                             <option value="{{ $unit->id }}" @selected(($selectedUnitId ?? null) == $unit->id)>

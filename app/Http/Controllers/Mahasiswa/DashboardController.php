@@ -23,7 +23,7 @@ class DashboardController extends Controller
         
         // Get magang data with relationships
         $magang = Magang::with(['absen', 'logbook', 'unitBisnis', 'periodeMagang'])
-            ->where('id_mahasiswa', $mahasiswa->id)
+            ->where('mahasiswa_id', $mahasiswa->id)
             ->first();
 
         if ($magang) {

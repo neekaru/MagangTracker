@@ -18,7 +18,7 @@ class MagangController extends Controller
             return redirect()->back()->with('error', 'Data mahasiswa tidak ditemukan.');
         }
         
-        $magang = Magang::with(['absen', 'periodeMagang'])->where('id_mahasiswa', $mahasiswa->id)->first();
+        $magang = Magang::with(['absen', 'periodeMagang'])->where('mahasiswa_id', $mahasiswa->id)->first();
 
         if ($magang) {
             $deskripsi_tugas = $magang->tugas_description;

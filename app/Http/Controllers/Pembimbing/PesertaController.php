@@ -16,7 +16,7 @@ class PesertaController extends Controller
         
         // Get all magang where this dosen is pembimbing
         $pesertas = Magang::with(['mahasiswa', 'unitBisnis', 'periodeMagang'])
-            ->where('id_dosen', $dosen->id)
+            ->where('dosen_pembimbing_id', $dosen->id)
             ->get();
         
         return view('pembimbing.peserta.index', compact('pesertas'));
@@ -29,7 +29,7 @@ class PesertaController extends Controller
         
         // Get magang detail with all relations, ensure dosen ownership
         $peserta = Magang::with(['mahasiswa', 'unitBisnis', 'periodeMagang', 'dosen', 'logbook', 'absen'])
-            ->where('id_dosen', $dosen->id)
+            ->where('dosen_pembimbing_id', $dosen->id)
             ->findOrFail($id);
         
         return view('pembimbing.peserta.show', compact('peserta'));
