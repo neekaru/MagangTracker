@@ -24,6 +24,7 @@ class LaporanController extends Controller
     public function exportPdf(Request $request)
     {
         $query = Magang::with(['mahasiswa', 'unitBisnis', 'periodeMagang', 'dosen']);
+        $unitBisnisId = $request->input('unit_bisnis_id', $request->input('unit_id'));
 
         // Apply filters
         if ($request->status) {
@@ -34,8 +35,8 @@ class LaporanController extends Controller
             $query->where('periode_id', $request->periode_id);
         }
 
-        if ($request->unit_id) {
-            $query->where('unit_id', $request->unit_id);
+        if ($unitBisnisId) {
+            $query->where('unit_bisnis_id', $unitBisnisId);
         }
 
         $magangs = $query->orderBy('created_at', 'desc')->get();
@@ -44,7 +45,7 @@ class LaporanController extends Controller
         $filterLabels = [
             'status' => $request->status ?? 'Semua',
             'periode' => $request->periode_id ? PeriodeMagang::find($request->periode_id)->nama_periode : 'Semua',
-            'unit' => $request->unit_id ? UnitBisnis::find($request->unit_id)->nama_unit_bisnis : 'Semua',
+            'unit' => $unitBisnisId ? optional(UnitBisnis::find($unitBisnisId))->nama_unit_bisnis ?? 'Semua' : 'Semua',
         ];
 
         $pdf = Pdf::loadView('admin.laporan.pdf', compact('magangs', 'filterLabels'));
@@ -55,8 +56,10 @@ class LaporanController extends Controller
 
     public function exportExcel(Request $request)
     {
+        $unitBisnisId = $request->input('unit_bisnis_id', $request->input('unit_id'));
+
         return Excel::download(
-            new MagangExport($request->status, $request->periode_id, $request->unit_id),
+            new MagangExport($request->status, $request->periode_id, $unitBisnisId),
             'laporan-magang-' . date('Y-m-d') . '.xlsx'
         );
     }

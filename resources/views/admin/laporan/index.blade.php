@@ -26,7 +26,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Unit Kerja</label>
-                            <select class="form-select" name="unit_id">
+                            <select class="form-select" name="unit_bisnis_id">
                                 <option value="">Semua Unit</option>
                                 @foreach ($units as $unit)
                                     <option value="{{ $unit->id }}">{{ $unit->nama_unit_bisnis }}</option>

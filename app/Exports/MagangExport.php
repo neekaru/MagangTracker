@@ -14,13 +14,13 @@ class MagangExport implements FromCollection, WithHeadings, WithMapping, WithSty
 {
     protected $status;
     protected $periode_id;
-    protected $unit_id;
+    protected $unit_bisnis_id;
 
-    public function __construct($status = null, $periode_id = null, $unit_id = null)
+    public function __construct($status = null, $periode_id = null, $unit_bisnis_id = null)
     {
         $this->status = $status;
         $this->periode_id = $periode_id;
-        $this->unit_id = $unit_id;
+        $this->unit_bisnis_id = $unit_bisnis_id;
     }
 
     public function collection()
@@ -35,8 +35,8 @@ class MagangExport implements FromCollection, WithHeadings, WithMapping, WithSty
             $query->where('periode_id', $this->periode_id);
         }
 
-        if ($this->unit_id) {
-            $query->where('unit_id', $this->unit_id);
+        if ($this->unit_bisnis_id) {
+            $query->where('unit_bisnis_id', $this->unit_bisnis_id);
         }
 
         return $query->orderBy('created_at', 'desc')->get();
