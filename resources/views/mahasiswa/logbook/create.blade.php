@@ -55,7 +55,13 @@
                         </div>
                         <div class="mb-3">
                             <label for="foto_kegiatan" class="form-label">Bukti Foto (Opsional)</label>
-                            <input type="file" class="form-control" id="foto_kegiatan" name="foto_kegiatan">
+                            <input type="file" class="form-control @error('foto_kegiatan') is-invalid @enderror"
+                                id="foto_kegiatan" name="foto_kegiatan"
+                                accept="image/jpg,image/jpeg,image/png,image/webp">
+                            @error('foto_kegiatan')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <small class="text-muted">Format: JPG/JPEG/PNG/WEBP, maksimal 5 MB.</small>
                         </div>
 
                         <div class="d-flex justify-content-end">

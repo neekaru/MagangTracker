@@ -71,7 +71,11 @@ class LogbookController extends Controller
             'jam_selesai' => 'nullable|date_format:H:i',
             'deskripsi_kegiatan' => 'required|string',
             'hasil_kegiatan' => 'nullable|string',
-            'foto_kegiatan' => 'nullable|image|max:2048',
+            'foto_kegiatan' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+        ], [
+            'foto_kegiatan.image' => 'File bukti harus berupa gambar.',
+            'foto_kegiatan.mimes' => 'Format foto harus JPG, JPEG, PNG, atau WEBP.',
+            'foto_kegiatan.max' => 'Ukuran foto maksimal 5 MB.',
         ]);
 
         $data = $request->all();
@@ -124,7 +128,11 @@ class LogbookController extends Controller
                 'jam_selesai' => 'nullable|date_format:H:i',
                 'deskripsi_kegiatan' => 'required|string',
                 'hasil_kegiatan' => 'nullable|string',
-                'foto_kegiatan' => 'nullable|image|max:2048',
+                'foto_kegiatan' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+            ], [
+                'foto_kegiatan.image' => 'File bukti harus berupa gambar.',
+                'foto_kegiatan.mimes' => 'Format foto harus JPG, JPEG, PNG, atau WEBP.',
+                'foto_kegiatan.max' => 'Ukuran foto maksimal 5 MB.',
             ]);
             $data = $request->only(['tanggal_logbook', 'jam_mulai', 'jam_selesai', 'deskripsi_kegiatan', 'hasil_kegiatan']);
             if ($request->hasFile('foto_kegiatan')) {
