@@ -42,14 +42,22 @@ class MagangController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'id_mahasiswa' => 'required|exists:mahasiswa,id|unique:magang,id_mahasiswa',
-            'unit_id' => 'required|exists:unit_bisnis,id',
+            'mahasiswa_id' => 'nullable|required_without:id_mahasiswa|exists:mahasiswa,id|unique:magang,mahasiswa_id',
+            'id_mahasiswa' => 'nullable|required_without:mahasiswa_id|exists:mahasiswa,id',
+            'unit_bisnis_id' => 'nullable|required_without:unit_id|exists:unit_bisnis,id',
+            'unit_id' => 'nullable|required_without:unit_bisnis_id|exists:unit_bisnis,id',
             'periode_id' => 'required|exists:periode_magang,id',
-            'id_dosen' => 'required|exists:dosen,id',
+            'dosen_pembimbing_id' => 'nullable|required_without:id_dosen|exists:dosen,id',
+            'id_dosen' => 'nullable|required_without:dosen_pembimbing_id|exists:dosen,id',
             'pembimbing_lapangan' => 'required|string',
-            'tugas_description' => 'required|string',
-            'target_book_mingguan' => 'required|integer|min:1',
+            'tugas_description' => 'nullable|string',
+            'target_book_mingguan' => 'nullable|integer|min:1',
         ]);
+
+        $validated['mahasiswa_id'] = $request->input('mahasiswa_id', $request->input('id_mahasiswa'));
+        $validated['unit_bisnis_id'] = $request->input('unit_bisnis_id', $request->input('unit_id'));
+        $validated['dosen_pembimbing_id'] = $request->input('dosen_pembimbing_id', $request->input('id_dosen'));
+        unset($validated['id_mahasiswa'], $validated['unit_id'], $validated['id_dosen']);
 
         $validated['status_magang'] = 'Aktif';
 
@@ -88,15 +96,23 @@ class MagangController extends Controller
         $magang = Magang::findOrFail($id);
 
         $validated = $request->validate([
-            'id_mahasiswa' => 'required|exists:mahasiswa,id|unique:magang,id_mahasiswa,' . $id,
-            'unit_id' => 'required|exists:unit_bisnis,id',
+            'mahasiswa_id' => 'nullable|required_without:id_mahasiswa|exists:mahasiswa,id|unique:magang,mahasiswa_id,' . $id,
+            'id_mahasiswa' => 'nullable|required_without:mahasiswa_id|exists:mahasiswa,id',
+            'unit_bisnis_id' => 'nullable|required_without:unit_id|exists:unit_bisnis,id',
+            'unit_id' => 'nullable|required_without:unit_bisnis_id|exists:unit_bisnis,id',
             'periode_id' => 'required|exists:periode_magang,id',
-            'id_dosen' => 'required|exists:dosen,id',
+            'dosen_pembimbing_id' => 'nullable|required_without:id_dosen|exists:dosen,id',
+            'id_dosen' => 'nullable|required_without:dosen_pembimbing_id|exists:dosen,id',
             'pembimbing_lapangan' => 'required|string',
             'status_magang' => 'required|in:Aktif,Nonaktif,Selesai',
-            'tugas_description' => 'required|string',
-            'target_book_mingguan' => 'required|integer|min:1',
+            'tugas_description' => 'nullable|string',
+            'target_book_mingguan' => 'nullable|integer|min:1',
         ]);
+
+        $validated['mahasiswa_id'] = $request->input('mahasiswa_id', $request->input('id_mahasiswa'));
+        $validated['unit_bisnis_id'] = $request->input('unit_bisnis_id', $request->input('unit_id'));
+        $validated['dosen_pembimbing_id'] = $request->input('dosen_pembimbing_id', $request->input('id_dosen'));
+        unset($validated['id_mahasiswa'], $validated['unit_id'], $validated['id_dosen']);
 
         $magang->update($validated);
 

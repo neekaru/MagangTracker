@@ -22,7 +22,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($pesertas as $peserta)
+                        @foreach($pesertas as $peserta)
                             <tr>
                                 <td>{{ $peserta->mahasiswa->nama_lengkap ?? 'N/A' }}</td>
                                 <td>{{ $peserta->mahasiswa->nim ?? 'N/A' }}</td>
@@ -43,11 +43,7 @@
                                         class="btn btn-sm btn-primary"><i class="fas fa-user"></i> Detail</a>
                                 </td>
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6" class="text-center">Belum ada peserta bimbingan.</td>
-                            </tr>
-                        @endforelse
+                        @endforeach
                     </tbody>
                 </table>
             </div>

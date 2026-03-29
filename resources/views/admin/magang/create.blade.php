@@ -29,31 +29,31 @@
                 <form action="{{ route('magang.store') }}" method="POST">
                     @csrf
                     <div class="mb-3">
-                        <label for="id_mahasiswa" class="form-label">Mahasiswa <span class="text-danger">*</span></label>
-                        <select class="form-select @error('id_mahasiswa') is-invalid @enderror" id="id_mahasiswa" name="id_mahasiswa" required>
+                        <label for="mahasiswa_id" class="form-label">Mahasiswa <span class="text-danger">*</span></label>
+                        <select class="form-select @error('mahasiswa_id') is-invalid @enderror" id="mahasiswa_id" name="mahasiswa_id" required>
                             <option value="">Pilih Mahasiswa</option>
                             @foreach($mahasiswas as $mahasiswa)
-                                <option value="{{ $mahasiswa->id }}" {{ old('id_mahasiswa') == $mahasiswa->id ? 'selected' : '' }}>
+                                <option value="{{ $mahasiswa->id }}" {{ old('mahasiswa_id') == $mahasiswa->id ? 'selected' : '' }}>
                                     {{ $mahasiswa->nama_lengkap }} ({{ $mahasiswa->nim }})
                                 </option>
                             @endforeach
                         </select>
-                        @error('id_mahasiswa')
+                        @error('mahasiswa_id')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
                     <div class="mb-3">
-                        <label for="unit_id" class="form-label">Unit Bisnis <span class="text-danger">*</span></label>
-                        <select class="form-select @error('unit_id') is-invalid @enderror" id="unit_id" name="unit_id" required>
+                        <label for="unit_bisnis_id" class="form-label">Unit Bisnis <span class="text-danger">*</span></label>
+                        <select class="form-select @error('unit_bisnis_id') is-invalid @enderror" id="unit_bisnis_id" name="unit_bisnis_id" required>
                             <option value="">Pilih Unit</option>
                             @foreach($units as $unit)
-                                <option value="{{ $unit->id }}" {{ old('unit_id') == $unit->id ? 'selected' : '' }}>
+                                <option value="{{ $unit->id }}" {{ old('unit_bisnis_id') == $unit->id ? 'selected' : '' }}>
                                     {{ $unit->nama_unit_bisnis }}
                                 </option>
                             @endforeach
                         </select>
-                        @error('unit_id')
+                        @error('unit_bisnis_id')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
@@ -74,16 +74,16 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="id_dosen" class="form-label">Dosen Pembimbing <span class="text-danger">*</span></label>
-                        <select class="form-select @error('id_dosen') is-invalid @enderror" id="id_dosen" name="id_dosen" required>
+                        <label for="dosen_pembimbing_id" class="form-label">Dosen Pembimbing <span class="text-danger">*</span></label>
+                        <select class="form-select @error('dosen_pembimbing_id') is-invalid @enderror" id="dosen_pembimbing_id" name="dosen_pembimbing_id" required>
                             <option value="">Pilih Dosen</option>
                             @foreach($dosens as $dosen)
-                                <option value="{{ $dosen->id }}" {{ old('id_dosen') == $dosen->id ? 'selected' : '' }}>
+                                <option value="{{ $dosen->id }}" {{ old('dosen_pembimbing_id') == $dosen->id ? 'selected' : '' }}>
                                     {{ $dosen->nama_lengkap }}
                                 </option>
                             @endforeach
                         </select>
-                        @error('id_dosen')
+                        @error('dosen_pembimbing_id')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
@@ -215,37 +215,37 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Initialize Select2 on Unit and Dosen selects with Bootstrap-5-like styling
-            $('#unit_id').select2({
+            $('#unit_bisnis_id').select2({
                 width: '100%',
                 placeholder: 'Pilih Unit',
                 allowClear: true,
-                dropdownParent: $('#unit_id').closest('.card-body') // avoid z-index issues
+                dropdownParent: $('#unit_bisnis_id').closest('.card-body') // avoid z-index issues
             });
 
-            $('#id_dosen').select2({
+            $('#dosen_pembimbing_id').select2({
                 width: '100%',
                 placeholder: 'Pilih Dosen',
                 allowClear: true,
-                dropdownParent: $('#id_dosen').closest('.card-body')
+                dropdownParent: $('#dosen_pembimbing_id').closest('.card-body')
             });
 
             // Make the underlying select element look 'invalid' if server validation failed
-            if ($('#unit_id').hasClass('is-invalid')) {
+            if ($('#unit_bisnis_id').hasClass('is-invalid')) {
                 $('.select2-container--default').find('.select2-selection--single').addClass('is-invalid');
             }
 
             // Re-select old values (helps when validation fails and old() exists)
-            var oldUnit = "{{ old('unit_id') }}";
+            var oldUnit = "{{ old('unit_bisnis_id') }}";
             if (oldUnit) {
-                $('#unit_id').val(oldUnit).trigger('change');
+                $('#unit_bisnis_id').val(oldUnit).trigger('change');
             }
-            var oldDosen = "{{ old('id_dosen') }}";
+            var oldDosen = "{{ old('dosen_pembimbing_id') }}";
             if (oldDosen) {
-                $('#id_dosen').val(oldDosen).trigger('change');
+                $('#dosen_pembimbing_id').val(oldDosen).trigger('change');
             }
 
             // Keep Select2 input accessibility: forward focus to select2's selection
-            $('#unit_id').on('select2:opening select2:closing', function( event ) {
+            $('#unit_bisnis_id').on('select2:opening select2:closing', function( event ) {
                 $(this).parent().find('.select2-selection').attr('aria-hidden', 'true');
             });
         });

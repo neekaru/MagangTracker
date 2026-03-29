@@ -21,27 +21,27 @@
                         @method('PUT')
 
                         <div class="mb-3">
-                            <label for="id_mahasiswa" class="form-label">Mahasiswa <span
+                            <label for="mahasiswa_id" class="form-label">Mahasiswa <span
                                     class="text-danger">*</span></label>
-                            <input type="hidden" name="id_mahasiswa" value="{{ $magang->id_mahasiswa }}">
+                            <input type="hidden" name="mahasiswa_id" value="{{ $magang->mahasiswa_id }}">
                             <input type="text" class="form-control"
                                 value="{{ $magang->mahasiswa->nama_lengkap ?? 'N/A' }} ({{ $magang->mahasiswa->nim ?? 'N/A' }})"
                                 readonly>
                         </div>
 
                         <div class="mb-3">
-                            <label for="unit_id" class="form-label">Unit Bisnis <span class="text-danger">*</span></label>
-                            <select class="form-select @error('unit_id') is-invalid @enderror" id="unit_id" name="unit_id"
+                            <label for="unit_bisnis_id" class="form-label">Unit Bisnis <span class="text-danger">*</span></label>
+                            <select class="form-select @error('unit_bisnis_id') is-invalid @enderror" id="unit_bisnis_id" name="unit_bisnis_id"
                                 required>
                                 <option value="">Pilih Unit</option>
                                 @foreach ($units as $unit)
                                     <option value="{{ $unit->id }}"
-                                        {{ old('unit_id', $magang->unit_id) == $unit->id ? 'selected' : '' }}>
+                                        {{ old('unit_bisnis_id', $magang->unit_bisnis_id) == $unit->id ? 'selected' : '' }}>
                                         {{ $unit->nama_unit_bisnis }}
                                     </option>
                                 @endforeach
                             </select>
-                            @error('unit_id')
+                            @error('unit_bisnis_id')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -66,19 +66,19 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="id_dosen" class="form-label">Dosen Pembimbing <span
+                            <label for="dosen_pembimbing_id" class="form-label">Dosen Pembimbing <span
                                     class="text-danger">*</span></label>
-                            <select class="form-select @error('id_dosen') is-invalid @enderror" id="id_dosen"
-                                name="id_dosen" required>
+                            <select class="form-select @error('dosen_pembimbing_id') is-invalid @enderror" id="dosen_pembimbing_id"
+                                name="dosen_pembimbing_id" required>
                                 <option value="">Pilih Dosen</option>
                                 @foreach ($dosens as $dosen)
                                     <option value="{{ $dosen->id }}"
-                                        {{ old('id_dosen', $magang->id_dosen) == $dosen->id ? 'selected' : '' }}>
+                                        {{ old('dosen_pembimbing_id', $magang->dosen_pembimbing_id) == $dosen->id ? 'selected' : '' }}>
                                         {{ $dosen->nama_lengkap }}
                                     </option>
                                 @endforeach
                             </select>
-                            @error('id_dosen')
+                            @error('dosen_pembimbing_id')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -244,47 +244,39 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize Select2 on Unit and Dosen selects with Bootstrap-5-like styling
-            $('#unit_id').select2({
+            $('#unit_bisnis_id').select2({
                 width: '100%',
                 placeholder: 'Pilih Unit',
                 allowClear: true,
-                dropdownParent: $('#unit_id').closest('.card-body')
+                dropdownParent: $('#unit_bisnis_id').closest('.card-body')
             });
 
-            $('#id_dosen').select2({
+            $('#dosen_pembimbing_id').select2({
                 width: '100%',
                 placeholder: 'Pilih Dosen',
                 allowClear: true,
-                dropdownParent: $('#id_dosen').closest('.card-body')
+                dropdownParent: $('#dosen_pembimbing_id').closest('.card-body')
             });
 
             // If server-side validation marked the original select invalid, reflect that on Select2 UI
-            if ($('#unit_id').hasClass('is-invalid')) {
+            if ($('#unit_bisnis_id').hasClass('is-invalid')) {
                 // target the specific select2 container next to the original select
-                $('#unit_id').next('.select2-container').find('.select2-selection--single').addClass('is-invalid');
+                $('#unit_bisnis_id').next('.select2-container').find('.select2-selection--single').addClass('is-invalid');
             }
-            if ($('#id_dosen').hasClass('is-invalid')) {
-                $('#id_dosen').next('.select2-container').find('.select2-selection--single').addClass('is-invalid');
+            if ($('#dosen_pembimbing_id').hasClass('is-invalid')) {
+                $('#dosen_pembimbing_id').next('.select2-container').find('.select2-selection--single').addClass('is-invalid');
             }
 
             // Re-select old/current values (helps when validation fails and old() exists)
-            var oldUnit = "{{ old('unit_id', $magang->unit_id) }}";
+            var oldUnit = "{{ old('unit_bisnis_id', $magang->unit_bisnis_id) }}";
             if (oldUnit) {
-                $('#unit_id').val(oldUnit).trigger('change');
+                $('#unit_bisnis_id').val(oldUnit).trigger('change');
             }
 
-            var oldDosen = "{{ old('id_dosen', $magang->id_dosen) }}";
+            var oldDosen = "{{ old('dosen_pembimbing_id', $magang->dosen_pembimbing_id) }}";
             if (oldDosen) {
-                $('#id_dosen').val(oldDosen).trigger('change');
+                $('#dosen_pembimbing_id').val(oldDosen).trigger('change');
             }
-
-            // When Select2 value changes, call toggle function for unit
-            $('#unit_id').on('change', function() {
-                toggleUnitLainnya($(this).val());
-            });
-
-            // Trigger initial toggle in case select2 changed the DOM or value
-            toggleUnitLainnya($('#unit_id').val());
         });
     </script>
 @endpush
