@@ -47,8 +47,6 @@ class UserSeeder extends Seeder
         $mahasiswa = \App\Models\Mahasiswa::create([
             'user_id' => $mahasiswaUser->id,
             'nim' => '1234567890',
-            'tanggal_mulai' => now(),
-            'tanggal_selesai' => now()->addMonths(3),
         ]);
 
         // Update user with mahasiswa id
@@ -69,16 +67,12 @@ class UserSeeder extends Seeder
 
         // Create Magang record for the student
         \App\Models\Magang::create([
-            'id_mahasiswa' => $mahasiswa->id,
-            'unit_id' => $unitBisnis->id,
+            'mahasiswa_id' => $mahasiswa->id,
+            'unit_bisnis_id' => $unitBisnis->id,
             'periode_id' => $periodeMagang->id,
-            'id_dosen' => $dosen->id,
+            'dosen_pembimbing_id' => $dosen->id,
             'pembimbing_lapangan' => 'Andi Wijaya, S.T.',
-            'tanggal_mulai' => now(),
-            'tanggal_selesai' => now()->addMonths(3),
             'status_magang' => 'Aktif',
-            'target_book_mingguan' => 5,
-            'tugas_description' => 'Mengembangkan aplikasi web dan mobile untuk sistem informasi perusahaan.',
         ]);
 
         echo "✅ Seeder berhasil dijalankan!\n";
