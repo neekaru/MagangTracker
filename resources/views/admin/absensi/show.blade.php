@@ -93,20 +93,21 @@
                         </div>
                     </div>
 
-                    {{-- Foto Bukti --}}
-                    <div class="row mb-3">
-                        <div class="col-md-4 fw-bold">Foto Bukti</div>
-                        <div class="col-md-8">
-                            @if ($absen->foto_bukti && \Illuminate\Support\Facades\Storage::disk('public')->exists($absen->foto_bukti))
-                                <a href="{{ Storage::url($absen->foto_bukti) }}" target="_blank" title="Klik untuk memperbesar">
-                                    <img src="{{ Storage::url($absen->foto_bukti) }}" alt="Foto Bukti Absensi"
-                                        class="img-thumbnail" style="max-height: 200px; object-fit: cover; cursor: zoom-in;">
-                                </a>
-                            @else
-                                <span class="text-muted fst-italic">Tidak ada foto</span>
-                            @endif
+                    @if (Auth::check() && Auth::user()->role === 'Admin' && $absen->foto_bukti)
+                        <div class="row mb-3">
+                            <div class="col-md-4 fw-bold">Foto Bukti</div>
+                            <div class="col-md-8">
+                                @if (\Illuminate\Support\Facades\Storage::disk('public')->exists($absen->foto_bukti))
+                                    <a href="{{ Storage::url($absen->foto_bukti) }}" target="_blank" title="Klik untuk memperbesar">
+                                        <img src="{{ Storage::url($absen->foto_bukti) }}" alt="Foto Bukti Absensi"
+                                            class="img-thumbnail" style="max-height: 200px; object-fit: cover; cursor: zoom-in;">
+                                    </a>
+                                @else
+                                    <span class="text-muted fst-italic">Tidak ada foto</span>
+                                @endif
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
             </div>
         </div>
