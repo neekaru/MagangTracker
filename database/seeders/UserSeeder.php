@@ -77,9 +77,61 @@ class UserSeeder extends Seeder
             'status_magang' => 'Aktif',
         ]);
 
+        // Create additional mahasiswa with status magang Selesai
+        $mahasiswaSelesaiUser = \App\Models\User::create([
+            'email' => 'mahasiswa.selesai@magang.com',
+            'password' => bcrypt('password123'),
+            'role' => 'Mahasiswa',
+        ]);
+
+        $mahasiswaSelesai = \App\Models\Mahasiswa::create([
+            'user_id' => $mahasiswaSelesaiUser->id,
+            'nim' => '1234567891',
+            'nama_lengkap' => 'Mahasiswa Selesai',
+            'prodi' => 'Informatika',
+        ]);
+
+        $mahasiswaSelesaiUser->update(['id_mahasiswa' => $mahasiswaSelesai->id]);
+
+        \App\Models\Magang::create([
+            'mahasiswa_id' => $mahasiswaSelesai->id,
+            'unit_bisnis_id' => $unitBisnis->id,
+            'periode_id' => $periodeMagang->id,
+            'dosen_pembimbing_id' => $dosen->id,
+            'pembimbing_lapangan' => 'Andi Wijaya, S.T.',
+            'status_magang' => 'Selesai',
+        ]);
+
+        // Create additional mahasiswa with status magang Nonaktif
+        $mahasiswaNonaktifUser = \App\Models\User::create([
+            'email' => 'mahasiswa.nonaktif@magang.com',
+            'password' => bcrypt('password123'),
+            'role' => 'Mahasiswa',
+        ]);
+
+        $mahasiswaNonaktif = \App\Models\Mahasiswa::create([
+            'user_id' => $mahasiswaNonaktifUser->id,
+            'nim' => '1234567892',
+            'nama_lengkap' => 'Mahasiswa Nonaktif',
+            'prodi' => 'Sistem Informasi',
+        ]);
+
+        $mahasiswaNonaktifUser->update(['id_mahasiswa' => $mahasiswaNonaktif->id]);
+
+        \App\Models\Magang::create([
+            'mahasiswa_id' => $mahasiswaNonaktif->id,
+            'unit_bisnis_id' => $unitBisnis->id,
+            'periode_id' => $periodeMagang->id,
+            'dosen_pembimbing_id' => $dosen->id,
+            'pembimbing_lapangan' => 'Andi Wijaya, S.T.',
+            'status_magang' => 'Nonaktif',
+        ]);
+
         echo "✅ Seeder berhasil dijalankan!\n";
         echo "📧 Admin: admin@magang.com | password: password123\n";
         echo "📧 Dosen: dosen@magang.com | password: password123\n";
         echo "📧 Mahasiswa: mahasiswa@magang.com | password: password123\n";
+        echo "📧 Mahasiswa Selesai: mahasiswa.selesai@magang.com | password: password123\n";
+        echo "📧 Mahasiswa Nonaktif: mahasiswa.nonaktif@magang.com | password: password123\n";
     }
 }
