@@ -29,8 +29,21 @@
                             $name = 'Admin';
                         }
                     @endphp
-                    <img src="https://ui-avatars.com/api/?name={{ urlencode($name) }}&background=random"
-                        class="rounded-circle mb-3" width="100">
+                    @php
+                        $avatarName = $name;
+                        $avatarSrc = (string) (new \LasseRafn\InitialAvatarGenerator\InitialAvatar())
+                            ->name($avatarName)
+                            ->size(100)
+                            ->autoColor()
+                            ->smooth()
+                            ->allowSpecialCharacters(false)
+                            ->autoFont()
+                            ->keepCase(true)
+                            ->rounded(true)
+                            ->generate()
+                            ->encode('data-url');
+                    @endphp
+                    <img src="{{ $avatarSrc }}" class="rounded-circle mb-3" width="100">
                     <h5>{{ $name }}</h5>
                     <p class="text-muted mb-1">{{ $user->email }}</p>
                     @if ($user->role === 'Admin')

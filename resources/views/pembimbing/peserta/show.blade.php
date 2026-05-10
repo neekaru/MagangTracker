@@ -16,8 +16,21 @@
         <div class="col-md-4">
             <div class="card shadow-sm">
                 <div class="card-body text-center">
-                    <img src="https://ui-avatars.com/api/?name={{ urlencode($peserta->mahasiswa->nama_lengkap ?? 'N/A') }}&background=random"
-                        class="rounded-circle mb-3" width="100">
+                    @php
+                        $avatarName = $peserta->mahasiswa->nama_lengkap ?? 'N/A';
+                        $avatarSrc = (string) (new \LasseRafn\InitialAvatarGenerator\InitialAvatar())
+                            ->name($avatarName)
+                            ->size(100)
+                            ->autoColor()
+                            ->smooth()
+                            ->allowSpecialCharacters(false)
+                            ->autoFont()
+                            ->keepCase(true)
+                            ->rounded(true)
+                            ->generate()
+                            ->encode('data-url');
+                    @endphp
+                    <img src="{{ $avatarSrc }}" class="rounded-circle mb-3" width="100">
                     <h5>{{ $peserta->mahasiswa->nama_lengkap ?? 'N/A' }}</h5>
                     <p class="text-muted mb-1">{{ $peserta->mahasiswa->nim ?? 'N/A' }}</p>
                     <p class="badge bg-primary">{{ $peserta->unitBisnis->nama_unit_bisnis ?? 'N/A' }}</p>
