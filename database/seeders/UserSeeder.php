@@ -47,6 +47,8 @@ class UserSeeder extends Seeder
         $mahasiswa = \App\Models\Mahasiswa::create([
             'user_id' => $mahasiswaUser->id,
             'nim' => '1234567890',
+            'nama_lengkap' => 'Muhammad Hanafi',
+            'prodi' => 'Informatika',
         ]);
 
         // Update user with mahasiswa id
