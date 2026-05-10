@@ -273,6 +273,14 @@
                 $('#unit_bisnis_id').val(oldUnit).trigger('change');
             }
 
+            // add code if jika periode sudah lewat maka ubah status ke Selesai
+            // var PeriodeSelesai = "{{ $magang->periodeMagang->tanggal_selesai ?? '' }}";
+            // var today = new Date().toISOString().split('T')[0];
+            // if (today > PeriodeSelesai) {
+            //     $('#status_magang').val('Selesai').trigger('change');
+            //     $('#status_magang').prop('disabled', true);
+            // }
+
             var oldDosen = "{{ old('dosen_pembimbing_id', $magang->dosen_pembimbing_id) }}";
             if (oldDosen) {
                 $('#dosen_pembimbing_id').val(oldDosen).trigger('change');
