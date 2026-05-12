@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Validasi Absensi')
+@section('title', 'Absensi Peserta')
 
 @section('content')
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Validasi Absensi Peserta Bimbingan</h1>
+    <h1 class="h2">Absensi Peserta Bimbingan</h1>
 </div>
 
 @if(session('success'))
@@ -34,7 +34,7 @@
                         <th>Status Validasi</th>
                         <th>Lokasi</th>
                         <th>Keterangan</th>
-                        <th>Validasi</th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -74,16 +74,7 @@
                                 <a href="{{ route('pembimbing.absensi.show', $absen->id) }}" class="btn btn-sm btn-info text-white" title="Lihat Detail">
                                     <i class="fas fa-eye"></i> Show
                                 </a>
-                                <form action="{{ route('pembimbing.absensi.update', $absen->id) }}" method="POST" class="d-flex gap-2 align-items-center">
-                                    @csrf
-                                    @method('PUT')
-                                    <select name="status_validasi" class="form-select form-select-sm" style="width: auto;">
-                                        <option value="pending" @selected($absen->status_validasi == 'pending')>Menunggu</option>
-                                        <option value="approved" @selected($absen->status_validasi == 'approved')>Setujui</option>
-                                        <option value="rejected" @selected($absen->status_validasi == 'rejected')>Tolak</option>
-                                    </select>
-                                    <button type="submit" class="btn btn-sm btn-primary">Update</button>
-                                </form>
+                                <span class="text-muted small">Validasi mengikuti approval logbook harian.</span>
                             </div>
                         </td>
                     </tr>

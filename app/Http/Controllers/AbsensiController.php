@@ -82,8 +82,6 @@ class AbsensiController extends Controller
         $request->validate([
             'magang_id' => 'required|exists:magang,id',
             'jenis_absen' => 'nullable|in:masuk,pulang',
-            'tanggal' => 'required|date',
-            'jam' => 'nullable|date_format:H:i',
             'latitude' => 'nullable|numeric|between:-90,90',
             'longitude' => 'nullable|numeric|between:-180,180',
             'status_kehadiran' => 'required|in:Hadir,Izin,Sakit',
@@ -104,11 +102,14 @@ class AbsensiController extends Controller
             }
         }
 
-        // Cek duplikasi absensi untuk hari yang sama
+        $serverNow = now();
+        $tanggalServer = $serverNow->toDateString();
+
+        // Cek duplikasi absensi untuk hari yang sama (berdasarkan tanggal server)
         if ($statusKehadiran === 'Hadir' && $jenisAbsen) {
             $exists = Absen::where('magang_id', $request->magang_id)
                 ->where('jenis_absen', $jenisAbsen)
-                ->whereDate('tanggal', $request->tanggal)
+                ->whereDate('tanggal', $tanggalServer)
                 ->exists();
 
             if ($exists) {
@@ -126,8 +127,8 @@ class AbsensiController extends Controller
         Absen::create([
             'magang_id' => $request->magang_id,
             'jenis_absen' => $jenisAbsen,
-            'tanggal' => $request->tanggal,
-            'jam' => $request->jam ?? null,
+            'tanggal' => $serverNow->toDateString(),
+            'jam' => $serverNow->format('H:i'),
             'latitude' => $request->latitude ?? null,
             'longitude' => $request->longitude ?? null,
             'status_kehadiran' => $statusKehadiran,
@@ -166,31 +167,8 @@ class AbsensiController extends Controller
         $user = Auth::user();
 
         if ($user->role === 'Pembimbing') {
-            $validated = $request->validate([
-                'status_validasi' => 'required|in:pending,approved,rejected',
-            ]);
-
-            $dosen = $user->dosen;
-            if (!$dosen || !$absensi->magang || $absensi->magang->dosen_pembimbing_id !== $dosen->id) {
-                abort(403, 'Unauthorized action.');
-            }
-
-            $updateData = [
-                'status_validasi' => $validated['status_validasi'],
-            ];
-
-            if ($validated['status_validasi'] === 'pending') {
-                $updateData['validasi_by'] = null;
-                $updateData['validated_at'] = null;
-            } else {
-                $updateData['validasi_by'] = $dosen->id;
-                $updateData['validated_at'] = now();
-            }
-
-            $absensi->update($updateData);
-
             return redirect()->route('pembimbing.absensi.index')
-                ->with('success', 'Status absensi berhasil diperbarui.');
+                ->with('error', 'Validasi absensi mengikuti approval logbook. Ubah status pada logbook harian peserta.');
         }
 
         abort(403, 'Unauthorized action.');

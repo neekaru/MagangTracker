@@ -17,8 +17,8 @@ class DashboardController extends Controller
         // Peserta Aktif (Mahasiswa with active magang status)
         $peserta_aktif = Magang::where('status_magang', 'Aktif')->count();
 
-        // Pembimbing (Dosen and Pembimbing roles)
-        $pembimbing = User::whereIn('role', ['Pembimbing', 'Dosen'])->count();
+        // Pembimbing (role Pembimbing)
+        $pembimbing = User::where('role', 'Pembimbing')->count();
 
         // Pendaftaran Baru (Pending status)
         $pendaftaran_baru = Magang::where('status_magang', 'Pending')->count();

@@ -81,9 +81,8 @@ Route::prefix('pembimbing')->middleware('role:Pembimbing')->group(function () {
     Route::get('/laporan/export-pdf', [App\Http\Controllers\Pembimbing\LaporanController::class, 'exportPdf'])->name('pembimbing.laporan.export-pdf');
     Route::get('/laporan/export-excel', [App\Http\Controllers\Pembimbing\LaporanController::class, 'exportExcel'])->name('pembimbing.laporan.export-excel');
 
-    // Absensi validation
+    // Absensi view (keabsahan mengikuti approval logbook)
     Route::get('/absensi', [App\Http\Controllers\AbsensiController::class, 'index'])->name('pembimbing.absensi.index');
-    Route::put('/absensi/{absensi}', [App\Http\Controllers\AbsensiController::class, 'update'])->name('pembimbing.absensi.update');
 });
 
 // Mahasiswa Routes

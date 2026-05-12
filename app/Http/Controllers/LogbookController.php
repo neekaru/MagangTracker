@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dosen;
+use App\Models\Absen;
 use App\Models\Logbook;
 use App\Models\Magang;
 use App\Models\PeriodeMagang;
@@ -152,6 +153,23 @@ class LogbookController extends Controller
                 'status' => $request->status,
                 'approved_by' => $user->id,
             ]);
+
+            $absensiUpdate = [
+                'status_validasi' => $request->status,
+            ];
+
+            if ($request->status === 'pending') {
+                $absensiUpdate['validasi_by'] = null;
+                $absensiUpdate['validated_at'] = null;
+            } else {
+                $absensiUpdate['validasi_by'] = $logbook->magang->dosen_pembimbing_id;
+                $absensiUpdate['validated_at'] = now();
+            }
+
+            Absen::where('magang_id', $logbook->magang_id)
+                ->whereDate('tanggal', $logbook->tanggal_logbook)
+                ->update($absensiUpdate);
+
             return redirect()->route('pembimbing.logbook.index')->with('success', 'Logbook status updated successfully.');
         }
 
