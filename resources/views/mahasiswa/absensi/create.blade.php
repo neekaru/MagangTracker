@@ -63,18 +63,9 @@
                         <div class="mb-3">
                             <label class="form-label">Lokasi Absensi</label>
                             <div id="absensi-map" class="rounded border"></div>
-                            <div class="row g-2 mt-2">
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" id="latitude" name="latitude" placeholder="Latitude" value="{{ old('latitude') }}" readonly>
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" id="longitude" name="longitude" placeholder="Longitude" value="{{ old('longitude') }}" readonly>
-                                </div>
-                            </div>
-                            <button type="button" class="btn btn-outline-primary btn-sm mt-2" id="gunakan-lokasi">
-                                Gunakan Lokasi Saya
-                            </button>
-                            <small id="lokasiStatus" class="text-muted d-block mt-1">Mendeteksi lokasi...</small>
+                            <input type="hidden" id="latitude" name="latitude" value="{{ old('latitude') }}">
+                            <input type="hidden" id="longitude" name="longitude" value="{{ old('longitude') }}">
+                            <small id="lokasiStatus" class="text-muted d-block mt-2">Mendeteksi lokasi...</small>
                         </div>
                         <div class="mb-3">
                             <label for="status_kehadiran" class="form-label">Status Kehadiran</label>
@@ -182,7 +173,6 @@
             const lokasiStatus = document.getElementById('lokasiStatus');
             const latitudeInput = document.getElementById('latitude');
             const longitudeInput = document.getElementById('longitude');
-            const gunakanLokasiBtn = document.getElementById('gunakan-lokasi');
 
             function setLokasiStatus(message) {
                 if (lokasiStatus) {
@@ -213,11 +203,7 @@
 
             function setMarker(lat, lng) {
                 if (!marker) {
-                    marker = L.marker([lat, lng], { draggable: true }).addTo(map);
-                    marker.on('dragend', function (e) {
-                        var pos = e.target.getLatLng();
-                        updateCoords(pos.lat, pos.lng);
-                    });
+                    marker = L.marker([lat, lng], { draggable: false }).addTo(map);
                 } else {
                     marker.setLatLng([lat, lng]);
                 }
@@ -227,11 +213,6 @@
             if (hasOldCoords) {
                 setMarker(oldLat, oldLng);
             }
-
-            map.on('click', function (e) {
-                setMarker(e.latlng.lat, e.latlng.lng);
-                setLokasiStatus('Lokasi dipilih dari peta.');
-            });
 
             function requestLocation() {
                 if (!navigator.geolocation) {
@@ -275,7 +256,7 @@
                 );
             }
 
-            gunakanLokasiBtn.addEventListener('click', requestLocation);
+            // Otomatis request lokasi saat halaman dimuat
             requestLocation();
 
             // --- Preview foto bukti ---
