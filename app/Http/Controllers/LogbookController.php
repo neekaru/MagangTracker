@@ -146,12 +146,12 @@ class LogbookController extends Controller
                 'status' => 'required|in:pending,approved,rejected',
             ]);
             // Check if dosen is the pembimbing for this magang
-            if ($logbook->magang->dosen_pembimbing_id !== $user->id_dosen) {
+            if ($logbook->magang->dosen_pembimbing_id !== $user->dosen->id) {
                 abort(403, 'Unauthorized action.');
             }
             $logbook->update([
                 'status' => $request->status,
-                'approved_by' => $user->id,
+                'approved_by' => $user->dosen->id,
             ]);
 
             $absensiUpdate = [

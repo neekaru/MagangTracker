@@ -33,9 +33,6 @@ class UserSeeder extends Seeder
             'nidn' => '198501012010011001',
         ]);
 
-        // Update user with dosen id
-        $dosenUser->update(['id_dosen' => $dosen->id]);
-
         // Create Mahasiswa User first
         $mahasiswaUser = \App\Models\User::create([
             'email' => 'mahasiswa@magang.com',
@@ -50,9 +47,6 @@ class UserSeeder extends Seeder
             'nama_lengkap' => 'Muhammad Hanafi',
             'prodi' => 'Informatika',
         ]);
-
-        // Update user with mahasiswa id
-        $mahasiswaUser->update(['id_mahasiswa' => $mahasiswa->id]);
 
         // Create Periode Magang
         $periodeMagang = \App\Models\PeriodeMagang::create([
@@ -91,8 +85,6 @@ class UserSeeder extends Seeder
             'prodi' => 'Informatika',
         ]);
 
-        $mahasiswaSelesaiUser->update(['id_mahasiswa' => $mahasiswaSelesai->id]);
-
         \App\Models\Magang::create([
             'mahasiswa_id' => $mahasiswaSelesai->id,
             'unit_bisnis_id' => $unitBisnis->id,
@@ -115,8 +107,6 @@ class UserSeeder extends Seeder
             'nama_lengkap' => 'Mahasiswa Nonaktif',
             'prodi' => 'Sistem Informasi',
         ]);
-
-        $mahasiswaNonaktifUser->update(['id_mahasiswa' => $mahasiswaNonaktif->id]);
 
         \App\Models\Magang::create([
             'mahasiswa_id' => $mahasiswaNonaktif->id,

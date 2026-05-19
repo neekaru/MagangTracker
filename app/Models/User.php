@@ -20,8 +20,6 @@ class User extends Authenticatable
     protected $fillable = [
         'email',
         'password',
-        'id_mahasiswa',
-        'id_dosen',
         'role',
     ];
 
@@ -48,18 +46,18 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the mahasiswa associated with the user.
+     * Get the mahasiswa profile associated with the user.
      */
     public function mahasiswa()
     {
-        return $this->belongsTo(Mahasiswa::class, 'id_mahasiswa');
+        return $this->hasOne(Mahasiswa::class, 'user_id');
     }
 
     /**
-     * Get the dosen associated with the user.
+     * Get the dosen profile associated with the user.
      */
     public function dosen()
     {
-        return $this->belongsTo(Dosen::class, 'id_dosen');
+        return $this->hasOne(Dosen::class, 'user_id');
     }
 }

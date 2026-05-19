@@ -14,7 +14,7 @@ class DashboardController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $dosenId = $user->id_dosen;
+        $dosenId = $user->dosen->id;
 
         $peserta_count = Magang::where('dosen_pembimbing_id', $dosenId)->count();
 

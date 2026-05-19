@@ -29,11 +29,11 @@ class UnitBisnis extends Model
     }
 
     /**
-     * Get the absen records for the unit bisnis.
+     * Get the absen records for the unit bisnis through magang.
      */
     public function absen()
     {
-        return $this->hasMany(Absen::class, 'id_unit_bisnis');
+        return $this->hasManyThrough(Absen::class, Magang::class, 'unit_bisnis_id', 'magang_id');
     }
 
 }

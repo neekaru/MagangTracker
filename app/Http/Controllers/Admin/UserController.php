@@ -56,14 +56,12 @@ class UserController extends Controller
                 'nama_lengkap' => $validated['nama_lengkap'],
                 'nidn' => $validated['nidn'] ?? null,
             ]);
-            $user->update(['id_dosen' => $dosen->id]);
         } elseif ($validated['role'] === 'Mahasiswa') {
             $mahasiswa = Mahasiswa::create([
                 'user_id' => $user->id,
                 'nim' => $validated['nim'],
                 'nama_lengkap' => $validated['nama_lengkap'],
             ]);
-            $user->update(['id_mahasiswa' => $mahasiswa->id]);
         }
 
         return redirect('/admin/users')->with('success', 'User berhasil ditambahkan');
@@ -124,7 +122,6 @@ class UserController extends Controller
                     'nama_lengkap' => $validated['nama_lengkap'],
                     'nidn' => $validated['nidn'] ?? null,
                 ]);
-                $user->update(['id_dosen' => $dosen->id]);
             }
         } elseif ($validated['role'] === 'Mahasiswa') {
             if ($user->mahasiswa) {
@@ -138,7 +135,6 @@ class UserController extends Controller
                     'nim' => $validated['nim'],
                     'nama_lengkap' => $validated['nama_lengkap'],
                 ]);
-                $user->update(['id_mahasiswa' => $mahasiswa->id]);
             }
         }
 

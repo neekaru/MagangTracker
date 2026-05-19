@@ -49,11 +49,11 @@ class Logbook extends Model
     }
 
     /**
-     * Get the user who approved the logbook.
+     * Get the dosen who approved the logbook.
      */
     public function approver()
     {
-        return $this->belongsTo(User::class, 'approved_by');
+        return $this->belongsTo(Dosen::class, 'approved_by');
     }
 
     /**
