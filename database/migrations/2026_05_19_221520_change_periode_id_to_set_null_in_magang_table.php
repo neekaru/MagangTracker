@@ -29,16 +29,11 @@ return new class extends Migration
         }
         
         Schema::table('magang', function (Blueprint $table) {
-            // Pastikan kolom nullable
-            $table->foreignId('periode_id')->nullable()->change();
-        });
-        
-        Schema::table('magang', function (Blueprint $table) {
-            // Buat foreign key baru dengan set null
+            // Buat foreign key baru dengan restrict
             $table->foreign('periode_id')
                 ->references('id')
                 ->on('periode_magang')
-                ->onDelete('set null');
+                ->onDelete('restrict');
         });
     }
 
