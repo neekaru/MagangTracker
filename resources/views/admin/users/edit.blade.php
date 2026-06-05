@@ -137,13 +137,19 @@
             function toggleFields() {
                 const role = $('#role').val();
 
+                // Hide all role-specific fields and disable inputs
                 $('#pembimbingFields').hide();
+                $('#pembimbingFields input').prop('disabled', true);
+                
                 $('#mahasiswaFields').hide();
+                $('#mahasiswaFields input').prop('disabled', true);
 
                 if (role === 'Pembimbing') {
                     $('#pembimbingFields').show();
+                    $('#pembimbingFields input').prop('disabled', false);
                 } else if (role === 'Mahasiswa') {
                     $('#mahasiswaFields').show();
+                    $('#mahasiswaFields input').prop('disabled', false);
                 }
             }
 
