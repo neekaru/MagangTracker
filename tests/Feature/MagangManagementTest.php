@@ -70,8 +70,6 @@ class MagangManagementTest extends TestCase
             'pembimbing_lapangan' => 'Pembimbing Lapangan',
             'tanggal_mulai' => '2024-01-01',
             'tanggal_selesai' => '2024-06-30',
-            'tugas_description' => 'Kegiatan magang',
-            'target_book_mingguan' => 2,
         ]);
 
         $response->assertRedirect('/admin/magang-alias');
@@ -152,8 +150,6 @@ class MagangManagementTest extends TestCase
             'tanggal_mulai' => '2024-01-01',
             'tanggal_selesai' => '2024-06-30',
             'status_magang' => 'selesai',
-            'tugas_description' => 'Tugas diperbarui',
-            'target_book_mingguan' => 3,
         ]);
 
         $response->assertRedirect('/admin/magang-alias');
@@ -204,8 +200,6 @@ class MagangManagementTest extends TestCase
             'pembimbing_lapangan' => 'Pembimbing Lapangan',
             'tanggal_mulai' => '2024-01-01',
             'tanggal_selesai' => '2024-06-30',
-            'tugas_description' => 'Deskripsi tugas',
-            'target_book_mingguan' => 2,
         ]);
 
         $response->assertSessionHasErrors('id_mahasiswa');
@@ -228,8 +222,6 @@ class MagangManagementTest extends TestCase
             'pembimbing_lapangan' => 'Pembimbing Lapangan',
             'tanggal_mulai' => '2024-01-01',
             'tanggal_selesai' => '2024-06-30',
-            'tugas_description' => 'Deskripsi tugas',
-            'target_book_mingguan' => 2,
         ]);
 
         $response->assertSessionHasErrors('unit_id');

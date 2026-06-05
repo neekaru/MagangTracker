@@ -47,8 +47,6 @@ class MagangController extends Controller
             'periode_id' => 'required|exists:periode_magang,id',
             'dosen_pembimbing_id' => 'required|exists:dosen,id',
             'pembimbing_lapangan' => 'required|string',
-            'tugas_description' => 'nullable|string',
-            'target_book_mingguan' => 'nullable|integer|min:1',
         ]);
 
         $validated['status_magang'] = 'Aktif';
@@ -94,8 +92,6 @@ class MagangController extends Controller
             'dosen_pembimbing_id' => 'required|exists:dosen,id',
             'pembimbing_lapangan' => 'required|string',
             'status_magang' => 'required|in:Aktif,Nonaktif,Selesai',
-            'tugas_description' => 'nullable|string',
-            'target_book_mingguan' => 'nullable|integer|min:1',
         ]);
 
         $magang->update($validated);

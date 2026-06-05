@@ -44,7 +44,7 @@ class DashboardController extends Controller
                     ->whereBetween('tanggal_logbook', [$startOfWeek, $endOfWeek])
                     ->count();
                 
-                $targetWeekly = $magang->target_book_mingguan ?? 5;
+                $targetWeekly = 5; // Default target
                 
                 return [
                     'id' => $magang->id,

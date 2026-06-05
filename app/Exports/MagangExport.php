@@ -55,7 +55,6 @@ class MagangExport implements FromCollection, WithHeadings, WithMapping, WithSty
             'Tanggal Mulai',
             'Tanggal Selesai',
             'Status',
-            'Target Logbook/Minggu',
         ];
     }
 
@@ -75,7 +74,6 @@ class MagangExport implements FromCollection, WithHeadings, WithMapping, WithSty
             optional($magang->periodeMagang?->tanggal_mulai)->format('d/m/Y') ?? '-',
             optional($magang->periodeMagang?->tanggal_selesai)->format('d/m/Y') ?? '-',
             $magang->status_magang,
-            $magang->target_book_mingguan,
         ];
     }
 

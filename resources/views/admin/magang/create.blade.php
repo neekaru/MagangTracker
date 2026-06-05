@@ -96,22 +96,6 @@
                         @enderror
                     </div>
 
-                    <div class="mb-3">
-                        <label for="tugas_description" class="form-label">Deskripsi Tugas <span class="text-danger">*</span></label>
-                        <textarea class="form-control @error('tugas_description') is-invalid @enderror" id="tugas_description" name="tugas_description" rows="4" required>{{ old('tugas_description') }}</textarea>
-                        @error('tugas_description')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="target_book_mingguan" class="form-label">Target Logbook Mingguan <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control @error('target_book_mingguan') is-invalid @enderror" id="target_book_mingguan" name="target_book_mingguan" min="1" value="{{ old('target_book_mingguan', 5) }}" required>
-                        @error('target_book_mingguan')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
                     <div class="d-flex justify-content-end gap-2">
                         <a href="{{ route('magang.index') }}" class="btn btn-secondary">Batal</a>
                         <button type="submit" class="btn btn-primary">Simpan Magang</button>

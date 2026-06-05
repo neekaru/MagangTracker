@@ -69,7 +69,7 @@ class DashboardController extends Controller
                 ->whereBetween('tanggal_logbook', [$startOfWeek, $endOfWeek])
                 ->count();
             
-            $logbook_target = $magang->target_book_mingguan ?? 5;
+            $logbook_target = 5; // Default target
             
             // Get latest logbook entries
             $latest_logbook = $magang->logbook()

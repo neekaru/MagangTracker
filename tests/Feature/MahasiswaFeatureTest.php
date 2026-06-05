@@ -115,8 +115,6 @@ class MahasiswaFeatureTest extends TestCase
             'pembimbing_lapangan' => 'Pembimbing Lapangan',
             'tanggal_mulai' => '2024-01-01',
             'tanggal_selesai' => '2024-06-30',
-            'tugas_description' => 'Deskripsi tugas',
-            'target_book_mingguan' => 2,
         ]);
 
         $response->assertRedirect('/mahasiswa/magang');
@@ -213,8 +211,6 @@ class MahasiswaFeatureTest extends TestCase
             'pembimbing_lapangan' => 'Pembimbing Lapangan',
             'tanggal_mulai' => '2024-01-01',
             'tanggal_selesai' => '2024-06-30',
-            'tugas_description' => 'Deskripsi tugas',
-            'target_book_mingguan' => 2,
         ]);
 
         $response->assertSessionHasErrors('unit_id');

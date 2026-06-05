@@ -34,8 +34,6 @@ class MagangFactory extends Factory
             'tanggal_mulai' => $startDate,
             'tanggal_selesai' => $endDate,
             'status_magang' => $this->faker->randomElement(['Pending', 'Aktif', 'Nonaktif', 'selesai', 'dibatalkan']),
-            'target_book_mingguan' => $this->faker->numberBetween(1, 5),
-            'tugas_description' => $this->faker->optional()->paragraph(),
         ];
     }
 }

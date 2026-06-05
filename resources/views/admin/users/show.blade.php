@@ -153,10 +153,6 @@
                                         @endif
                                     </td>
                                 </tr>
-                                <tr>
-                                    <th>Target Logbook Mingguan</th>
-                                    <td>{{ $magang->target_book_mingguan }} entry</td>
-                                </tr>
                             </table>
                         @else
                             <p class="text-muted">Belum ada data magang</p>

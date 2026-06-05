@@ -45,17 +45,6 @@
                         </table>
                     </div>
                 </div>
-
-                <div class="card shadow-sm">
-                    <div class="card-header">
-                        Deskripsi Tugas
-                    </div>
-                    <div class="card-body">
-                        <p>
-                            {!! nl2br(e($deskripsi_tugas)) !!}
-                        </p>
-                    </div>
-                </div>
             </div>
 
             <div class="col-md-4">

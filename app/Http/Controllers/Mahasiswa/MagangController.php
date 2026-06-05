@@ -21,11 +21,9 @@ class MagangController extends Controller
         $magang = Magang::with(['absen', 'periodeMagang'])->where('mahasiswa_id', $mahasiswa->id)->first();
 
         if ($magang) {
-            $deskripsi_tugas = $magang->tugas_description;
             $pembimbing_lapangan = $magang->pembimbing_lapangan;
             $tgl_mulai = optional($magang->periodeMagang?->tanggal_mulai)->format('d M Y');
             $tgl_selesai = optional($magang->periodeMagang?->tanggal_selesai)->format('d M Y');
-            $target_logbook = $magang->target_book_mingguan;
             $status_magang = $magang->status_magang;
             $unit_penempatan = $magang->unitBisnis->nama_unit_bisnis ?? 'N/A';
             $periode = $magang->periodeMagang->nama_periode ?? 'N/A';
@@ -38,11 +36,9 @@ class MagangController extends Controller
             
             $has_magang = true;
         } else {
-            $deskripsi_tugas = null;
             $pembimbing_lapangan = null;
             $tgl_mulai = null;
             $tgl_selesai = null;
-            $target_logbook = null;
             $status_magang = null;
             $unit_penempatan = null;
             $periode = null;
@@ -53,11 +49,9 @@ class MagangController extends Controller
         }
 
         return view('mahasiswa.magang.index', compact(
-            'deskripsi_tugas',
             'pembimbing_lapangan',
             'tgl_mulai',
             'tgl_selesai',
-            'target_logbook',
             'status_magang',
             'unit_penempatan',
             'periode',
