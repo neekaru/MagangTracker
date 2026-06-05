@@ -66,7 +66,7 @@
 
     <div class="hero-section">
         <div class="hero-content">
-            <h1 class="display-4 fw-bold">Sistem Manajemen Data Karyawan Magang</h1>
+            <h1 class="display-4 fw-bold">Sistem Manajemen Data Akademik Magang</h1>
             <p class="lead mb-4">Sistem manajemen magang yang mudah, transparan, dan paperless untuk jurnal kegiatan
                 serta absensi harian.</p>
             <a href="{{ url('/login') }}" class="btn btn-lg btn-primary me-2">Masuk Sekarang</a>
