@@ -123,6 +123,10 @@ class LogbookController extends Controller
     {
         $user = Auth::user();
         if ($user->role === 'Mahasiswa') {
+            $request->merge([
+                'jam_mulai' => $request->jam_mulai ?: null,
+                'jam_selesai' => $request->jam_selesai ?: null,
+            ]);
             $request->validate([
                 'tanggal_logbook' => 'required|date',
                 'jam_mulai' => 'nullable|date_format:H:i',
