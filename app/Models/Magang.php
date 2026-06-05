@@ -23,6 +23,8 @@ class Magang extends Model
         'dosen_pembimbing_id',
         'pembimbing_lapangan',
         'status_magang',
+        'tugas_description',
+        'target_book_mingguan',
     ];
 
     /**
