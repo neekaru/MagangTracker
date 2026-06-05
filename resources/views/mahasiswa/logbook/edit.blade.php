@@ -41,12 +41,12 @@
                             <div class="col-md-6">
                                 <label for="jam_mulai" class="form-label">Jam Mulai</label>
                                 <input type="time" class="form-control" id="jam_mulai" name="jam_mulai"
-                                    value="{{ $logbook->jam_mulai }}">
+                                    value="{{ $logbook->jam_mulai ? \Carbon\Carbon::parse($logbook->jam_mulai)->format('H:i') : '' }}">
                             </div>
                             <div class="col-md-6">
                                 <label for="jam_selesai" class="form-label">Jam Selesai</label>
                                 <input type="time" class="form-control" id="jam_selesai" name="jam_selesai"
-                                    value="{{ $logbook->jam_selesai }}">
+                                    value="{{ $logbook->jam_selesai ? \Carbon\Carbon::parse($logbook->jam_selesai)->format('H:i') : '' }}">
                             </div>
                         </div>
                         <div class="mb-3">
