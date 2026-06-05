@@ -79,6 +79,18 @@ class LogbookController extends Controller
             'foto_kegiatan.max' => 'Ukuran foto maksimal 5 MB.',
         ]);
 
+        // Cek kontradiksi: jika absensi hari ini status Sakit, tidak boleh buat logbook
+        $today = now()->toDateString();
+        $isSakitToday = Absen::where('magang_id', $request->magang_id)
+            ->whereDate('tanggal', $today)
+            ->where('status_kehadiran', 'Sakit')
+            ->exists();
+
+        if ($isSakitToday) {
+            return redirect()->back()->withInput()
+                ->with('error', 'Anda sedang mencatat Sakit hari ini. Tidak dapat mengisi jurnal kegiatan.');
+        }
+
         $data = $request->all();
         if ($request->hasFile('foto_kegiatan')) {
             $data['foto_kegiatan'] = $request->file('foto_kegiatan')->store('logbook_photos', 'public');

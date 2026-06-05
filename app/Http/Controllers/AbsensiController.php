@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Absen;
 use App\Models\Magang;
+use App\Models\Logbook;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -115,6 +116,18 @@ class AbsensiController extends Controller
             if ($exists) {
                 return redirect()->back()->withInput()
                     ->with('error', 'Anda sudah melakukan absensi ' . $jenisAbsen . ' pada tanggal ini.');
+            }
+        }
+
+        // Cek kontradiksi: jika sudah ada logbook hari ini, status tidak boleh Sakit/Izin
+        if (in_array($statusKehadiran, ['Sakit', 'Izin'])) {
+            $hasLogbook = Logbook::where('magang_id', $request->magang_id)
+                ->whereDate('tanggal_logbook', $tanggalServer)
+                ->exists();
+
+            if ($hasLogbook) {
+                return redirect()->back()->withInput()
+                    ->with('error', 'Anda sudah mengisi jurnal kegiatan hari ini. Status ' . $statusKehadiran . ' tidak dapat dipilih.');
             }
         }
 
