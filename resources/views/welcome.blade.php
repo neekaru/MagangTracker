@@ -102,7 +102,7 @@
     </div>
 
     <footer class="bg-dark text-white text-center py-3">
-        <p class="mb-0">&copy; 2025 Politeknik Sampit. All rights reserved.</p>
+        <p class="mb-0">&copy; 2026 Politeknik Sampit. All rights reserved.</p>
     </footer>
 
     <script src="{{ asset('vendor/js/bootstrap.bundle.min.js') }}"></script>

@@ -35,7 +35,7 @@
                             <input type="text" class="form-control @error('nama_periode') is-invalid @enderror"
                                 id="nama_periode" name="nama_periode"
                                 value="{{ old('nama_periode', $periode->nama_periode) }}"
-                                placeholder="Contoh: Semester Ganjil 2025/2026" required>
+                                placeholder="Contoh: Semester Ganjil 2026/2027" required>
                             @error('nama_periode')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
