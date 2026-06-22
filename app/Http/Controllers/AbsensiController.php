@@ -88,6 +88,10 @@ class AbsensiController extends Controller
             'status_kehadiran' => 'required|in:Hadir,Izin,Sakit',
             'keterangan' => 'nullable|string',
             'foto_bukti' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+        ], [
+            'foto_bukti.image' => 'File bukti harus berupa gambar.',
+            'foto_bukti.mimes' => 'Format foto harus JPG, JPEG, PNG, atau WEBP.',
+            'foto_bukti.max' => 'Ukuran foto maksimal 5 MB.',
         ]);
 
         $jenisAbsen = $request->input('jenis_absen');

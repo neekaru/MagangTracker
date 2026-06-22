@@ -73,3 +73,23 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const fotoInput = document.getElementById('foto_kegiatan');
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(e) {
+        const file = fotoInput.files[0];
+        if (file && file.size > 5 * 1024 * 1024) {
+            e.preventDefault();
+            const sizeMB = (file.size / (1024 * 1024)).toFixed(1);
+            alert('⚠️ File foto kegiatan terlalu besar (' + sizeMB + ' MB).\n\n' +
+                  'Batas maksimal upload adalah 5 MB.\n' +
+                  'Silakan kompres / perkecil ukuran file terlebih dahulu.');
+            fotoInput.focus();
+        }
+    });
+});
+</script>
+@endpush

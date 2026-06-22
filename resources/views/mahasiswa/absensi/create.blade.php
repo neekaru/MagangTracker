@@ -275,6 +275,20 @@
                 fotoPreview.src = '';
                 fotoPreviewWrap.style.display = 'none';
             });
+
+            // --- Validasi ukuran file sebelum submit ---
+            const form = document.querySelector('form');
+            form.addEventListener('submit', function(e) {
+                const file = fotoBuktiInput.files[0];
+                if (file && file.size > 5 * 1024 * 1024) {
+                    e.preventDefault();
+                    const sizeMB = (file.size / (1024 * 1024)).toFixed(1);
+                    alert('⚠️ File foto bukti terlalu besar (' + sizeMB + ' MB).\n\n' +
+                          'Batas maksimal upload adalah 5 MB.\n' +
+                          'Silakan kompres / perkecil ukuran file terlebih dahulu.');
+                    fotoBuktiInput.focus();
+                }
+            });
         });
     </script>
 @endpush
