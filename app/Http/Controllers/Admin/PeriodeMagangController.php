@@ -85,6 +85,12 @@ class PeriodeMagangController extends Controller
     public function destroy(string $id)
     {
         $periode = PeriodeMagang::findOrFail($id);
+
+        if ($periode->magang()->exists()) {
+            return redirect()->route('periode-magang.index')
+                ->with('error', 'Periode "' . $periode->nama_periode . '" tidak dapat dihapus karena masih memiliki data magang.');
+        }
+
         $periode->delete();
 
         return redirect()->route('periode-magang.index')->with('success', 'Periode magang berhasil dihapus');
