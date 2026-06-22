@@ -79,6 +79,12 @@ class UnitBisnisController extends Controller
     public function destroy(string $id)
     {
         $unit = UnitBisnis::findOrFail($id);
+
+        if ($unit->magang()->exists()) {
+            return redirect()->route('unit-bisnis.index')
+                ->with('error', 'Unit bisnis "' . $unit->nama_unit_bisnis . '" tidak dapat dihapus karena masih memiliki data magang.');
+        }
+
         $unit->delete();
 
         return redirect()->route('unit-bisnis.index')->with('success', 'Unit bisnis berhasil dihapus');
